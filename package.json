@@ -18,7 +18,7 @@
     "google-map-react": "*",
     "react-google-maps":"*",
     "apollo-client":"*",
-    "graphql: "*",
+    "graphql": "*",
     "less":"*",
     "less-watch-compiler": "*",
     "apollo-boost": "*",
