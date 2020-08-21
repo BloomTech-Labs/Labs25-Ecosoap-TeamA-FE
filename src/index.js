@@ -25,13 +25,13 @@ export const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 ReactDOM.render(
-  <ApolloProvider client={client}>
-    <Router>
+  <Router>
+    <ApolloProvider client={client}>
       <React.StrictMode>
         <App />
       </React.StrictMode>
-    </Router>
-  </ApolloProvider>,
+    </ApolloProvider>
+  </Router>,
   document.getElementById('root')
 );
 
