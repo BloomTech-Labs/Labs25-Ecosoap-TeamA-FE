@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
+import { CreateRecordForm } from '../../CreateRecordForm';
 
 function RenderHomePage(props) {
   const { userInfo, authService } = props;
@@ -27,6 +28,7 @@ function RenderHomePage(props) {
           </Button>
         </p>
       </div>
+      <CreateRecordForm />
     </div>
   );
 }
