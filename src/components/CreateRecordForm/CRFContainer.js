@@ -4,6 +4,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import gql from 'graphql-tag';
 import { client } from '../../index.js';
+import { inspect } from 'util';
 
 const CreateRecordForm = () => {
   const { Option } = Select;
@@ -19,6 +20,10 @@ const CreateRecordForm = () => {
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
 
+    let fieldValues = inspect(values.fields)
+      .split("'")
+      .join('"');
+
     let NEW_RECORD_MUT = gql`
       mutation {
         createRecord(
@@ -26,7 +31,7 @@ const CreateRecordForm = () => {
             typeId: "${values.typeId}"
             name: "${values.name}"
             coordinates: { latitude: ${address.data.results[0].locations[0].latLng.lat}, longitude: ${address.data.results[0].locations[0].latLng.lng} }
-            fields: []
+            fields: ${fieldValues} 
           }
         ) {
           record {
@@ -126,7 +131,7 @@ const CreateRecordForm = () => {
                     {...field}
                     name={[field.name, 'name']}
                     fieldKey={[field.fieldKey, 'name']}
-                    rule={[{ required: true, message: 'Field Name missing' }]}
+                    rules={[{ required: true, message: 'Field Name missing' }]}
                   >
                     <Input placeholder="Name" />
                   </Form.Item>
@@ -134,7 +139,7 @@ const CreateRecordForm = () => {
                     {...field}
                     name={[field.name, 'value']}
                     fieldKey={[field.fieldKey, 'value']}
-                    rule={[{ required: true, message: 'Field Value missing' }]}
+                    rules={[{ required: true, message: 'Field Value missing' }]}
                   >
                     <Input placeholder="Value" />
                   </Form.Item>
