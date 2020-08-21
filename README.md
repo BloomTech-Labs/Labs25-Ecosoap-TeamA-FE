@@ -21,6 +21,7 @@
 
 - `REACT_APP_CLIENT_ID` Okta client id
 - `REACT_APP_OKTA_ISSUER_URI` Okta api authorization server issuer uri
+- `REACT_APP_GEO_CODE_KEY` Mapquest Geocode Api key
 
 
 ## App Deployment
