@@ -30,9 +30,7 @@ export const client = new ApolloClient({
 ReactDOM.render(
   <Router>
     <ApolloProvider client={client}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      <App />
     </ApolloProvider>
   </Router>,
   document.getElementById('root')
