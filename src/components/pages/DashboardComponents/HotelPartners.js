@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, Button } from 'antd';
 import Navigation from './Navigation';
+import CRModal from '../../modal/CRModal';
 
 const { Search } = Input;
 
 const Hotels = () => {
+  const [state, setState] = useState({ visible: false, loading: false });
+  function showButton() {
+    setState({ ...state, visible: !state.visible });
+  }
+  const titleText = 'Add Hotel Partner';
   return (
     <div className="mainHome">
       <Navigation />
@@ -15,7 +21,17 @@ const Hotels = () => {
             onSearch={value => console.log(value)}
             style={{ width: 300 }}
           />
-          <Button type="dashed">Add Hotel</Button>
+          <Button
+            type="dashed"
+            onClick={() => {
+              showButton();
+            }}
+          >
+            Add Hotel
+          </Button>
+          {state.visible && (
+            <CRModal state={state} setState={setState} titleText={titleText} />
+          )}
         </div>
       </div>
     </div>

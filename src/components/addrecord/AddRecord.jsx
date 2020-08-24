@@ -1,28 +1,28 @@
-import React from 'react';
+import React from "react";
 import { Form, Input, Button, Space, Select } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import axios from 'axios';
-import gql from 'graphql-tag';
-import { client } from '../../index.js';
-import { inspect } from 'util';
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import axios from "axios";
+import gql from "graphql-tag";
+import { client } from "../../index.js"
+import { inspect } from "util";
 
-const CreateRecordForm = () => {
+const AddRecordForm = (props) => {
+  const { handleOk } = props;
   const { Option } = Select;
-  const geocodekey = process.env.REACT_APP_GEO_CODE_KEY;
+  
+  
+  const geocodekey = process.env.REACT_APP_GEO_CODE_KEY || "9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH";
   async function onFinish(values) {
-    let city = values.address.city || '';
-    let country = values.address.country || '';
-    let state = values.address.state || '';
-    let postal = values.address.postal || '';
-    let street = values.address.street || '';
-    let fields = values.fields || [];
+    let city = values.address.city || "";
+    let country = values.address.country || "";
+    let state = values.address.state || "";
+    let postal = values.address.postal || "";
+    let street = values.address.street || "";
     let address = await axios.get(
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
 
-    let fieldValues = inspect(values.fields)
-      .split("'")
-      .join('"');
+    let fieldValues = inspect(values.fields).split("'").join('"');
 
     let NEW_RECORD_MUT = gql`
       mutation {
@@ -49,6 +49,7 @@ const CreateRecordForm = () => {
       .mutate({ mutation: NEW_RECORD_MUT })
       .then(console.log)
       .catch(console.log);
+    handleOk()
   }
   return (
     <Form
@@ -62,7 +63,7 @@ const CreateRecordForm = () => {
         <Form.Item
           name="typeId"
           style={{ width: 160 }}
-          rules={[{ required: true, message: 'Must Select Type' }]}
+          rules={[{ required: true, message: "Must Select Type" }]}
         >
           <Select placeholder="Select Type">
             <Option value="80c515b6-43c8-4fab-9e63-9bb7d72b569b-1596744259594">
@@ -77,7 +78,7 @@ const CreateRecordForm = () => {
         <Form.Item
           name="name"
           noStyle
-          rules={[{ required: true, message: 'Name for record is required' }]}
+          rules={[{ required: true, message: "Name for record is required" }]}
         >
           <Input style={{ width: 160 }} placeholder="Please input" />
         </Form.Item>
@@ -85,37 +86,37 @@ const CreateRecordForm = () => {
       <Form.Item label="Address">
         <Input.Group>
           <Form.Item
-            name={['address', 'street']}
+            name={["address", "street"]}
             noStyle
-            rules={[{ required: true, message: 'Street is Required' }]}
+            rules={[{ required: true, message: "Street is Required" }]}
           >
             <Input style={{ width: 160 }} placeholder="Street" />
           </Form.Item>
           <Form.Item
-            name={['address', 'city']}
+            name={["address", "city"]}
             noStyle
-            rules={[{ required: true, message: 'City is Required' }]}
+            rules={[{ required: true, message: "City is Required" }]}
           >
             <Input style={{ width: 160 }} placeholder="City" />
           </Form.Item>
           <Form.Item
-            name={['address', 'state']}
+            name={["address", "state"]}
             noStyle
-            rules={[{ required: true, message: 'State/Province Required' }]}
+            rules={[{ required: true, message: "State/Province Required" }]}
           >
             <Input style={{ width: 160 }} placeholder="State/Province" />
           </Form.Item>
           <Form.Item
-            name={['address', 'postal']}
+            name={["address", "postal"]}
             noStyle
-            rules={[{ required: false, message: 'Postal Code Required' }]}
+            rules={[{ required: false, message: "Postal Code Required" }]}
           >
             <Input style={{ width: 160 }} placeholder="Postal Code" />
           </Form.Item>
           <Form.Item
-            name={['address', 'country']}
+            name={["address", "country"]}
             noStyle
-            rules={[{ required: false, message: 'Country Required' }]}
+            rules={[{ required: false, message: "Country Required" }]}
           >
             <Input style={{ width: 160 }} placeholder="Country" />
           </Form.Item>
@@ -125,21 +126,21 @@ const CreateRecordForm = () => {
         {(fields, { add, remove }) => {
           return (
             <div>
-              {fields.map(field => (
+              {fields.map((field) => (
                 <Space key={field.key} align="start">
                   <Form.Item
                     {...field}
-                    name={[field.name, 'name']}
-                    fieldKey={[field.fieldKey, 'name']}
-                    rules={[{ required: true, message: 'Field Name missing' }]}
+                    name={[field.name, "name"]}
+                    fieldKey={[field.fieldKey, "name"]}
+                    rules={[{ required: true, message: "Field Name missing" }]}
                   >
                     <Input placeholder="Name" />
                   </Form.Item>
                   <Form.Item
                     {...field}
-                    name={[field.name, 'value']}
-                    fieldKey={[field.fieldKey, 'value']}
-                    rules={[{ required: true, message: 'Field Value missing' }]}
+                    name={[field.name, "value"]}
+                    fieldKey={[field.fieldKey, "value"]}
+                    rules={[{ required: true, message: "Field Value missing" }]}
                   >
                     <Input placeholder="Value" />
                   </Form.Item>
@@ -152,6 +153,7 @@ const CreateRecordForm = () => {
               ))}
               <Form.Item>
                 <Button
+                  width="90%"
                   type="dashed"
                   onClick={() => {
                     add();
@@ -166,12 +168,13 @@ const CreateRecordForm = () => {
         }}
       </Form.List>
       <Form.Item label=" " colon={false}>
-        <Button type="primary" htmlType="submit">
-          Submit
+        <Button type="primary" htmlType="submit" >
+          Save
         </Button>
       </Form.Item>
     </Form>
   );
 };
 
-export default CreateRecordForm;
+
+export default AddRecordForm;
