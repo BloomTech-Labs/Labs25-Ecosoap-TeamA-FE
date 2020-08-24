@@ -1,7 +1,6 @@
 import React from 'react';
 import { Input, Button } from 'antd';
 import Navigation from './Navigation';
-// import "../css/index.css";
 
 const { Search } = Input;
 
