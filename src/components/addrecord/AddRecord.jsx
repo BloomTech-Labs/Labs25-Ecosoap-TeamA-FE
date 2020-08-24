@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Form, Input, Button, Space, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -7,7 +7,7 @@ import { client } from "../../index.js"
 import { inspect } from "util";
 
 const AddRecordForm = (props) => {
-  const { handleOk, loading, visible, titleText } = props;
+  const { handleOk } = props;
   const { Option } = Select;
   
   
@@ -18,7 +18,6 @@ const AddRecordForm = (props) => {
     let state = values.address.state || "";
     let postal = values.address.postal || "";
     let street = values.address.street || "";
-    let fields = values.fields || [];
     let address = await axios.get(
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
