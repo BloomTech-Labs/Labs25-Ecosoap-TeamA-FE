@@ -1,0 +1,112 @@
+.mainHome {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+@media (max-width: 1024px) {
+  .mainHome {
+    flex-direction: column;
+  }
+}
+.mainHome .homeRoutes {
+  width: 80%;
+}
+@media (max-width: 1024px) {
+  .mainHome .homeRoutes {
+    width: 100%;
+  }
+}
+.mainHub {
+  width: 100%;
+  height: 20vh;
+  padding: 0 5%;
+  margin-top: 3%;
+}
+@media (max-width: 1024px) {
+  .mainHub {
+    margin-top: 4%;
+  }
+}
+@media (max-width: 410px) {
+  .mainHub {
+    margin-top: 8%;
+  }
+}
+.mainHub .search-add {
+  display: flex;
+  justify-content: space-between;
+}
+@media (max-width: 1024px) {
+  .mainHub .search-add button {
+    margin-left: 10%;
+  }
+}
+.mainHub .mainTable {
+  display: flex;
+  justify-content: flex-start;
+  padding-bottom: 2%;
+  border-bottom: 1px solid black;
+}
+.mainHub .mainTable h4 {
+  margin-top: 5%;
+  margin-right: 15%;
+}
+.mainNavigation {
+  height: 100vh;
+  width: 20vw;
+}
+@media (max-width: 1024px) {
+  .mainNavigation {
+    height: 13vh;
+    width: 100%;
+  }
+}
+.desktopNav {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+@media (max-width: 1024px) {
+  .desktopNav {
+    display: none;
+  }
+}
+.desktopNav .desktopLogo {
+  margin: 20% auto;
+}
+.desktopNav .dbButtons {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 70%;
+}
+.desktopNav .dbButtons .ant-btn {
+  margin: 10% 0;
+  height: 100%;
+  padding: 15px 15px;
+  white-space: normal;
+}
+.desktopNav .adminSignOut {
+  margin: 8% auto;
+}
+.mobileNav {
+  display: none;
+}
+@media (max-width: 1024px) {
+  .mobileNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2% 1%;
+    border-bottom: 1px solid black;
+  }
+  .mobileNav .mobileLogo img {
+    height: 100px;
+    width: auto;
+  }
+  .mobileNav .mobileMenu .ant-menu {
+    font-size: 25px;
+  }
+}
