@@ -110,3 +110,9 @@
     font-size: 25px;
   }
 }
+
+.dashboard{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
