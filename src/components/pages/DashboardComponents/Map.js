@@ -2,16 +2,28 @@
 // https://react-google-maps-api-docs.netlify.app/ - @react-google-maps/api Offcial docs
 
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   GoogleMap,
   Marker,
   useLoadScript,
   InfoWindow,
 } from '@react-google-maps/api';
+import usePlacesAutocomplete from 'use-places-autocomplete';
+import {
+  Combobox,
+  ComboboxInput,
+  ComboboxList,
+  ComboboxOption,
+  ComboboxPopover,
+} from '@reach/combobox';
+import '@reach/combobox/styles.css';
+
 import ReactPlayer from 'react-player';
 import mapStyles from '../../../styles/map-styles';
 
 const libraries = ['places'];
+const geocodekey = process.env.REACT_APP_GEO_CODE_KEY;
 
 // Default Map size
 const mapContainerStyle = {
@@ -80,6 +92,15 @@ const Map = () => {
     libraries,
   });
 
+  const mapRef = React.useRef();
+  const onMapLoad = React.useCallback(map => {
+    mapRef.current = map;
+  }, []);
+  const panTo = React.useCallback(({ lat, lng }) => {
+    mapRef.current.panTo({ lat, lng });
+    mapRef.current.setZoom(12);
+  }, []);
+
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   if (loadError) return 'Error loading maps';
@@ -87,11 +108,13 @@ const Map = () => {
 
   return (
     <div>
+      <Search panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={10}
         center={center}
         options={options}
+        onLoad={onMapLoad}
       >
         {markers.map(marker => (
           <Marker
@@ -123,5 +146,61 @@ const Map = () => {
     </div>
   );
 };
+
+function Search({ panTo }) {
+  const {
+    ready,
+    value,
+    suggestions: { status, data },
+    setValue,
+    clearSuggestions,
+  } = usePlacesAutocomplete({
+    requestOptions: {
+      location: {
+        lat: () => 34.097131,
+        lng: () => -117.713157,
+      },
+      radius: 200 * 1000,
+    },
+  });
+
+  return (
+    <div className="search">
+      <Combobox
+        onSelect={async address => {
+          setValue(address, false);
+          clearSuggestions();
+          try {
+            const results = await axios.get(
+              `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${address}&thumbMaps=false`
+            );
+            // console.log(results.data.results[0].locations[0].latLng)
+            const { lat, lng } = results.data.results[0].locations[0].latLng;
+            panTo({ lat, lng });
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+      >
+        <ComboboxInput
+          value={value}
+          onChange={event => {
+            setValue(event.target.value);
+          }}
+          disabled={!ready}
+          placeholder="Enter an Address"
+        />
+        <ComboboxPopover>
+          <ComboboxList>
+            {status === 'OK' &&
+              data.map(({ id, description }) => (
+                <ComboboxOption key={id} value={description} />
+              ))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
+    </div>
+  );
+}
 
 export default Map;
