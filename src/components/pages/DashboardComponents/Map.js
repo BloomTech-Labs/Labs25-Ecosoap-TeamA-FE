@@ -98,7 +98,7 @@ const Map = () => {
   }, []);
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
-    mapRef.current.setZoom(12);
+    mapRef.current.setZoom(14);
   }, []);
 
   const [selectedMarker, setSelectedMarker] = useState(null);
@@ -109,6 +109,7 @@ const Map = () => {
   return (
     <div>
       <Search panTo={panTo} />
+      <Locate panTo={panTo} />
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={10}
@@ -146,6 +147,31 @@ const Map = () => {
     </div>
   );
 };
+
+function Locate({ panTo }) {
+  return (
+    <button
+      className="locate"
+      onClick={() => {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            panTo({
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            });
+          },
+          () => null,
+          options
+        );
+      }}
+    >
+      <img
+        src="https://www.clipartmax.com/png/middle/5-51127_popular-list-compass-on-google-maps-google-maps-compass.png"
+        alt="locate ME"
+      />
+    </button>
+  );
+}
 
 function Search({ panTo }) {
   const {
