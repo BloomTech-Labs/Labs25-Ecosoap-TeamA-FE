@@ -1,16 +1,19 @@
+// DEPENDENCY IMPORTS
 import React from "react";
+import axios from "axios";
+import { inspect } from "util";
+// GRAPHQL IMPORTS
+import gql from "graphql-tag";
+import { client } from "../../../index.js"
+// STYLING IMPORTS
 import { Form, Input, Button, Space, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import axios from "axios";
-import gql from "graphql-tag";
-import { client } from "../../index.js"
-import { inspect } from "util";
 
 const AddRecordForm = (props) => {
   const { handleOk } = props;
   const { Option } = Select;
   
-  
+
   const geocodekey = process.env.REACT_APP_GEO_CODE_KEY || "9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH";
   async function onFinish(values) {
     let city = values.address.city || "";
