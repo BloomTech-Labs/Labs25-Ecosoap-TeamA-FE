@@ -39,13 +39,14 @@ function DeleteModal(props){
     const [toDelete, setToDelete] = useState({value: ""})
     const validateIt = (value) => {
         console.log("validating input")
-        if (value === props.title) {
-        
+        if (value === props.title) {  
+          document.getElementById("delete-button").removeAttribute("disabled")
           return {
             validateStatus: "success",
             errorMsg: null,
           };
         } else {
+          document.getElementById("delete-button").setAttribute("disabled", true)
             return {
             validateStatus: "error",
             errorMsg: "Type Validation Failed",
@@ -92,6 +93,8 @@ function DeleteModal(props){
                   type="primary"
                   block
                   htmlType="submit"
+                  id="delete-button"
+                  disabled={true}
                 >
                   Delete
                 </Button>

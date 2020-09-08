@@ -6,6 +6,7 @@ import gql from "graphql-tag";
 // COMPONENT IMPORTS
 import CRModal from "../addrecord/CRModal.jsx"
 import EditModal from "../editrecord/EditRecordModal.jsx"
+import RecordCard from "./RecordCard.jsx";
 // STYLING IMPORTS
 import { Button, Popover } from "antd";
 
@@ -71,41 +72,49 @@ function RenderRecords(props) {
       {recordsState &&
         recordsState.data.recordsByType.map((record) => {
           return (
-            <div key={record.id}>
-              <h1>{record.name}</h1>
-              {record.fields.map(field => {
-                return (
-                  <div key={field.name}>{field.name}, {field.value}</div>
-                )
-              })}
-              <i key={record.name+record.id}
-                className="far fa-edit"
-                onClick={() => {
-                  showEMButton();
-                }}
-              ></i>
+            // <div key={record.id}>
+            //   <h1>{record.name}</h1>
+            //   {record.fields.map(field => {
+            //     return (
+            //       <div key={field.name}>{field.name}, {field.value}</div>
+            //     )
+            //   })}
+            //   {/* <i key={record.name+record.id}
+            //     className="far fa-edit"
+            //     onClick={() => {
+            //       showEMButton();
+            //     }}
+            //   ></i> */}
+            //   <button key={record.name+record.id}
+            //     className="far fa-edit"
+            //     onClick={() => {
+            //       showEMButton();
+            //     }}
+            //   ></button>
               
-              <Popover
-              key={record.id}
-                content={<a onClick={() => { delRec(record.id)}}>yes</a>}
-                title="Are you sure?"
-                trigger="click"
-              >
-                <i key={record.name} className="far fa-trash-alt"></i>
-              </Popover>
-              {emstate.visible && (
-                <>
+            //   <Popover
+            //   key={record.id}
+            //     content={<a onClick={() => { delRec(record.id)}}>yes</a>}
+            //     title="Are you sure?"
+            //     trigger="click"
+            //   >
+            //     <i key={record.name} className="far fa-trash-alt"></i>
+            //   </Popover>
+            //   {emstate.visible && (
+            //     <>
                   
-                <EditModal
-                  typeId={typeId}
-                  record={record}
-                  state={emstate}
-                  setState={setEMState}
-                  setRecordsState={setRecordsState}
-                />
-                </>
-              )}
-            </div>
+            //     <EditModal
+            //       typeId={typeId}
+            //       record={record}
+            //       state={emstate}
+            //       setState={setEMState}
+            //       setRecordsState={setRecordsState}
+            //     />
+            //     </>
+            //   )}
+            // </div>
+
+            <RecordCard key={record.id} record={record} typeId={typeId} emstate={emstate} setEMState={setEMState} setRecordsState={setRecordsState} />
           );
         })}
       <Button

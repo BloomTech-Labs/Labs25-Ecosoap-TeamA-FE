@@ -25,7 +25,7 @@ function EditModal(props) {
         loading: !props.state.loading,
         visible: !props.state.visible,
       });
-    }, 1500);
+    }, 500);
   };
   const handleCancel = () => {
     props.setState({ ...props.state, visible: false });

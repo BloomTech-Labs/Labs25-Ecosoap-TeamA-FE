@@ -159,6 +159,7 @@ const DesktopNav = props => {
         <ATModal
           types={types}
           setTypes={setTypes}
+          setTypeId={settypeId}
           state={atstate}
           setState={setATState}
         />

@@ -11,7 +11,7 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 const AddTypeForm = (props) => {
   // DESTRUCTURE PROPS
-  const { handleOk, types, setTypes } = props;
+  const { handleOk, types, setTypes, setTypeId } = props;
   
   // FORM ON FINISH - REQUIRED NAMING FOR ANT-DESIGN
 async function onFinish(values) {
@@ -45,6 +45,7 @@ async function onFinish(values) {
     .then((res) => {
       console.log("HEY NEW TYPE", res);
       setTypes([...res.data.types]);
+      setTypeId(res.data.types[res.data.types.length - 1].id)
     })
     .catch((err) => console.log(err));
     handleOk()

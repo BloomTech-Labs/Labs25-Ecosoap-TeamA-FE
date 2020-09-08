@@ -34,6 +34,7 @@ function ATModal(props){
                         type={props.titleText}
                         types={props.types}
                         setTypes={props.setTypes}
+                        setTypeId={props.setTypeId}
                     />
                 </Modal>
             </div>
