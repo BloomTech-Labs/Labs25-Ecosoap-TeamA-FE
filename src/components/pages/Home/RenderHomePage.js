@@ -8,7 +8,7 @@ function RenderHomePage(props) {
 
   return (
     <div className="dashboard">
-      <Navigation setMapState={setMapState} />
+      <Navigation setMapState={setMapState} mapState={mapState} />
       {mapState && <Map mapState={mapState} />}
     </div>
   );

@@ -182,7 +182,7 @@ const DesktopNav = props => {
         />
       )}
       {/* RENDERS RECORDS FOR EACH TYPE */}
-      {typeId && (
+      {typeId && !props.mapState && (
         <RenderRecords setTypes={setTypes} typeId={typeId} types={types} />
       )}
     </nav>
