@@ -15,8 +15,8 @@ const libraries = ['places'];
 
 // Default Map size
 const mapContainerStyle = {
-  width: '60vw',
-  height: '75vh',
+  width: '100%',
+  height: '100%',
 };
 
 // Default Map center position
@@ -86,7 +86,7 @@ const Map = () => {
   if (!isLoaded) return 'Loading Maps';
 
   return (
-    <div>
+    <div className="mapContainer">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
         zoom={10}

@@ -1,18 +1,18 @@
-.mainHome {
+.dashboard {
   display: flex;
   width: 100%;
   height: 100%;
 }
 @media (max-width: 1024px) {
-  .mainHome {
+  .dashboard {
     flex-direction: column;
   }
 }
-.mainHome .homeRoutes {
+.dashboard .homeRoutes {
   width: 80%;
 }
 @media (max-width: 1024px) {
-  .mainHome .homeRoutes {
+  .dashboard .homeRoutes {
     width: 100%;
   }
 }
@@ -65,8 +65,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  height: 100vh;
+  box-shadow: 1px 5px lightgrey;
 }
 @media (max-width: 1024px) {
   .desktopNav {
@@ -80,7 +80,10 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  width: 70%;
+  width: 90%;
+  overflow: auto;
+  height: 80vh;
+  padding: 0 8%;
 }
 .desktopNav .dbButtons .ant-btn {
   margin: 10% 0;
@@ -110,9 +113,6 @@
     font-size: 25px;
   }
 }
-
-.dashboard{
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+.mapContainer {
+  width: 100%;
 }

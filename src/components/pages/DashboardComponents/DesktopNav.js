@@ -146,9 +146,9 @@ const DesktopNav = props => {
           <PlusOutlined /> Add Type
         </Button>
       </div>
-      <div className="adduser">
+      {/* <div className="adduser">
         <Button>Add User</Button>
-      </div>
+      </div> */}
       <div className="adminSignOut">
         <Button type="link" onClick={() => authService.logout()}>
           Sign Out
