@@ -177,6 +177,7 @@ const DesktopNav = props => {
         <DeleteModal
           title={typeName}
           typeId={typeId}
+          setTypeId={settypeId}
           setTypes={setTypes}
           state={dmstate}
           setState={setDMState}

@@ -30,7 +30,10 @@ function DeleteModal(props){
     await client.mutate({ mutation: DEL_TYPE })
     client
       .query({ query: FETCH_TYPES })
-      .then((res) => props.setTypes(res.data.types));
+      .then((res) => {
+        props.setTypes(res.data.types)
+        props.setTypeId(res.data.types[0].id)
+      });
     handleOk()
   }
   const handleCancel = () => {
