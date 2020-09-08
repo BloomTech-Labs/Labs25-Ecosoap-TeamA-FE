@@ -21,10 +21,13 @@ function RenderHomePage(props) {
         types={types}
         setTypes={setTypes}
       />
-      {mapState && <Map mapState={mapState} />}
-      {typeId && !mapState && (
-        <RenderRecords setTypes={setTypes} typeId={typeId} types={types} />
-      )}
+      <div className="dashboardComponents">
+        {mapState && <Map mapState={mapState} />}
+
+        {typeId && !mapState && (
+          <RenderRecords setTypes={setTypes} typeId={typeId} types={types} />
+        )}
+      </div>
     </div>
   );
 }

@@ -1,20 +1,16 @@
 .dashboard {
   display: flex;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 @media (max-width: 1024px) {
   .dashboard {
     flex-direction: column;
   }
 }
-.dashboard .homeRoutes {
-  width: 80%;
-}
-@media (max-width: 1024px) {
-  .dashboard .homeRoutes {
-    width: 100%;
-  }
+.dashboard .dashboardComponents {
+  width: 100%;
+  height: 100%;
 }
 .mainHub {
   width: 100%;
@@ -66,7 +62,7 @@
   flex-direction: column;
   width: 100%;
   height: 100vh;
-  box-shadow: 1px 5px lightgrey;
+  box-shadow: 1px 1px lightgrey;
 }
 @media (max-width: 1024px) {
   .desktopNav {
@@ -115,4 +111,5 @@
 }
 .mapContainer {
   width: 100%;
+  height: 100%;
 }
