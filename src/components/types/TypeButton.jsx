@@ -60,7 +60,7 @@ const TypeButton = (props) => {
                   key={type.id}
                   onClick={() => {
                     setTypeName(type.name);
-                    settypeId(type.id);
+                    setTypeId(type.id);
                     props.setMapState(false);
                   }}
                 >

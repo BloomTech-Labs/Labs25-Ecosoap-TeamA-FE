@@ -24,12 +24,13 @@ import logo from '../../../assets/ecosoapbanklogopng.png';
 
 // DESKTOP NAV COMPONENT
 const DesktopNav = props => {
+  const { typeId, setTypeId, types, setTypes } = props;
   // USED BELOW TO PUSH TO MAP WHEN MAP BUTTON IS CLICKED
   const { push } = useHistory();
   // OKTA AUTHORIZATION HOOK
   const { authService } = useOktaAuth();
   // TYPES STATE - MAP THROUGH THIS TO DYNAMICALLY DISPLAY TYPES
-  const [types, setTypes] = useState([]);
+  // const [types, setTypes] = useState([]);
   // ADD TYPE MODAL STATE AND FUNCTIONALITY
   const [atstate, setATState] = useState({
     visible: false,
@@ -64,7 +65,7 @@ const DesktopNav = props => {
     });
   }
   // STORE TYPE ID FOR USE WITH MODALS
-  const [typeId, settypeId] = useState([]);
+  // const [typeId, setTypeId] = useState([]);
   const [typeName, setTypeName] = useState('');
   // GET ALL TYPES - THIS WILL ALLOW US TO MAP THROUGH THEM ALL TO CREATE DYNAMIC BUTTONS
   function getTypes() {
@@ -125,7 +126,7 @@ const DesktopNav = props => {
                   key={type.id}
                   onClick={() => {
                     setTypeName(type.name);
-                    settypeId(type.id);
+                    setTypeId(type.id);
                     props.setMapState(false);
                   }}
                 >
@@ -159,7 +160,7 @@ const DesktopNav = props => {
         <ATModal
           types={types}
           setTypes={setTypes}
-          setTypeId={settypeId}
+          setTypeId={setTypeId}
           state={atstate}
           setState={setATState}
         />
@@ -177,16 +178,16 @@ const DesktopNav = props => {
         <DeleteModal
           title={typeName}
           typeId={typeId}
-          setTypeId={settypeId}
+          setTypeId={setTypeId}
           setTypes={setTypes}
           state={dmstate}
           setState={setDMState}
         />
       )}
       {/* RENDERS RECORDS FOR EACH TYPE */}
-      {typeId && !props.mapState && (
+      {/* {typeId && !props.mapState && (
         <RenderRecords setTypes={setTypes} typeId={typeId} types={types} />
-      )}
+      )} */}
     </nav>
   );
 };
