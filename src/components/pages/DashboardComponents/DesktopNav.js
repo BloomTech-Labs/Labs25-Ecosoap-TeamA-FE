@@ -23,7 +23,7 @@ import RenderRecords from '../../records/renderrecords/RenderRecords.jsx';
 import logo from '../../../assets/ecosoapbanklogopng.png';
 
 // DESKTOP NAV COMPONENT
-const DesktopNav = () => {
+const DesktopNav = props => {
   // USED BELOW TO PUSH TO MAP WHEN MAP BUTTON IS CLICKED
   const { push } = useHistory();
   // OKTA AUTHORIZATION HOOK
@@ -109,7 +109,7 @@ const DesktopNav = () => {
         <img src={logo} alt="EcoSoapBank logo" />
       </div>
       <div className="dbButtons">
-        <Button onClick={() => push('/')}>Map</Button>
+        <Button onClick={() => props.setMapState(true)}>Map</Button>
         {/* THIS DYNAMICALLY CREATES A BUTTON FOR EACH OF THE TYPES */}
         {types &&
           types.map(type => {
@@ -126,6 +126,7 @@ const DesktopNav = () => {
                   onClick={() => {
                     setTypeName(type.name);
                     settypeId(type.id);
+                    props.setMapState(false);
                   }}
                 >
                   {type.name}
