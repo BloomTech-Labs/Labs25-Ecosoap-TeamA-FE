@@ -29,8 +29,6 @@ const DesktopNav = props => {
   const { push } = useHistory();
   // OKTA AUTHORIZATION HOOK
   const { authService } = useOktaAuth();
-  // TYPES STATE - MAP THROUGH THIS TO DYNAMICALLY DISPLAY TYPES
-  // const [types, setTypes] = useState([]);
   // ADD TYPE MODAL STATE AND FUNCTIONALITY
   const [atstate, setATState] = useState({
     visible: false,
@@ -64,8 +62,6 @@ const DesktopNav = props => {
       visible: !dmstate.visible,
     });
   }
-  // STORE TYPE ID FOR USE WITH MODALS
-  // const [typeId, setTypeId] = useState([]);
   const [typeName, setTypeName] = useState('');
   // GET ALL TYPES - THIS WILL ALLOW US TO MAP THROUGH THEM ALL TO CREATE DYNAMIC BUTTONS
   function getTypes() {
@@ -147,9 +143,6 @@ const DesktopNav = props => {
           <PlusOutlined /> Add Type
         </Button>
       </div>
-      {/* <div className="adduser">
-        <Button>Add User</Button>
-      </div> */}
       <div className="adminSignOut">
         <Button type="link" onClick={() => authService.logout()}>
           Sign Out
@@ -184,10 +177,6 @@ const DesktopNav = props => {
           setState={setDMState}
         />
       )}
-      {/* RENDERS RECORDS FOR EACH TYPE */}
-      {/* {typeId && !props.mapState && (
-        <RenderRecords setTypes={setTypes} typeId={typeId} types={types} />
-      )} */}
     </nav>
   );
 };

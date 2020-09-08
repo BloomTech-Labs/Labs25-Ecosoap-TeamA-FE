@@ -6,7 +6,9 @@ import '../../../styles/css/index.css';
 
 function RenderHomePage(props) {
   const [mapState, setMapState] = useState(true);
+  // STORE TYPE ID FOR USE WITH MODALS
   const [typeId, setTypeId] = useState([]);
+  // TYPES STATE - MAP THROUGH THIS TO DYNAMICALLY DISPLAY TYPES
   const [types, setTypes] = useState([]);
 
   return (

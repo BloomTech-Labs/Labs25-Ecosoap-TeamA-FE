@@ -9,15 +9,16 @@ import { Button, Popover } from "antd";
 
 const RecordCard = (props) => {
     // const {record, emstate, typeId, setEMState, setRecordsState} = props;
-    const {record, typeId, setRecordsState} = props;
+    const { record, typeId, setRecordsState } = props;
 
+    // eit modal state for visibility
     const [emstate, setEMState] = useState({ visible: false, loading: false });
 
     function showEMButton() {
         setEMState({ ...emstate, visible: !emstate.visible });
     }
 
-    async function delRec(id){
+    async function delRec(id) {
         let DEL_REC = gql`
         mutation {
           deleteRecord(input: { id: "${id}" }) {
@@ -27,10 +28,10 @@ const RecordCard = (props) => {
         }
       `;
         await client.mutate({ mutation: DEL_REC }).then(console.log)
-        client.query({query: RECORDS_QUERY}).then(res => setRecordsState(res))
-      }
-      // query to get all records by typeid
-      let RECORDS_QUERY = gql`
+        client.query({ query: RECORDS_QUERY }).then(res => setRecordsState(res))
+    }
+    // query to get all records by typeid
+    let RECORDS_QUERY = gql`
         {
           recordsByType(input: { typeId: "${typeId}" }) {
             id
@@ -53,47 +54,47 @@ const RecordCard = (props) => {
 
     return (
         <div key={record.id}>
-              <h1>{record.name}</h1>
-              {record.fields.map(field => {
+            <h1>{record.name}</h1>
+            {record.fields.map(field => {
                 return (
-                  <div key={field.name}>{field.name}, {field.value}</div>
+                    <div key={field.name}>{field.name}, {field.value}</div>
                 )
-              })}
-              {/* <i key={record.name+record.id}
+            })}
+            {/* <i key={record.name+record.id}
                 className="far fa-edit"
                 onClick={() => {
                   showEMButton();
                 }}
               ></i> */}
-              <button key={record.name+record.id}
+            <button key={record.name + record.id}
                 className="far fa-edit"
                 onClick={() => {
-                  showEMButton();
+                    showEMButton();
                 }}
-              ></button>
-              
-              <Popover
-              key={record.id}
-                content={<a onClick={() => { delRec(record.id)}}>yes</a>}
+            ></button>
+
+            <Popover
+                key={record.id}
+                content={<a onClick={() => { delRec(record.id) }}>yes</a>}
                 title="Are you sure?"
                 trigger="click"
-              >
+            >
                 {/* <i key={record.name} className="far fa-trash-alt"></i> */}
                 <button key={record.name} />
-              </Popover>
-              {emstate.visible && (
+            </Popover>
+            {emstate.visible && (
                 <>
-                  
-                <EditModal
-                  typeId={typeId}
-                  record={record}
-                  state={emstate}
-                  setState={setEMState}
-                  setRecordsState={setRecordsState}
-                />
+
+                    <EditModal
+                        typeId={typeId}
+                        record={record}
+                        state={emstate}
+                        setState={setEMState}
+                        setRecordsState={setRecordsState}
+                    />
                 </>
-              )}
-            </div>
+            )}
+        </div>
     )
 }
 
