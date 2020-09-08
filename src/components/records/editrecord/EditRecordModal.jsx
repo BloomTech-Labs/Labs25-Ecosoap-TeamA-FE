@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal } from "antd";
-import EditRecordForm from "../edit/EditRecord.jsx";
-import { client } from "../../index";
+import EditRecordForm from "./EditRecord.jsx";
+import { client } from "../../../index";
 import gql from "graphql-tag";
 import axios from "axios";
 

@@ -5,7 +5,7 @@ import { client } from "../../../index.js";
 import gql from "graphql-tag";
 // COMPONENT IMPORTS
 import CRModal from "../addrecord/CRModal.jsx"
-import EditModal from "../editrecord/EditRecordModal.js"
+import EditModal from "../editrecord/EditRecordModal.jsx"
 // STYLING IMPORTS
 import { Button, Popover } from "antd";
 

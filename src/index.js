@@ -19,13 +19,15 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
-import Hubs from './components/pages/DashboardComponents/Hubs';
-import Hotels from './components/pages/DashboardComponents/HotelPartners';
-import Manufacturer from './components/pages/DashboardComponents/ManufacturingPartners';
 const httpLink = createHttpLink({ uri: 'http://35.208.9.187:9091/web-api-1' });
 export const client = new ApolloClient({
   link: httpLink,
   cache: new InMemoryCache(),
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'no-cache',
+    },
+  },
 });
 ReactDOM.render(
   <Router>
@@ -58,10 +60,6 @@ function App() {
           exact
           component={() => <HomePage LoadingComponent={LoadingComponent} />}
         />
-
-        <SecureRoute path="/hubs" component={Hubs} />
-        <SecureRoute path="/hotels" component={Hotels} />
-        <SecureRoute path="/manufacturers" component={Manufacturer} />
         <Route component={NotFoundPage} />
       </Switch>
     </Security>

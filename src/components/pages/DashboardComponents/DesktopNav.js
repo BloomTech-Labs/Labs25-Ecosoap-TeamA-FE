@@ -15,10 +15,10 @@ import { client } from '../../../index.js';
 import { FETCH_TYPES } from '../../../graphql/queries.js';
 
 //COMPONENT IMPORTS
-import ATModal from '../../types/addtype/ATModal.js';
+import ATModal from '../../types/addtype/ATModal.jsx';
 import EditTypeModal from '../../types/edittype/EditTypeModal.jsx';
-import DeleteModal from '../../types/deletetype/DeleteModal.js';
-import RenderRecords from '../../records/renderrecords/RenderRecords.js';
+import DeleteModal from '../../types/deletetype/DeleteModal.jsx';
+import RenderRecords from '../../records/renderrecords/RenderRecords.jsx';
 // ASSET IMPORTS
 import logo from '../../../assets/ecosoapbanklogopng.png';
 

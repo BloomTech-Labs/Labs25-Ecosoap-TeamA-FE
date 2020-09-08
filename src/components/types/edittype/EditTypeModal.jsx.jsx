@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import gql from "graphql-tag";
 import { client } from "../../../index.js";
 // COMPONENT IMPORTS
-import EditTypeForm from "./EditType.js";
+import EditTypeForm from "./EditType.jsx";
 // STYLING IMPORTS
 import { Modal } from "antd";
 

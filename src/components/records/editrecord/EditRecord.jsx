@@ -3,7 +3,7 @@ import { Form, Input, Button, Space, Select } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
 import gql from "graphql-tag";
-import { client } from "../../index.js";
+import { client } from "../../../index.js";
 import { inspect } from "util";
 
 
