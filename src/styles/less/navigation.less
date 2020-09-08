@@ -14,8 +14,8 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  border-right: 1px solid black;
-  border-bottom: 1px solid black;
+  height: 100vh;
+  box-shadow: 1px 5px lightgrey;
 
   @media @ipad {
     display: none;
@@ -28,7 +28,10 @@
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    width: 70%;
+    width: 90%;
+    overflow: auto;
+    height: 80vh;
+    padding: 0 8%;
 
     .ant-btn {
       margin: 10% 0;
