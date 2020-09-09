@@ -3,7 +3,6 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
-
 import {
   GoogleMap,
   Marker,
@@ -83,11 +82,7 @@ const markers = [
 // Optional Map settings
 const options = {
   styles: mapStyles,
-  disableDefaultUI: false,
-  streetViewControl: true,
-  streetViewControlOptions: {
-    disableDefaultUI: true,
-  },
+  disableDefaultUI: true,
   zoomControl: true,
 };
 
@@ -101,7 +96,6 @@ const Map = () => {
   const onMapLoad = React.useCallback(map => {
     mapRef.current = map;
   }, []);
-
   const panTo = React.useCallback(({ lat, lng }) => {
     mapRef.current.panTo({ lat, lng });
     mapRef.current.setZoom(14);
@@ -109,69 +103,11 @@ const Map = () => {
 
   const [selectedMarker, setSelectedMarker] = useState(null);
 
-  const [selectedType, setSelectedType] = useState('');
-  const [selectedAll, setSelectedAll] = useState(true);
-
-  const handleChange = event => {
-    if (event.target.value === 'all') {
-      setSelectedAll(true);
-      console.log(selectedType, selectedAll);
-    } else {
-      setSelectedType(event.target.value);
-      setSelectedAll(false);
-      console.log(selectedType, selectedAll);
-    }
-  };
-
-  // const handleDirection = (lat, lng) =>{
-  //   console.log(lat, lng)
-
-  // }
-
   if (loadError) return 'Error loading maps';
   if (!isLoaded) return 'Loading Maps';
 
   return (
     <div>
-      <form>
-        <p>Please select type:</p>
-        <input
-          type="radio"
-          id="all"
-          name="type"
-          value="all"
-          onChange={handleChange}
-        />
-        <label for="all">All</label>
-        <br />
-        <input
-          type="radio"
-          id="Hubs"
-          name="type"
-          value="Hubs"
-          onChange={handleChange}
-        />
-        <label for="Hubs">Hubs</label>
-        <br />
-        <input
-          type="radio"
-          id="Supplier"
-          name="type"
-          value="Supplier"
-          onChange={handleChange}
-        />
-        <label for="Supplier">Supplier</label>
-        <br />
-        <input
-          type="radio"
-          id="Manufacturer"
-          name="type"
-          value="Manufacturer"
-          onChange={handleChange}
-        />
-        <label for="Manufacturer">Manufacturer</label>
-      </form>
-
       <Search panTo={panTo} />
       <Locate panTo={panTo} />
       <GoogleMap
@@ -181,48 +117,32 @@ const Map = () => {
         options={options}
         onLoad={onMapLoad}
       >
-        {!selectedAll &&
-          markers
-            .filter(marker => marker.type === selectedType)
-            .map(marker => (
-              <Marker
-                key={marker.id}
-                position={{ lat: marker.lat, lng: marker.lng }}
-                icon={icons[marker.type].icon}
-                onClick={() => {
-                  setSelectedMarker(marker);
-                }}
-              />
-            ))}
-        {selectedAll &&
-          markers.map(marker => (
-            <Marker
-              key={marker.id}
-              position={{ lat: marker.lat, lng: marker.lng }}
-              icon={icons[marker.type].icon}
-              onClick={() => {
-                setSelectedMarker(marker);
-              }}
-            />
-          ))}
+        {markers.map(marker => (
+          <Marker
+            key={marker.id}
+            position={{ lat: marker.lat, lng: marker.lng }}
+            icon={icons[marker.type].icon}
+            onClick={() => {
+              setSelectedMarker(marker);
+            }}
+          />
+        ))}
         ;
         {selectedMarker && (
-          <div>
-            <InfoWindow
-              position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-              onCloseClick={() => {
-                setSelectedMarker(null);
-              }}
-            >
-              <div>
-                <h3>{selectedMarker.placeName}</h3>
-                <img src={selectedMarker.photoURL} alt="Location_photoURL" />
-                <ReactPlayer url={selectedMarker.videoURL} />
-                {/* <button onClick={()=>{handleDirection(selectedMarker.lat, selectedMarker.lng)}}>Get Direction</button> */}
-              </div>
-            </InfoWindow>
-          </div>
+          <InfoWindow
+            position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+            onCloseClick={() => {
+              setSelectedMarker(null);
+            }}
+          >
+            <div>
+              <h3>{selectedMarker.placeName}</h3>
+              <img src={selectedMarker.photoURL} alt="Location_photoURL" />
+              <ReactPlayer url={selectedMarker.videoURL} />
+            </div>
+          </InfoWindow>
         )}
+        ;
       </GoogleMap>
     </div>
   );
@@ -246,7 +166,7 @@ function Locate({ panTo }) {
       }}
     >
       <img
-        src="https://e7.pngegg.com/pngimages/760/399/png-clipart-map-computer-icons-flat-design-location-logo-location-icon-photography-heart.png"
+        src="https://www.clipartmax.com/png/middle/5-51127_popular-list-compass-on-google-maps-google-maps-compass.png"
         alt="locate ME"
       />
     </button>
