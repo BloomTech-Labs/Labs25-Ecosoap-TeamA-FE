@@ -19,6 +19,7 @@ import ATModal from '../../types/addtype/ATModal.jsx';
 import EditTypeModal from '../../types/edittype/EditTypeModal.jsx';
 import DeleteModal from '../../types/deletetype/DeleteModal.jsx';
 import RenderRecords from '../../records/renderrecords/RenderRecords.jsx';
+import TypeButton from '../../types/TypeButton.jsx';
 // ASSET IMPORTS
 import logo from '../../../assets/ecosoapbanklogopng.png';
 
@@ -45,23 +46,11 @@ const DesktopNav = props => {
     visible: false,
     loading: false,
   });
-  function showEMButton() {
-    setEMState({
-      ...emstate,
-      visible: !emstate.visible,
-    });
-  }
   // DELETE MODAL => STATE AND SHOW BUTTON FUNCTIONALITY
   const [dmstate, setDMState] = useState({
     visible: false,
     loading: false,
   });
-  function showDMButton() {
-    setDMState({
-      ...dmstate,
-      visible: !dmstate.visible,
-    });
-  }
   const [typeName, setTypeName] = useState('');
   // GET ALL TYPES - THIS WILL ALLOW US TO MAP THROUGH THEM ALL TO CREATE DYNAMIC BUTTONS
   function getTypes() {
@@ -72,28 +61,6 @@ const DesktopNav = props => {
       })
       .catch(console.log);
   }
-  // THIS IS INSIDE OF THE POPOVER WHEN YOU HOVER ON A TYPE
-  const content = (
-    <div>
-      <p
-        className="popoverp"
-        onClick={() => {
-          showEMButton();
-        }}
-      >
-        Edit
-      </p>
-      <p
-        className="popoverp"
-        style={{ color: 'red' }}
-        onClick={() => {
-          showDMButton();
-        }}
-      >
-        Delete
-      </p>
-    </div>
-  );
 
   // RUN THE GET TYPES FUNCTION EVERYTIME THE COMPONENT LOADS
   // ALSO RUNS WHEN YOU CLICK ON A NEW TYPE BUTTON
@@ -111,24 +78,16 @@ const DesktopNav = props => {
         {types &&
           types.map(type => {
             return (
-              <Popover
-                key={type.name}
-                placement="rightBottom"
-                title="Options"
-                content={content}
-                trigger="hover"
-              >
-                <Button
-                  key={type.id}
-                  onClick={() => {
-                    setTypeName(type.name);
-                    setTypeId(type.id);
-                    props.setMapState(false);
-                  }}
-                >
-                  {type.name}
-                </Button>
-              </Popover>
+              <TypeButton
+                type={type}
+                emstate={emstate}
+                setEMState={setEMState}
+                dmstate={dmstate}
+                setDMState={setDMState}
+                setTypeId={setTypeId}
+                setTypeName={setTypeName}
+                setMapState={props.setMapState}
+              />
             );
           })}
         {/* BUTTON TO ADD A NEW TYPE */}
