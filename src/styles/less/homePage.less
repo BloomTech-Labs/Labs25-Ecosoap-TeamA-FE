@@ -7,7 +7,16 @@
     flex-direction: column;
   }
   .dashboardComponents {
-    width: 100%;
+    width: 80%;
     height: 100%;
+    position: absolute;
+    right: 0;
+
+    @media @ipad {
+      border: 1px solid red;
+      position: relative;
+      width: 100%;
+      padding-top: 10px;
+    }
   }
 }
