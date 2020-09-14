@@ -20,7 +20,7 @@ import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
 const httpLink = createHttpLink({
-  uri: 'http://35.208.9.187:9097/web-api-dev',
+  uri: 'http://35.208.9.187:9091/web-api-1',
 });
 export const client = new ApolloClient({
   link: httpLink,

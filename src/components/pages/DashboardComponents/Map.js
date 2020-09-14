@@ -40,49 +40,6 @@ const center = {
   lng: -0.10439,
 };
 
-const icons = {};
-
-// const icons = {
-//   "Eco-Soap Bank Hubs": { icon: 'https://img.icons8.com/color/40/000000/hub.png' },
-//   "Hotel Partners": { icon: 'https://img.icons8.com/fluent/40/000000/supplier.png' },
-//   "Manufacturing Partners": { icon: 'https://img.icons8.com/ultraviolet/40/000000/factory.png'},
-//   "Distribution Partners": { icon: 'https://img.icons8.com/ultraviolet/40/000000/factory.png'},
-// };
-
-// Temp database
-// const markers = [
-//   {
-//     id: 1,
-//     lat: 34.052235,
-//     lng: -118.243683,
-//     type: 'Hubs',
-//     placeName: 'EcoSoap Hub',
-//     photoURL:
-//       'https://www.ywcalgary.ca/wp-content/uploads/2017/09/YW-Community-Engagement.png',
-//     videoURL: 'https://youtu.be/3Pnk-EDn7SA',
-//   },
-//   {
-//     id: 2,
-//     lat: 33.812092,
-//     lng: -117.918976,
-//     type: 'Supplier',
-//     placeName: 'EcoSoap Supplier',
-//     photoURL:
-//       'https://bioprocessintl.com/wp-content/uploads/2018/04/RavensburgVetterWest.jpg',
-//     videoURL: 'https://youtu.be/3Pnk-EDn7SA',
-//   },
-//   {
-//     id: 3,
-//     lat: 34.097131,
-//     lng: -117.713157,
-//     type: 'Manufacturer',
-//     placeName: 'EcoSoap Manufacturer',
-//     photoURL:
-//       'https://qtxasset.com/styles/breakpoint_sm_default_480px_w/s3/fiercepharma/1526570701/main%20picture_samsung%20biologics.jpg?0hkHxQbY5vG84M_WYoyfJ2RoDd0TEGtS&itok=nnp-VEYI',
-//     videoURL: 'https://youtu.be/3Pnk-EDn7SA',
-//   },
-// ];
-
 // Optional Map settings
 const options = {
   styles: mapStyles,
@@ -92,6 +49,7 @@ const options = {
     disableDefaultUI: true,
   },
   zoomControl: true,
+  gestureHandling: 'greedy',
 };
 
 const Map = () => {
@@ -103,6 +61,7 @@ const Map = () => {
         type {
           id
           name
+          icon
         }
         coordinates {
           latitude
@@ -112,6 +71,7 @@ const Map = () => {
           name
           value
         }
+        media
       }
     }
   `;
@@ -160,11 +120,6 @@ const Map = () => {
     }
   };
 
-  // const handleDirection = (lat, lng) =>{
-  //   console.log(lat, lng)
-
-  // }
-
   if (loadError) return 'Error loading maps';
   if (!isLoaded) return 'Loading Maps';
 
@@ -179,7 +134,7 @@ const Map = () => {
           value="all"
           onChange={handleChange}
         />
-        <label for="all">All</label>
+        <label htmlFor="all">All</label>
         <br />
         <input
           type="radio"
@@ -188,7 +143,7 @@ const Map = () => {
           value="Eco-Soap Bank Hubs"
           onChange={handleChange}
         />
-        <label for="Eco-Soap Bank Hubs">Eco-Soap Bank Hubs</label>
+        <label htmlFor="Eco-Soap Bank Hubs">Eco-Soap Bank Hubs</label>
         <br />
         <input
           type="radio"
@@ -197,7 +152,7 @@ const Map = () => {
           value="Distribution Partners"
           onChange={handleChange}
         />
-        <label for="Distribution Partners">Distribution Partners</label>
+        <label htmlFor="Distribution Partners">Distribution Partners</label>
         <br />
         <input
           type="radio"
@@ -206,7 +161,7 @@ const Map = () => {
           value="Distributions"
           onChange={handleChange}
         />
-        <label for="Distributions">Distributions</label>
+        <label htmlFor="Distributions">Distributions</label>
         <br />
         <input
           type="radio"
@@ -215,7 +170,7 @@ const Map = () => {
           value="Hotel Partners"
           onChange={handleChange}
         />
-        <label for="Hotel Partners">Hotel Partners</label>
+        <label htmlFor="Hotel Partners">Hotel Partners</label>
         <br />
         <input
           type="radio"
@@ -224,7 +179,7 @@ const Map = () => {
           value="Manufacturing Partners"
           onChange={handleChange}
         />
-        <label for="Manufacturing Partners">Manufacturing Partners</label>
+        <label htmlFor="Manufacturing Partners">Manufacturing Partners</label>
       </form>
 
       <Search panTo={panTo} />
@@ -239,20 +194,21 @@ const Map = () => {
         {!selectedAll &&
           markers
             .filter(marker => marker.type.name === selectedType)
-            .map(marker => (
-              <Marker
-                key={marker.id}
-                position={{
-                  lat: marker.coordinates.latitude,
-                  lng: marker.coordinates.longitude,
-                }}
-                // icon={icons[marker.type].icon}
-                icon={'https://img.icons8.com/color/40/000000/hub.png'}
-                onClick={() => {
-                  setSelectedMarker(marker);
-                }}
-              />
-            ))}
+            .map(marker => {
+              return (
+                <Marker
+                  key={marker.id}
+                  position={{
+                    lat: marker.coordinates.latitude,
+                    lng: marker.coordinates.longitude,
+                  }}
+                  icon={marker.type.icon}
+                  onClick={() => {
+                    setSelectedMarker(marker);
+                  }}
+                />
+              );
+            })}
         {selectedAll &&
           markers.map(marker => (
             <Marker
@@ -261,7 +217,7 @@ const Map = () => {
                 lat: marker.coordinates.latitude,
                 lng: marker.coordinates.longitude,
               }}
-              icon={'https://img.icons8.com/color/40/000000/hub.png'}
+              icon={marker.type.icon}
               onClick={() => {
                 setSelectedMarker(marker);
               }}
@@ -282,14 +238,30 @@ const Map = () => {
               <div>
                 <h2>{selectedMarker.name}</h2>
                 <h3>{selectedMarker.type.name}</h3>
-                <h3>
-                  {selectedMarker.fields[0].name}{' '}
-                  <a href={selectedMarker.fields[0].value} target="blank">
+
+                {selectedMarker.fields[0].name === 'Website' && (
+                  <h3>
+                    {selectedMarker.fields[0].name}{' '}
+                    <a href={selectedMarker.fields[0].value} target="blank">
+                      {selectedMarker.fields[0].value}
+                    </a>{' '}
+                  </h3>
+                )}
+                {selectedMarker.fields[0].name !== 'Website' && (
+                  <h3>
+                    {selectedMarker.fields[0].name}{' '}
                     {selectedMarker.fields[0].value}
-                  </a>{' '}
-                </h3>
-                {/* <img src={selectedMarker.photoURL} alt="Location_photoURL" />
-                <ReactPlayer url={selectedMarker.videoURL} /> */}
+                  </h3>
+                )}
+
+                {selectedMarker.media.map((medias, idx) => {
+                  return (
+                    <div key={idx}>
+                      <img src={medias} alt="media" />
+                    </div>
+                  );
+                })}
+                {/* <ReactPlayer url={selectedMarker.videoURL} /> */}
               </div>
             </InfoWindow>
           </div>
