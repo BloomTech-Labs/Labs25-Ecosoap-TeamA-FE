@@ -16,10 +16,9 @@
 }
 @media (max-width: 1024px) {
   .dashboard .dashboardComponents {
-    border: 1px solid red;
     position: relative;
     width: 100%;
-    padding-top: 10px;
+    padding-top: 20px;
   }
 }
 .mainHub {
@@ -88,16 +87,16 @@
 }
 .desktopNav .dbButtons {
   display: flex;
+  justify-content: space-evenly;
   flex-direction: column;
   margin: 0 auto;
   width: 90%;
   overflow: auto;
   height: 80vh;
-  padding: 0 8%;
 }
 .desktopNav .dbButtons .ant-btn {
-  margin: 10% 0;
-  height: 100%;
+  margin: 5% 3%;
+  height: 60px;
   padding: 15px 15px;
   white-space: normal;
 }
@@ -113,7 +112,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 2% 1%;
-    border-bottom: 1px solid black;
+    box-shadow: 0 2px lightgrey;
   }
   .mobileNav .mobileLogo img {
     height: 100px;
