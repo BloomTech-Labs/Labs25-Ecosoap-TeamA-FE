@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { Button, Popover } from 'antd';
 
-const TypeButton = (props) => {
-  const { type, emstate, setEMState, dmstate, setDMState, setTypeId, setTypeName, setMapState } = props;
+const TypeButton = props => {
+  const {
+    type,
+    emstate,
+    setEMState,
+    dmstate,
+    setDMState,
+    setTypeId,
+    setTypeName,
+    setMapState,
+  } = props;
 
   // EDIT MODAL => STATE AND SHOW BUTTON FUNCTION
   function showEMButton() {
@@ -29,12 +38,13 @@ const TypeButton = (props) => {
           await setMapState(false);
           showEMButton();
         }}
+        style={{ cursor: 'pointer' }}
       >
         Edit
-          </p>
+      </p>
       <p
         className="popoverp"
-        style={{ color: 'red' }}
+        style={{ color: 'red', cursor: 'pointer' }}
         onClick={async () => {
           await setTypeId(type.id);
           await setTypeName(type.name);
@@ -43,7 +53,7 @@ const TypeButton = (props) => {
         }}
       >
         Delete
-          </p>
+      </p>
     </div>
   );
 
@@ -62,11 +72,12 @@ const TypeButton = (props) => {
           setTypeId(type.id);
           setMapState(false);
         }}
+        style={{ cursor: 'pointer' }}
       >
         {type.name}
       </Button>
     </Popover>
-  )
-}
+  );
+};
 
 export default TypeButton;

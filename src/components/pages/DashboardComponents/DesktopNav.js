@@ -73,7 +73,12 @@ const DesktopNav = props => {
         <img src={logo} alt="EcoSoapBank logo" />
       </div>
       <div className="dbButtons">
-        <Button onClick={() => props.setMapState(true)}>Map</Button>
+        <Button
+          onClick={() => props.setMapState(true)}
+          style={{ cursor: 'pointer' }}
+        >
+          Map
+        </Button>
         {/* THIS DYNAMICALLY CREATES A BUTTON FOR EACH OF THE TYPES */}
         {types &&
           types.map(type => {
