@@ -3,8 +3,12 @@
 .mainNavigation {
   height: 100vh;
   width: 20vw;
+  position: fixed;
+  left: 0;
+  top: 0;
 
   @media @ipad {
+    position: relative;
     height: 13vh;
     width: 100%;
   }
@@ -26,16 +30,16 @@
 
   .dbButtons {
     display: flex;
+    justify-content: space-evenly;
     flex-direction: column;
     margin: 0 auto;
     width: 90%;
     overflow: auto;
     height: 80vh;
-    padding: 0 8%;
 
     .ant-btn {
-      margin: 10% 0;
-      height: 100%;
+      margin: 5% 3%;
+      height: 60px;
       padding: 15px 15px;
       white-space: normal;
     }
@@ -56,7 +60,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 2% 1%;
-    border-bottom: 1px solid black;
+    box-shadow: 0 2px lightgrey;
 
     .mobileLogo img {
       height: 100px;
