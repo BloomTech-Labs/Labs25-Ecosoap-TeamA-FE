@@ -1,16 +1,17 @@
+// DEPENDENCY IMPORTS
 import React from "react";
+import axios from "axios";
+import { inspect } from "util";
+// GRAPHQL IMPORTS
+import gql from "graphql-tag";
+import { client } from "../../../index.js"
+// STYLING IMPORTS
 import { Form, Input, Button, Space, Select } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import axios from "axios";
-import gql from "graphql-tag";
-import { client } from "../../index.js"
-import { inspect } from "util";
 
 const AddRecordForm = (props) => {
-  const { handleOk } = props;
+  const { handleOk, types, typeId, setRecordsState} = props;
   const { Option } = Select;
-  
-  
   const geocodekey = process.env.REACT_APP_GEO_CODE_KEY || "9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH";
   async function onFinish(values) {
     let city = values.address.city || "";
@@ -21,9 +22,8 @@ const AddRecordForm = (props) => {
     let address = await axios.get(
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
-
-    let fieldValues = inspect(values.fields).split("'").join('"');
-
+    let fieldValues = values.fields ? inspect(values.fields).split("'").join('"') : "[]";
+      console.log(fieldValues)
     let NEW_RECORD_MUT = gql`
       mutation {
         createRecord(
@@ -45,84 +45,108 @@ const AddRecordForm = (props) => {
         }
       }
     `;
-    client
+      let RECORDS_QUERY = gql`
+    {
+      recordsByType(input: { typeId: "${typeId}" }) {
+        id
+        name
+        type {
+          id
+          name
+        }
+        coordinates {
+          latitude
+          longitude
+        }
+        fields {
+          name
+          value
+        }
+      }
+    }
+  `;
+    await client
       .mutate({ mutation: NEW_RECORD_MUT })
       .then(console.log)
       .catch(console.log);
+    client.query({ query: RECORDS_QUERY })
+      .then(res => { 
+        setRecordsState(res)
+      })
     handleOk()
   }
+  console.log("in add record", props)
   return (
     <Form
-      size="small"
+      size="medium"
       name="addrecordform"
+      layout="vertical"
       onFinish={onFinish}
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
     >
-      <Form.Item label="Type">
+      <Form.Item label="Type" className="label">
         <Form.Item
           name="typeId"
-          style={{ width: 160 }}
+          style={{ width: 350 }}
           rules={[{ required: true, message: "Must Select Type" }]}
         >
           <Select placeholder="Select Type">
-            <Option value="80c515b6-43c8-4fab-9e63-9bb7d72b569b-1596744259594">
-              Hub
-            </Option>
-            <Option value="0002">Hotel Partner</Option>
-            <Option value="0003">Manufacturing Partner</Option>
+            {types && types.map(type => {
+              return (<Option key={type.id} value={type.id}>{type.name}</Option>)
+            })}
           </Select>
         </Form.Item>
       </Form.Item>
-      <Form.Item label="Name">
+      <Form.Item label="Name" className="label">
         <Form.Item
           name="name"
           noStyle
           rules={[{ required: true, message: "Name for record is required" }]}
         >
-          <Input style={{ width: 160 }} placeholder="Please input" />
+          <Input style={{ width: 350 }} placeholder="Name" />
         </Form.Item>
       </Form.Item>
-      <Form.Item label="Address">
+      <Form.Item label="Address" className="label">
         <Input.Group>
           <Form.Item
             name={["address", "street"]}
             noStyle
             rules={[{ required: true, message: "Street is Required" }]}
           >
-            <Input style={{ width: 160 }} placeholder="Street" />
+            <Input style={{ width: 350 }} placeholder="Street" />
           </Form.Item>
           <Form.Item
             name={["address", "city"]}
             noStyle
             rules={[{ required: true, message: "City is Required" }]}
           >
-            <Input style={{ width: 160 }} placeholder="City" />
+            <Input style={{ width: 350 }} placeholder="City" />
           </Form.Item>
           <Form.Item
             name={["address", "state"]}
             noStyle
             rules={[{ required: true, message: "State/Province Required" }]}
           >
-            <Input style={{ width: 160 }} placeholder="State/Province" />
+            <Input style={{ width: 350 }} placeholder="State/Province" />
           </Form.Item>
           <Form.Item
             name={["address", "postal"]}
             noStyle
             rules={[{ required: false, message: "Postal Code Required" }]}
           >
-            <Input style={{ width: 160 }} placeholder="Postal Code" />
+            <Input style={{ width: 350 }} placeholder="Postal Code" />
           </Form.Item>
           <Form.Item
             name={["address", "country"]}
             noStyle
             rules={[{ required: false, message: "Country Required" }]}
           >
-            <Input style={{ width: 160 }} placeholder="Country" />
+            <Input style={{ width: 350 }} placeholder="Country" />
           </Form.Item>
         </Input.Group>
       </Form.Item>
-      <Form.List name="fields">
+      <Form.List name="fields" >
         {(fields, { add, remove }) => {
           return (
             <div>
@@ -151,30 +175,25 @@ const AddRecordForm = (props) => {
                   />
                 </Space>
               ))}
-              <Form.Item>
-                <Button
-                  width="90%"
-                  type="dashed"
-                  onClick={() => {
-                    add();
-                  }}
-                  block
-                >
-                  <PlusOutlined /> Add Fields
-                </Button>
-              </Form.Item>
+              <Button
+                className="dashedbtn"
+                width="350"
+                type="dashed"
+                block
+                onClick={() => {
+                  add();
+                }}
+              >
+                <PlusOutlined /> Add Fields
+              </Button>
             </div>
           );
         }}
       </Form.List>
-      <Form.Item label=" " colon={false}>
-        <Button type="primary" htmlType="submit" >
-          Save
-        </Button>
-      </Form.Item>
+      <Button width="100%" size="large" type="primary" block htmlType="submit">
+        Save
+      </Button>
     </Form>
   );
 };
-
-
 export default AddRecordForm;
