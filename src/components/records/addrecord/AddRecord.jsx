@@ -1,28 +1,39 @@
 // DEPENDENCY IMPORTS
-import React from "react";
-import axios from "axios";
-import { inspect } from "util";
+import React from 'react';
+import axios from 'axios';
+import { inspect } from 'util';
 // GRAPHQL IMPORTS
-import gql from "graphql-tag";
-import { client } from "../../../index.js"
+import gql from 'graphql-tag';
+import { client } from '../../../index.js';
 // STYLING IMPORTS
 import { Form, Input, Button, Space, Select } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-const AddRecordForm = (props) => {
-  const { handleOk, types, typeId, setRecordsState} = props;
-  const geocodekey = process.env.REACT_APP_GEO_CODE_KEY || "9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH";
+const AddRecordForm = props => {
+  const {
+    handleOk,
+    typeId,
+    tableState,
+    setTableState,
+    setRecordsState,
+  } = props;
+  const geocodekey =
+    process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
   async function onFinish(values) {
-    let city = values.address.city || "";
-    let country = values.address.country || "";
-    let state = values.address.state || "";
-    let postal = values.address.postal || "";
-    let street = values.address.street || "";
+    let city = values.address.city || '';
+    let country = values.address.country || '';
+    let state = values.address.state || '';
+    let postal = values.address.postal || '';
+    let street = values.address.street || '';
     let address = await axios.get(
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
-    let fieldValues = values.fields ? inspect(values.fields).split("'").join('"') : "[]";
-      console.log(fieldValues)
+    let fieldValues = values.fields
+      ? inspect(values.fields)
+          .split("'")
+          .join('"')
+      : '[]';
+    console.log(fieldValues);
     let NEW_RECORD_MUT = gql`
       mutation {
         createRecord(
@@ -44,7 +55,7 @@ const AddRecordForm = (props) => {
         }
       }
     `;
-      let RECORDS_QUERY = gql`
+    let RECORDS_QUERY = gql`
     {
       recordsByType(input: { typeId: "${typeId}" }) {
         id
@@ -68,13 +79,13 @@ const AddRecordForm = (props) => {
       .mutate({ mutation: NEW_RECORD_MUT })
       .then(console.log)
       .catch(console.log);
-    client.query({ query: RECORDS_QUERY })
-      .then(res => { 
-        setRecordsState(res)
-      })
-    handleOk()
+    client.query({ query: RECORDS_QUERY }).then(res => {
+      setRecordsState(res);
+      setTableState(!tableState);
+    });
+    handleOk();
   }
-  console.log("in add record", props)
+  console.log('in add record', props);
   return (
     <Form
       size="medium"
@@ -88,7 +99,7 @@ const AddRecordForm = (props) => {
         <Form.Item
           name="name"
           noStyle
-          rules={[{ required: true, message: "Name for record is required" }]}
+          rules={[{ required: true, message: 'Name for record is required' }]}
         >
           <Input style={{ width: 350 }} placeholder="Name" />
         </Form.Item>
@@ -96,61 +107,61 @@ const AddRecordForm = (props) => {
       <Form.Item label="Address" className="label">
         <Input.Group>
           <Form.Item
-            name={["address", "street"]}
+            name={['address', 'street']}
             noStyle
-            rules={[{ required: true, message: "Street is Required" }]}
+            rules={[{ required: true, message: 'Street is Required' }]}
           >
             <Input style={{ width: 350 }} placeholder="Street" />
           </Form.Item>
           <Form.Item
-            name={["address", "city"]}
+            name={['address', 'city']}
             noStyle
-            rules={[{ required: true, message: "City is Required" }]}
+            rules={[{ required: true, message: 'City is Required' }]}
           >
             <Input style={{ width: 350 }} placeholder="City" />
           </Form.Item>
           <Form.Item
-            name={["address", "state"]}
+            name={['address', 'state']}
             noStyle
-            rules={[{ required: true, message: "State/Province Required" }]}
+            rules={[{ required: true, message: 'State/Province Required' }]}
           >
             <Input style={{ width: 350 }} placeholder="State/Province" />
           </Form.Item>
           <Form.Item
-            name={["address", "postal"]}
+            name={['address', 'postal']}
             noStyle
-            rules={[{ required: false, message: "Postal Code Required" }]}
+            rules={[{ required: false, message: 'Postal Code Required' }]}
           >
             <Input style={{ width: 350 }} placeholder="Postal Code" />
           </Form.Item>
           <Form.Item
-            name={["address", "country"]}
+            name={['address', 'country']}
             noStyle
-            rules={[{ required: false, message: "Country Required" }]}
+            rules={[{ required: false, message: 'Country Required' }]}
           >
             <Input style={{ width: 350 }} placeholder="Country" />
           </Form.Item>
         </Input.Group>
       </Form.Item>
-      <Form.List name="fields" >
+      <Form.List name="fields">
         {(fields, { add, remove }) => {
           return (
             <div>
-              {fields.map((field) => (
+              {fields.map(field => (
                 <Space key={field.key} align="start">
                   <Form.Item
                     {...field}
-                    name={[field.name, "name"]}
-                    fieldKey={[field.fieldKey, "name"]}
-                    rules={[{ required: true, message: "Field Name missing" }]}
+                    name={[field.name, 'name']}
+                    fieldKey={[field.fieldKey, 'name']}
+                    rules={[{ required: true, message: 'Field Name missing' }]}
                   >
                     <Input placeholder="Name" />
                   </Form.Item>
                   <Form.Item
                     {...field}
-                    name={[field.name, "value"]}
-                    fieldKey={[field.fieldKey, "value"]}
-                    rules={[{ required: true, message: "Field Value missing" }]}
+                    name={[field.name, 'value']}
+                    fieldKey={[field.fieldKey, 'value']}
+                    rules={[{ required: true, message: 'Field Value missing' }]}
                   >
                     <Input placeholder="Value" />
                   </Form.Item>
