@@ -17,6 +17,7 @@ function EditModal(props) {
       typeById(input: {typeId: "${props.typeId}"}){
         id
         name
+        icon
         fields {
           name
           value
