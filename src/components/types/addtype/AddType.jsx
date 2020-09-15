@@ -1,25 +1,29 @@
 // DEPENDENCY IMPORTS
-import React from "react";
-import { inspect } from "util";
-import gql from "graphql-tag"
+import React from 'react';
+import { inspect } from 'util';
+import gql from 'graphql-tag';
 // GRAPHQL IMPORTS
-import { client } from "../../../index.js"
-import { FETCH_TYPES } from "../../../graphql/queries.js"
+import { client } from '../../../index.js';
+import { FETCH_TYPES } from '../../../graphql/queries.js';
 // STYLING IMPORTS
 import { Form, Input, Button, Space } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-const AddTypeForm = (props) => {
+const AddTypeForm = props => {
   // DESTRUCTURE PROPS
   const { handleOk, types, setTypes, setTypeId } = props;
-  
+
   // FORM ON FINISH - REQUIRED NAMING FOR ANT-DESIGN
-async function onFinish(values) {
-  // THIS ALLOWS US TO DYNAMICALLY SUBMIT THE NUMBER OF FIELDS
-  let fieldsValues = values.fields ? inspect(values.fields).split("'").join('"') : "[]";
-  let CREATE_TYPE_MUTATION = gql`
+  async function onFinish(values) {
+    // THIS ALLOWS US TO DYNAMICALLY SUBMIT THE NUMBER OF FIELDS
+    let fieldsValues = values.fields
+      ? inspect(values.fields)
+          .split("'")
+          .join('"')
+      : '[]';
+    let CREATE_TYPE_MUTATION = gql`
         mutation {
-            createType(input: {name: "${values.name}", fields: ${fieldsValues}}){
+            createType(input: {name: "${values.name}", fields: ${fieldsValues}, icon: "${values.icon}"}){
             type{
                 id,
                 name,
@@ -27,28 +31,29 @@ async function onFinish(values) {
                 name,
                 value
                 }
+                icon
             }
             }
         }
     `;
-  await client
-    .mutate({ mutation: CREATE_TYPE_MUTATION })
-    .then((res) => {
-      console.log("CREATE_RES", res);
-      setTypes([...types, res.data.createType.type]);
-    })
-    .catch((err) => {
-      console.log("CREATE_ERROR", err);
-    });
-  client
-    .query({ query: FETCH_TYPES })
-    .then((res) => {
-      console.log("HEY NEW TYPE", res);
-      setTypes([...res.data.types]);
-      setTypeId(res.data.types[res.data.types.length - 1].id)
-    })
-    .catch((err) => console.log(err));
-    handleOk()
+    await client
+      .mutate({ mutation: CREATE_TYPE_MUTATION })
+      .then(res => {
+        console.log('CREATE_RES', res);
+        setTypes([...types, res.data.createType.type]);
+      })
+      .catch(err => {
+        console.log('CREATE_ERROR', err);
+      });
+    client
+      .query({ query: FETCH_TYPES })
+      .then(res => {
+        console.log('HEY NEW TYPE', res);
+        setTypes([...res.data.types]);
+        setTypeId(res.data.types[res.data.types.length - 1].id);
+      })
+      .catch(err => console.log(err));
+    handleOk();
   }
   return (
     <Form
@@ -63,9 +68,18 @@ async function onFinish(values) {
         <Form.Item
           name="name"
           noStyle
-          rules={[{ required: true, message: "Name for type is required" }]}
+          rules={[{ required: true, message: 'Name for type is required' }]}
         >
           <Input style={{ width: 350 }} placeholder="Name" />
+        </Form.Item>
+      </Form.Item>
+      <Form.Item label="Icon" className="label">
+        <Form.Item
+          name="ico"
+          noStyle
+          rules={[{ required: true, message: 'Icon for type is required' }]}
+        >
+          <Input style={{ width: 350 }} placeholder="Icon Url" />
         </Form.Item>
       </Form.Item>
 
@@ -73,21 +87,21 @@ async function onFinish(values) {
         {(fields, { add, remove }) => {
           return (
             <div>
-              {fields.map((field) => (
+              {fields.map(field => (
                 <Space key={field.key} align="start">
                   <Form.Item
                     {...field}
-                    name={[field.name, "name"]}
-                    fieldKey={[field.fieldKey, "name"]}
-                    rules={[{ required: true, message: "Field Name missing" }]}
+                    name={[field.name, 'name']}
+                    fieldKey={[field.fieldKey, 'name']}
+                    rules={[{ required: true, message: 'Field Name missing' }]}
                   >
                     <Input placeholder="Name" />
                   </Form.Item>
                   <Form.Item
                     {...field}
-                    name={[field.name, "value"]}
-                    fieldKey={[field.fieldKey, "value"]}
-                    rules={[{ required: true, message: "Field Value missing" }]}
+                    name={[field.name, 'value']}
+                    fieldKey={[field.fieldKey, 'value']}
+                    rules={[{ required: true, message: 'Field Value missing' }]}
                   >
                     <Input placeholder="Value" />
                   </Form.Item>
@@ -119,6 +133,5 @@ async function onFinish(values) {
     </Form>
   );
 };
-
 
 export default AddTypeForm;
