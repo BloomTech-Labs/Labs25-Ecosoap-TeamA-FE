@@ -11,8 +11,6 @@ import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 
 const AddRecordForm = (props) => {
   const { handleOk, types, typeId, setRecordsState} = props;
-  const { Option } = Select;
-  const typeName = types.forEach(type => { if (type.id === typeId) { return type.name} })
   const geocodekey = process.env.REACT_APP_GEO_CODE_KEY || "9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH";
   async function onFinish(values) {
     let city = values.address.city || "";
@@ -86,8 +84,6 @@ const AddRecordForm = (props) => {
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
     >
-      <div><h3>Type: {typeName}</h3></div>
-
       <Form.Item label="Name" className="label">
         <Form.Item
           name="name"
