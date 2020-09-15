@@ -5,6 +5,7 @@ export const FETCH_TYPES = gql`
     types {
       id
       name
+      icon
       fields {
         id
         name

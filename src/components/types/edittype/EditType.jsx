@@ -22,6 +22,7 @@ const EditTypeForm = (props) => {
             type{
                 id,
                 name,
+                icon,
                 fields{
                 name,
                 value
