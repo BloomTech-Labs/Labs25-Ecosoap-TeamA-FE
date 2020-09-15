@@ -77,8 +77,18 @@ const Map = () => {
     }
   `;
 
+  const types = gql`
+    {
+      types {
+        id
+        name
+      }
+    }
+  `;
+
   // States
   const [markers, setMarkers] = useState([]); // Markers
+  const [ecoTypes, setEcoTypes] = useState([]); // Types
   const [selectedMarker, setSelectedMarker] = useState(null); // Selected Marker for Info Window
   const [selectedType, setSelectedType] = useState(''); // Radio Filter - Display based on type
   const [selectedAll, setSelectedAll] = useState(true); // Radio Filter - Display all types
@@ -94,6 +104,12 @@ const Map = () => {
       .query({ query: data })
       .then(res => {
         setMarkers(res.data.records);
+      })
+      .catch(err => console.log('ERROR', err));
+    client
+      .query({ query: types })
+      .then(res => {
+        setEcoTypes(res.data.types);
       })
       .catch(err => console.log('ERROR', err));
   }, []);
@@ -114,11 +130,9 @@ const Map = () => {
   const handleChange = event => {
     if (event.target.value === 'all') {
       setSelectedAll(true);
-      console.log(selectedType, selectedAll);
     } else {
       setSelectedType(event.target.value);
       setSelectedAll(false);
-      console.log(selectedType, selectedAll);
     }
   };
 
@@ -130,7 +144,7 @@ const Map = () => {
     <div className="mapContainer">
       {/*--------------------- Map Filter Start --------------------*/}
       <div className="typeFilter">
-        <form>
+        <div>
           <p>Please select type:</p>
           <input
             type="radio"
@@ -140,55 +154,21 @@ const Map = () => {
             onChange={handleChange}
           />
           <label htmlFor="all"> All</label>
-          <br />
-          <input
-            type="radio"
-            id="Eco-Soap Bank Hubs"
-            name="type"
-            value="Eco-Soap Bank Hubs"
-            onChange={handleChange}
-          />
-          <label htmlFor="Eco-Soap Bank Hubs"> Eco-Soap Bank Hubs</label>
-          <br />
-          <input
-            type="radio"
-            id="Distribution Partners"
-            name="type"
-            value="Distribution Partners"
-            onChange={handleChange}
-          />
-          <label htmlFor="Distribution Partners"> Distribution Partners</label>
-          <br />
-          <input
-            type="radio"
-            id="Distributions"
-            name="type"
-            value="Distributions"
-            onChange={handleChange}
-          />
-          <label htmlFor="Distributions"> Distributions</label>
-          <br />
-          <input
-            type="radio"
-            id="Hotel Partners"
-            name="type"
-            value="Hotel Partners"
-            onChange={handleChange}
-          />
-          <label htmlFor="Hotel Partners"> Hotel Partners</label>
-          <br />
-          <input
-            type="radio"
-            id="Manufacturing Partners"
-            name="type"
-            value="Manufacturing Partners"
-            onChange={handleChange}
-          />
-          <label htmlFor="Manufacturing Partners">
-            {' '}
-            Manufacturing Partners
-          </label>
-        </form>
+        </div>
+        {ecoTypes.map(types => {
+          return (
+            <div>
+              <input
+                type="radio"
+                id={types.id}
+                name="type"
+                value={types.name}
+                onChange={handleChange}
+              />
+              <label htmlFor="type"> {types.name}</label>
+            </div>
+          );
+        })}
       </div>
       {/*--------------------- Map Filter End --------------------*/}
 
@@ -344,8 +324,8 @@ function Search({ panTo }) {
             );
             const { lat, lng } = results.data.results[0].locations[0].latLng;
             panTo({ lat, lng });
-          } catch (error) {
-            console.log(error);
+          } catch (err) {
+            console.log('ERROR', err);
           }
         }}
       >
