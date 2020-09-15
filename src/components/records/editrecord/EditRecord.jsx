@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Form, Input, Button, Space, Select } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -10,18 +10,12 @@ import { inspect } from "util";
 const EditRecordForm = (props) => {
   const {
     handleOk,
-    loading,
-    visible,
-    titleText,
-    types,
     typeId,
-    recordsState,
     setRecordsState,
     record,
     address,
   } = props;
 console.log("edit record form props", address.street);
-  const { Option } = Select;
 
   const geocodekey =
     process.env.REACT_APP_GEO_CODE_KEY || "9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH";

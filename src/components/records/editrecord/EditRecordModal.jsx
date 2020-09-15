@@ -9,7 +9,6 @@ function EditModal(props) {
   console.log(props)
   const geocodekey =
     process.env.REACT_APP_GEO_CODE_KEY || "9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH";
-  const [record, setRecord] = useState("");
   const [address, setAddress] = useState({
     street: "" ,
     city: "",
@@ -56,7 +55,6 @@ function EditModal(props) {
         }
         `;
     client.query({ query: QUERY_REC_ID }).then((res) => {
-      setRecord(res);
       setTimeout(() => {
         axios
           .get(
