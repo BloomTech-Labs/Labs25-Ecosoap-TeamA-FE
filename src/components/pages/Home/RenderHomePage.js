@@ -10,6 +10,8 @@ function RenderHomePage(props) {
   const [typeId, setTypeId] = useState([]);
   // TYPES STATE - MAP THROUGH THIS TO DYNAMICALLY DISPLAY TYPES
   const [types, setTypes] = useState([]);
+  // TABLE STATE - USED TO UPDATE TABLE
+  const [tableState, setTableState] = useState(true);
 
   return (
     <div className="dashboard">
@@ -25,7 +27,13 @@ function RenderHomePage(props) {
         {mapState && <Map mapState={mapState} />}
 
         {typeId && !mapState && (
-          <RenderRecords setTypes={setTypes} typeId={typeId} types={types} />
+          <RenderRecords
+            setTypes={setTypes}
+            typeId={typeId}
+            types={types}
+            tableState={tableState}
+            setTableState={setTableState}
+          />
         )}
       </div>
     </div>

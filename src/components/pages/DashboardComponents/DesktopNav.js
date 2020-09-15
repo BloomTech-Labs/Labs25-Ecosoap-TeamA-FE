@@ -1,12 +1,11 @@
 // DEPENDENCY IMPORTS
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
 
 // OKTA IMPORTS
 import { useOktaAuth } from '@okta/okta-react';
 
 // STYLING IMPORTS
-import { Button, Popover } from 'antd';
+import { Button } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 
@@ -18,7 +17,6 @@ import { FETCH_TYPES } from '../../../graphql/queries.js';
 import ATModal from '../../types/addtype/ATModal.jsx';
 import EditTypeModal from '../../types/edittype/EditTypeModal.jsx';
 import DeleteModal from '../../types/deletetype/DeleteModal.jsx';
-import RenderRecords from '../../records/renderrecords/RenderRecords.jsx';
 import TypeButton from '../../types/TypeButton.jsx';
 // ASSET IMPORTS
 import logo from '../../../assets/ecosoapbanklogopng.png';
@@ -26,8 +24,6 @@ import logo from '../../../assets/ecosoapbanklogopng.png';
 // DESKTOP NAV COMPONENT
 const DesktopNav = props => {
   const { typeId, setTypeId, types, setTypes } = props;
-  // USED BELOW TO PUSH TO MAP WHEN MAP BUTTON IS CLICKED
-  const { push } = useHistory();
   // OKTA AUTHORIZATION HOOK
   const { authService } = useOktaAuth();
   // ADD TYPE MODAL STATE AND FUNCTIONALITY
@@ -84,6 +80,7 @@ const DesktopNav = props => {
           types.map(type => {
             return (
               <TypeButton
+                key={type.id}
                 type={type}
                 emstate={emstate}
                 setEMState={setEMState}

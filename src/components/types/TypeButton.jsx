@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, Popover } from 'antd';
 
 const TypeButton = props => {
