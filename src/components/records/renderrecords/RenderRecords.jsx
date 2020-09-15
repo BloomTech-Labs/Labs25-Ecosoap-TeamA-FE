@@ -5,10 +5,9 @@ import { client } from '../../../index.js';
 import gql from 'graphql-tag';
 // COMPONENT IMPORTS
 import CRModal from '../addrecord/CRModal.jsx';
-import EditModal from '../editrecord/EditRecordModal.jsx';
 import RecordCard from './RecordCard.jsx';
 // STYLING IMPORTS
-import { Button, Popover, Table } from 'antd';
+import { Button, Table } from 'antd';
 
 function RenderRecords(props) {
   const { typeId } = props;
@@ -37,6 +36,7 @@ function RenderRecords(props) {
             fields {
               name
               value
+              id
             }
           }
         }
@@ -45,16 +45,27 @@ function RenderRecords(props) {
     client
       .query({ query: RECORDS_QUERY })
       .then(res => {
-        // console.log('RECORDS RESPONSE', res);
         setRecordsState(res);
-        setDataSource(res.data.recordsByType);
+        // Setting DataSource for Table
+        let data = [];
+        res.data.recordsByType.map(record => {
+          let dataObject = {};
+          dataObject.name = record.name;
+          record.fields.map(field => {
+            dataObject[field.name] = field.value;
+            dataObject.key = field.id;
+          });
+          data.push(dataObject);
+        });
+        setDataSource(data);
+        //Setting Field Columns on Table
         let fieldColumns = [];
-        let something = props.types.filter(type => type.id === typeId);
-        something[0].fields.map(field =>
+        let typeFields = props.types.filter(type => type.id === typeId);
+        typeFields[0].fields.map(field =>
           fieldColumns.push({
             title: field.name,
-            dataIndex: 'name',
-            key: 'name',
+            dataIndex: field.name,
+            key: field.name,
           })
         );
 
@@ -66,33 +77,14 @@ function RenderRecords(props) {
           },
           ...fieldColumns,
         ]);
-        console.log('TYPES', props.types);
       })
       .catch(err => console.log('ERROR', err));
   }, [typeId]);
 
-  console.log('recordsState', recordsState);
-
-  // const columns = [
-  //   {
-  //     title: 'Name',
-  //     dataIndex: 'name',
-  //     key: 'name',
-  //   },
-  //   {
-  //     title: 'ID',
-  //     dataIndex: 'id',
-  //     key: 'id',
-  //   },
-  // ];
-
-  console.log('dataSource', dataSource);
-  // console.log("Columns", columns)
-
   return (
     <>
       {dataSource && <Table dataSource={dataSource} columns={columns} />}
-      {recordsState &&
+      {/* {recordsState &&
         recordsState.data.recordsByType.map(record => {
           return (
             <RecordCard
@@ -102,7 +94,7 @@ function RenderRecords(props) {
               setRecordsState={setRecordsState}
             />
           );
-        })}
+        })} */}
       <Button
         size="large"
         onClick={() => {
