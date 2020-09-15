@@ -18,7 +18,7 @@ const EditTypeForm = (props) => {
     console.log(fieldsValues);
     let UPD_TYPE_MUTATION = gql`
         mutation {
-            updateType(input: {id: "${type.id}" name: "${values.name}", fields: ${fieldsValues}}){
+            updateType(input: {id: "${type.id}" name: "${values.name}", icon: "${values.icon}", fields: ${fieldsValues}}){
             type{
                 id,
                 name,
@@ -44,83 +44,94 @@ const EditTypeForm = (props) => {
   }
   return (
     <div>
-     {type.name && ( <Form
-        size="medium"
-        name="addrecordform"
-        layout="vertical"
-        onFinish={onFinish}
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-      >
-        <Form.Item label="Name" className="label">
-          <Form.Item
-            name="name"
-            noStyle
-            initialValue={type.name}
-            rules={[{ required: true, message: "Name for type is required" }]}
-          >
-            <Input style={{ width: 350 }} placeholder="Name" />
-          </Form.Item>
-        </Form.Item>
-
-        <Form.List name="fields">
-          {(fields, { add, remove }) => {
-            return (
-              <div>
-                {fields.map((field) => (
-                  <Space key={field.key} align="start">
-                    <Form.Item
-                      {...field}
-                      name={[field.name, "name"]}
-                      fieldKey={[field.fieldKey, "name"]}
-                      rules={[
-                        { required: true, message: "Field Name missing" },
-                      ]}
-                    >
-                      <Input placeholder="Name" />
-                    </Form.Item>
-                    <Form.Item
-                      {...field}
-                      name={[field.name, "value"]}
-                      fieldKey={[field.fieldKey, "value"]}
-                      rules={[
-                        { required: true, message: "Field Value missing" },
-                      ]}
-                    >
-                      <Input placeholder="Value" />
-                    </Form.Item>
-                    <MinusCircleOutlined
-                      onClick={() => {
-                        remove(field.name);
-                      }}
-                    />
-                  </Space>
-                ))}
-                <Button
-                  className="dashedbtn"
-                  width="350"
-                  type="dashed"
-                  block
-                  onClick={() => {
-                    add();
-                  }}
-                >
-                  <PlusOutlined /> Add Fields
-                </Button>
-              </div>
-            );
-          }}
-        </Form.List>
-        <Button
-          width="100%"
-          size="large"
-          type="primary"
-          block
-          htmlType="submit"
+      {type.name && (
+        <Form
+          size="medium"
+          name="addrecordform"
+          layout="vertical"
+          onFinish={onFinish}
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
         >
-          Save
-        </Button>
-      </Form>)}
+          <Form.Item label="Name" className="label">
+            <Form.Item
+              name="name"
+              noStyle
+              initialValue={type.name}
+              rules={[{ required: true, message: 'Name for type is required' }]}
+            >
+              <Input style={{ width: 350 }} placeholder="Name" />
+            </Form.Item>
+          </Form.Item>
+          <Form.Item label="Icon" className="label">
+            <Form.Item
+              name="icon"
+              noStyle
+              initialValue={type.icon}
+              rules={[{ required: true, message: 'Icon for type is required' }]}
+            >
+              <Input style={{ width: 350 }} placeholder="Icon Url" />
+            </Form.Item>
+          </Form.Item>
+          <Form.List name="fields">
+            {(fields, { add, remove }) => {
+              return (
+                <div>
+                  {fields.map(field => (
+                    <Space key={field.key} align="start">
+                      <Form.Item
+                        {...field}
+                        name={[field.name, 'name']}
+                        fieldKey={[field.fieldKey, 'name']}
+                        rules={[
+                          { required: true, message: 'Field Name missing' },
+                        ]}
+                      >
+                        <Input placeholder="Name" />
+                      </Form.Item>
+                      <Form.Item
+                        {...field}
+                        name={[field.name, 'value']}
+                        fieldKey={[field.fieldKey, 'value']}
+                        rules={[
+                          { required: true, message: 'Field Value missing' },
+                        ]}
+                      >
+                        <Input placeholder="Value" />
+                      </Form.Item>
+                      <MinusCircleOutlined
+                        onClick={() => {
+                          remove(field.name);
+                        }}
+                      />
+                    </Space>
+                  ))}
+                  <Button
+                    className="dashedbtn"
+                    width="350"
+                    type="dashed"
+                    block
+                    onClick={() => {
+                      add();
+                    }}
+                  >
+                    <PlusOutlined /> Add Fields
+                  </Button>
+                </div>
+              );
+            }}
+          </Form.List>
+          <Button
+            width="100%"
+            size="large"
+            type="primary"
+            block
+            htmlType="submit"
+          >
+            Save
+          </Button>
+        </Form>
+      )}
     </div>
   );
 };
