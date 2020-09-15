@@ -75,7 +75,7 @@ const AddTypeForm = props => {
       </Form.Item>
       <Form.Item label="Icon" className="label">
         <Form.Item
-          name="ico"
+          name="icon"
           noStyle
           rules={[{ required: true, message: 'Icon for type is required' }]}
         >
