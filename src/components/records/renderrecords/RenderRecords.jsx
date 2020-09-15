@@ -5,12 +5,12 @@ import { client } from '../../../index.js';
 import gql from 'graphql-tag';
 // COMPONENT IMPORTS
 import CRModal from '../addrecord/CRModal.jsx';
-import RecordCard from './RecordCard.jsx';
+// import RecordCard from './RecordCard.jsx';
 // STYLING IMPORTS
 import { Button, Table } from 'antd';
 
 function RenderRecords(props) {
-  const { typeId } = props;
+  const { typeId, tableState, setTableState } = props;
   let [dataSource, setDataSource] = useState([]);
   let [columns, setColumns] = useState([]);
 
@@ -47,13 +47,14 @@ function RenderRecords(props) {
       .then(res => {
         setRecordsState(res);
         // Setting DataSource for Table
+        console.log('Setting up table!!!');
         let data = [];
         res.data.recordsByType.map(record => {
           let dataObject = {};
           dataObject.name = record.name;
           record.fields.map(field => {
             dataObject[field.name] = field.value;
-            dataObject.key = field.id;
+            dataObject.key = `${field.name}-${field.id}`;
           });
           data.push(dataObject);
         });
@@ -79,11 +80,19 @@ function RenderRecords(props) {
         ]);
       })
       .catch(err => console.log('ERROR', err));
-  }, [typeId]);
+  }, [typeId, tableState]);
 
   return (
     <>
-      {dataSource && <Table dataSource={dataSource} columns={columns} />}
+      {dataSource && (
+        <Table
+          key={Math.random()}
+          dataSource={dataSource}
+          columns={columns}
+          bordered={true}
+          pagination={{ position: ['bottomCenter'] }}
+        />
+      )}
       {/* {recordsState &&
         recordsState.data.recordsByType.map(record => {
           return (
@@ -112,6 +121,8 @@ function RenderRecords(props) {
           setRecordsState={setRecordsState}
           state={crmstate}
           setState={setCRMState}
+          tableState={tableState}
+          setTableState={setTableState}
         />
       )}
     </>
