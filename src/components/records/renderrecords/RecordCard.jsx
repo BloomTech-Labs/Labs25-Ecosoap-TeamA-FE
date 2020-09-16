@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { client } from '../../../index.js';
 import gql from 'graphql-tag';
 
-import CRModal from '../addrecord/CRModal.jsx';
 import EditModal from '../editrecord/EditRecordModal.jsx';
 
-import { Button, Popover } from 'antd';
+import { Popover } from 'antd';
 
 const RecordCard = props => {
   // const {record, emstate, typeId, setEMState, setRecordsState} = props;
-  const { record, typeId, setRecordsState } = props;
+  const { record, typeId, setRecordsState, tableState, setTableState } = props;
 
   // eit modal state for visibility
   const [emstate, setEMState] = useState({ visible: false, loading: false });
@@ -28,7 +27,10 @@ const RecordCard = props => {
         }
       `;
     await client.mutate({ mutation: DEL_REC }).then(console.log);
-    client.query({ query: RECORDS_QUERY }).then(res => setRecordsState(res));
+    client.query({ query: RECORDS_QUERY }).then(res => {
+      setRecordsState(res);
+      setTableState(!tableState);
+    });
   }
   // query to get all records by typeid
   let RECORDS_QUERY = gql`
@@ -54,14 +56,6 @@ const RecordCard = props => {
 
   return (
     <div key={record.id}>
-      <h1>{record.name}</h1>
-      {record.fields.map(field => {
-        return (
-          <div key={field.name}>
-            {field.name}, {field.value}
-          </div>
-        );
-      })}
       <i
         key={record.name + record.id}
         style={{ cursor: 'pointer' }}
@@ -99,6 +93,8 @@ const RecordCard = props => {
             state={emstate}
             setState={setEMState}
             setRecordsState={setRecordsState}
+            tableState={tableState}
+            setTableState={setTableState}
           />
         </>
       )}

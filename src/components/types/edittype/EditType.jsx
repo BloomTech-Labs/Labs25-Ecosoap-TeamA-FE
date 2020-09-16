@@ -1,21 +1,22 @@
 // DEPENDENCY IMPORTS
-import React from "react";
-import { inspect } from "util";
+import React from 'react';
+import { inspect } from 'util';
 // GRAPHQL IMPORTS
-import gql from "graphql-tag";
-import { client } from "../../../index.js";
+import gql from 'graphql-tag';
+import { client } from '../../../index.js';
 // STYLING IMPORTS
-import { Form, Input, Button, Space } from "antd";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Space } from 'antd';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
-
-const EditTypeForm = (props) => {
+const EditTypeForm = props => {
   const { handleOk, type, setTypes, types } = props;
   async function onFinish(values) {
     let fieldsValues = values.fields
-      ? inspect(values.fields).split("'").join('"')
-      : "[]";
-    console.log(fieldsValues);
+      ? inspect(values.fields)
+          .split("'")
+          .join('"')
+      : '[]';
+    // console.log(fieldsValues);
     let UPD_TYPE_MUTATION = gql`
         mutation {
             updateType(input: {id: "${type.id}" name: "${values.name}", icon: "${values.icon}", fields: ${fieldsValues}}){
@@ -34,12 +35,18 @@ const EditTypeForm = (props) => {
 
     await client
       .mutate({ mutation: UPD_TYPE_MUTATION })
-      .then((res) => {
-        console.log("Update response", res );
-        setTypes(types.map(type => type.id === res.data.updateType.type.id ? res.data.updateType.type : type))
+      .then(res => {
+        console.log('Update response', res);
+        setTypes(
+          types.map(type =>
+            type.id === res.data.updateType.type.id
+              ? res.data.updateType.type
+              : type
+          )
+        );
       })
-      .catch((err) => {
-        console.log("CREATE_ERROR", err);
+      .catch(err => {
+        console.log('CREATE_ERROR', err);
       });
     handleOk();
   }
@@ -136,6 +143,5 @@ const EditTypeForm = (props) => {
     </div>
   );
 };
-      
 
 export default EditTypeForm;

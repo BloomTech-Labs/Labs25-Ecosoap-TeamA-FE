@@ -8,7 +8,7 @@ import { FETCH_TYPES } from '../../../graphql/queries.js';
 import { Modal, Button, Form, Input } from 'antd';
 
 function DeleteModal(props) {
-  console.log(props);
+  // console.log(props);
   const handleOk = () => {
     props.setState({ ...props.state, loading: !props.state.loading });
 
@@ -43,7 +43,7 @@ function DeleteModal(props) {
   };
   const [toDelete, setToDelete] = useState({ value: '' });
   const validateIt = value => {
-    console.log('validating input');
+    // console.log('validating input');
     if (value === props.title) {
       document.getElementById('delete-button').removeAttribute('disabled');
       return {
@@ -65,7 +65,7 @@ function DeleteModal(props) {
       value: e.target.value,
     });
   };
-  console.log(toDelete);
+  // console.log(toDelete);
   const tips =
     'Please type in the name of the Type that you would like to delete';
   return (
