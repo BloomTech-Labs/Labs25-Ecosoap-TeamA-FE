@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Modal } from "antd";
-import EditRecordForm from "./EditRecord.jsx";
-import { client } from "../../../index";
-import gql from "graphql-tag";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Modal } from 'antd';
+import EditRecordForm from './EditRecord.jsx';
+import { client } from '../../../index';
+import gql from 'graphql-tag';
+import axios from 'axios';
 
 function EditModal(props) {
-  console.log(props)
+  // console.log(props);
   const geocodekey =
-    process.env.REACT_APP_GEO_CODE_KEY || "9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH";
+    process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
   const [address, setAddress] = useState({
-    street: "" ,
-    city: "",
-    state: "",
-    post: "",
-    country: "",
-  })
+    street: '',
+    city: '',
+    state: '',
+    post: '',
+    country: '',
+  });
   const handleOk = () => {
     props.setState({ ...props.state, loading: !props.state.loading });
     setTimeout(() => {
@@ -54,14 +54,14 @@ function EditModal(props) {
             }
         }
         `;
-    client.query({ query: QUERY_REC_ID }).then((res) => {
+    client.query({ query: QUERY_REC_ID }).then(res => {
       setTimeout(() => {
         axios
           .get(
             `https://www.mapquestapi.com/geocoding/v1/reverse?key=${geocodekey}&location=${res.data.recordById.coordinates.latitude}%2C${res.data.recordById.coordinates.longitude}&outFormat=json&thumbMaps=false`
           )
-          .then((res) => {
-            console.log(res.data.results[0].locations);
+          .then(res => {
+            // console.log(res.data.results[0].locations);
             setAddress({
               ...address,
               street: res.data.results[0].locations[0].street,
@@ -71,13 +71,12 @@ function EditModal(props) {
               country: res.data.results[0].locations[0].adminArea1,
             });
           })
-          .catch((err) => console.log(err));
+          .catch(err => console.log(err));
       });
-    },500);
-
+    }, 500);
   }
 
-  // 
+  //
   // ${res.data.recordById.coordinates.longitude}
   useEffect(() => {
     getTypeToPass();
@@ -86,7 +85,7 @@ function EditModal(props) {
     <div className="modal">
       <Modal
         width="400px"
-        style={{ display: "flex", flexDirection: "column" }}
+        style={{ display: 'flex', flexDirection: 'column' }}
         visible={props.state.visible}
         title="Edit Record"
         onOk={handleOk}
@@ -102,6 +101,8 @@ function EditModal(props) {
           record={props.record}
           address={address}
           setRecordsState={props.setRecordsState}
+          tableState={props.tableState}
+          setTableState={props.setTableState}
         />
       </Modal>
     </div>

@@ -6,7 +6,7 @@ import { inspect } from 'util';
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
 // STYLING IMPORTS
-import { Form, Input, Button, Space, Select } from 'antd';
+import { Form, Input, Button, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 
 const AddRecordForm = props => {
@@ -33,7 +33,7 @@ const AddRecordForm = props => {
           .split("'")
           .join('"')
       : '[]';
-    console.log(fieldValues);
+    // console.log(fieldValues);
     let NEW_RECORD_MUT = gql`
       mutation {
         createRecord(

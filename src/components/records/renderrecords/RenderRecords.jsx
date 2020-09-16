@@ -5,9 +5,9 @@ import { client } from '../../../index.js';
 import gql from 'graphql-tag';
 // COMPONENT IMPORTS
 import CRModal from '../addrecord/CRModal.jsx';
-// import RecordCard from './RecordCard.jsx';
+import RecordCard from './RecordCard.jsx';
 // STYLING IMPORTS
-import { Button, Table } from 'antd';
+import { Button, Table, Space } from 'antd';
 
 function RenderRecords(props) {
   const { typeId, tableState, setTableState } = props;
@@ -45,6 +45,7 @@ function RenderRecords(props) {
     client
       .query({ query: RECORDS_QUERY })
       .then(res => {
+        // console.log('RECORD RESPONSE', res);
         setRecordsState(res);
         // Setting DataSource for Table
         console.log('Setting up table!!!');
@@ -52,23 +53,32 @@ function RenderRecords(props) {
         res.data.recordsByType.map(record => {
           let dataObject = {};
           dataObject.name = record.name;
+          dataObject.id = record.id;
+          dataObject.coordinates = {
+            latitude: record.coordinates.latitude,
+            longitude: record.coordinates.longitude,
+          };
+          dataObject.typeId = record.type.id;
           record.fields.map(field => {
             dataObject[field.name] = field.value;
-            dataObject.key = `${field.name}-${field.id}`;
+            dataObject.key = record.id;
+            return null;
           });
           data.push(dataObject);
+          return null;
         });
         setDataSource(data);
         //Setting Field Columns on Table
         let fieldColumns = [];
         let typeFields = props.types.filter(type => type.id === typeId);
-        typeFields[0].fields.map(field =>
+        typeFields[0].fields.map(field => {
           fieldColumns.push({
             title: field.name,
             dataIndex: field.name,
             key: field.name,
-          })
-        );
+          });
+          return null;
+        });
 
         setColumns([
           {
@@ -77,6 +87,28 @@ function RenderRecords(props) {
             key: 'name',
           },
           ...fieldColumns,
+          {
+            title: 'Action',
+            key: 'action',
+            sorter: true,
+            render: record => (
+              <Space size="middle">
+                {/* <a>Delete</a>
+                <a>Edit</a> */}
+                {/* {// recordsState.data.records.map()
+                console.log('record', record)} */}
+                {/* {console.log(typeId)} */}
+                <RecordCard
+                  key={record.id}
+                  record={record}
+                  typeId={typeId}
+                  setRecordsState={setRecordsState}
+                  tableState={tableState}
+                  setTableState={setTableState}
+                />
+              </Space>
+            ),
+          },
         ]);
       })
       .catch(err => console.log('ERROR', err));
