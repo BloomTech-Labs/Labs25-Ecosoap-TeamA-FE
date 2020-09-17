@@ -5,14 +5,15 @@ import { client } from '../../../index.js';
 import gql from 'graphql-tag';
 // COMPONENT IMPORTS
 import CRModal from '../addrecord/CRModal.jsx';
-// import RecordCard from './RecordCard.jsx';
+import RecordCard from './RecordCard.jsx';
 // STYLING IMPORTS
-import { Button, Table } from 'antd';
+import { Button, Table, Space } from 'antd';
 
 function RenderRecords(props) {
   const { typeId, tableState, setTableState } = props;
   let [dataSource, setDataSource] = useState([]);
   let [columns, setColumns] = useState([]);
+  let [typeName, setTypeName] = useState('');
 
   let [recordsState, setRecordsState] = useState(null);
   // create modal state for visibility
@@ -45,30 +46,41 @@ function RenderRecords(props) {
     client
       .query({ query: RECORDS_QUERY })
       .then(res => {
+        // console.log('RECORD RESPONSE', res);
         setRecordsState(res);
         // Setting DataSource for Table
-        console.log('Setting up table!!!');
+
         let data = [];
         res.data.recordsByType.map(record => {
           let dataObject = {};
           dataObject.name = record.name;
+          dataObject.id = record.id;
+          dataObject.coordinates = {
+            latitude: record.coordinates.latitude,
+            longitude: record.coordinates.longitude,
+          };
+          dataObject.typeId = record.type.id;
           record.fields.map(field => {
             dataObject[field.name] = field.value;
-            dataObject.key = `${field.name}-${field.id}`;
+            dataObject.key = record.id;
+            return null;
           });
           data.push(dataObject);
+          return null;
         });
         setDataSource(data);
         //Setting Field Columns on Table
         let fieldColumns = [];
         let typeFields = props.types.filter(type => type.id === typeId);
-        typeFields[0].fields.map(field =>
+        setTypeName(typeFields[0].name);
+        typeFields[0].fields.map(field => {
           fieldColumns.push({
             title: field.name,
             dataIndex: field.name,
             key: field.name,
-          })
-        );
+          });
+          return null;
+        });
 
         setColumns([
           {
@@ -77,42 +89,52 @@ function RenderRecords(props) {
             key: 'name',
           },
           ...fieldColumns,
+          {
+            title: 'Action',
+            key: 'action',
+            render: record => (
+              <Space size="middle">
+                <RecordCard
+                  key={record.id}
+                  record={record}
+                  typeId={typeId}
+                  setRecordsState={setRecordsState}
+                  tableState={tableState}
+                  setTableState={setTableState}
+                />
+              </Space>
+            ),
+          },
         ]);
       })
       .catch(err => console.log('ERROR', err));
   }, [typeId, tableState]);
 
   return (
-    <>
-      {dataSource && (
-        <Table
-          key={Math.random()}
-          dataSource={dataSource}
-          columns={columns}
-          bordered={true}
-          pagination={{ position: ['bottomCenter'] }}
-        />
-      )}
-      {/* {recordsState &&
-        recordsState.data.recordsByType.map(record => {
-          return (
-            <RecordCard
-              key={record.id}
-              record={record}
-              typeId={typeId}
-              setRecordsState={setRecordsState}
-            />
-          );
-        })} */}
-      <Button
-        size="large"
-        onClick={() => {
-          showCRMButton();
-        }}
-      >
-        Add Record{' '}
-      </Button>
-      ;
+    <div className="recordsParent">
+      <div className="recordsHeader">
+        <h1>{typeName}</h1>
+        <Button
+          size="large"
+          onClick={() => {
+            showCRMButton();
+          }}
+        >
+          Add Record{' '}
+        </Button>
+      </div>
+      <div className="recordsTable">
+        {dataSource && (
+          <Table
+            rowKey={row => row.id}
+            dataSource={dataSource}
+            columns={columns}
+            bordered={false}
+            pagination={{ position: ['bottomCenter'], pageSize: 12 }}
+          />
+        )}
+      </div>
+
       {crmstate.visible && (
         <CRModal
           types={props.types}
@@ -125,7 +147,7 @@ function RenderRecords(props) {
           setTableState={setTableState}
         />
       )}
-    </>
+    </div>
   );
 }
 export default RenderRecords;
