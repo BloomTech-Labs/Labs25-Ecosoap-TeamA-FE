@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Popover, Form, Input, Button } from 'antd';
-function FieldsCard(props) {
+function TypeFieldsCard(props) {
   function onFinish(values) {
     console.log('Form Values', values);
   }
@@ -9,8 +9,8 @@ function FieldsCard(props) {
   }
   return (
     <div className="fieldsCard">
-      <span>Name: {props.field.name}</span>
-      <span>Value: {props.field.value}</span>
+      <span>Name: {props.field.name}</span>&nbsp;&nbsp;
+      <span>Value: {'No Default Value' || props.field.value}</span>
       <Popover
         key={props.field.id}
         content={
@@ -66,6 +66,7 @@ function FieldsCard(props) {
           className="far fa-edit"
         ></i>
       </Popover>
+      &nbsp;&nbsp;
       <Popover
         key={props.field.id}
         content={
@@ -91,4 +92,4 @@ function FieldsCard(props) {
   );
 }
 
-export default FieldsCard;
+export default TypeFieldsCard;
