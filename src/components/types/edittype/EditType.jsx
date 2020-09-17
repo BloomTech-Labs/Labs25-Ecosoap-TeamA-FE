@@ -7,7 +7,7 @@ import { client } from '../../../index.js';
 // STYLING IMPORTS
 import { Form, Input, Button, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import FieldsCard from "../../fields/FieldsCard.js"
+import TypeFieldsCard from "../../fields/TypeFieldsCard.js"
 
 const EditTypeForm = props => {
   const { handleOk, type, setTypes, types } = props;
@@ -83,7 +83,7 @@ const EditTypeForm = props => {
             </Form.Item>
           </Form.Item>
           {type.fields && type.fields.map(field => { 
-            return (<FieldsCard field={field}/>)
+            return (<TypeFieldsCard key={field.id} field={field}/>)
           }) }
           <Form.List name="fields">
             {(fields, { add, remove }) => {
