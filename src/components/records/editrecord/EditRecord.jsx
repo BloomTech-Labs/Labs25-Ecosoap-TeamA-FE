@@ -5,7 +5,7 @@ import axios from 'axios';
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
 import { inspect } from 'util';
-import RecordFieldsCard from "../../fields/RecordFieldsCard.js"
+import RecordFieldsCard from '../../fields/RecordFieldsCard.js';
 
 const EditRecordForm = props => {
   const {
@@ -166,9 +166,14 @@ const EditRecordForm = props => {
               </Form.Item>
             </Input.Group>
           </Form.Item>
-          {record.fields && record.fields.map(field => { 
-            return (<><RecordFieldsCard field={field} key={field.id} />)
-          })}
+          {record.fields &&
+            record.fields.map(field => {
+              return (
+                <>
+                  <RecordFieldsCard field={field} key={field.id} />
+                </>
+              );
+            })}
           <Form.List name="fields">
             {(fields, { add, remove }) => {
               return (

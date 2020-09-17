@@ -60,6 +60,7 @@ function RenderRecords(props) {
             longitude: record.coordinates.longitude,
           };
           dataObject.typeId = record.type.id;
+          dataObject.fields = record.fields;
           record.fields.map(field => {
             dataObject[field.name] = field.value;
             dataObject.key = record.id;
