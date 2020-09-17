@@ -5,6 +5,7 @@ import axios from 'axios';
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
 import { inspect } from 'util';
+import RecordFieldsCard from '../../fields/RecordFieldsCard.js';
 
 const EditRecordForm = props => {
   const {
@@ -52,6 +53,11 @@ const EditRecordForm = props => {
               latitude
               longitude
             }
+            fields {
+              id
+              name
+              value
+            }
           }
         }
       }
@@ -65,6 +71,7 @@ const EditRecordForm = props => {
           id
           name
     fields {
+      id
       name
       value
              }
@@ -74,6 +81,7 @@ const EditRecordForm = props => {
           longitude
         }
         fields {
+          id
           name
           value
         }
@@ -158,6 +166,10 @@ const EditRecordForm = props => {
               </Form.Item>
             </Input.Group>
           </Form.Item>
+          {record.fields &&
+            record.fields.map(field => {
+              return <RecordFieldsCard field={field} key={Math.random()} />;
+            })}
           <Form.List name="fields">
             {(fields, { add, remove }) => {
               return (
