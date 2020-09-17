@@ -24,8 +24,6 @@ import "@reach/combobox/styles.css";
 import mapStyles from "../../../styles/map-styles";
 import pin from "../../../styles/pin.png" 
 import ItemsCarousel from 'react-items-carousel';
-import 'antd/dist/antd.css';
-import { Modal, Button } from 'antd';
 
 // Geocode API Key
 const geocodekey = process.env.REACT_APP_GEO_CODE_KEY;
