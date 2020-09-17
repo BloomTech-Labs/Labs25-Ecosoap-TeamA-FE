@@ -1,3 +1,55 @@
+.ant-btn:hover {
+  color: #3db64f;
+  border-color: #3db64f;
+}
+.ant-btn:focus {
+  color: #3db64f;
+  font-weight: 600;
+  border-color: #3db64f;
+}
+.ant-pagination-item:hover {
+  border-color: #3db64f;
+}
+.ant-pagination-item:hover a {
+  color: #3db64f;
+}
+.ant-pagination-item-active:hover {
+  border-color: #3db64f;
+}
+.ant-pagination-item-active:hover a {
+  color: #3db64f;
+}
+.ant-pagination-item-active {
+  border-color: #3db64f;
+}
+.ant-pagination-item-active a {
+  color: #3db64f;
+}
+.ant-pagination-item-active:focus {
+  border-color: #50df65;
+}
+.ant-pagination-item-active:focus a {
+  color: #50df65;
+}
+.ant-pagination-next:hover .ant-pagination-item-link {
+  border-color: #3db64f;
+  color: #3db64f;
+}
+.ant-pagination-item-link:hover span {
+  color: #3db64f;
+}
+.ant-pagination-prev:hover .ant-pagination-item-link {
+  border-color: #3db64f;
+  color: #3db64f;
+}
+.ant-pagination-disabled:hover .ant-pagination-item-link {
+  color: rgba(0, 0, 0, 0.25);
+  border-color: #d9d9d9;
+}
+.ant-pagination-disabled:hover span {
+  color: rgba(0, 0, 0, 0.25);
+  border-color: #d9d9d9;
+}
 .dashboard {
   display: flex;
   width: 100vw;
@@ -99,8 +151,20 @@
   padding: 15px 15px;
   white-space: normal;
 }
+.desktopNav .dbButtons #active {
+  color: #3db64f;
+  font-weight: 600;
+  border-color: #3db64f;
+}
 .desktopNav .adminSignOut {
   margin: 8% auto;
+}
+.desktopNav .adminSignOut button {
+  color: red;
+}
+.desktopNav .adminSignOut button:hover {
+  color: #f83e3e;
+  border-color: #f83e3e;
 }
 .mobileNav {
   display: none;
@@ -151,4 +215,33 @@
 .locate img {
   width: 50px;
   cursor: pointer;
+}
+.recordsParent {
+  max-height: 100vh;
+  height: 100vh;
+  overflow-y: hidden;
+}
+.recordsParent .recordsHeader {
+  border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 90%;
+  margin: 3% auto 2% auto;
+}
+.recordsParent .recordsTable {
+  width: 95%;
+  margin: 0 auto;
+}
+.ant-table-container {
+  height: 78vh;
+}
+.fa-trash-alt:hover {
+  color: red;
+}
+.fa-edit:hover {
+  color: #3db64f;
+}
+.table-layout {
+  border: 5px solid red;
 }

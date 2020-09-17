@@ -67,10 +67,12 @@ const TypeButton = props => {
     >
       <Button
         key={type.id}
-        onClick={() => {
+        className="navBtn"
+        onClick={e => {
           setTypeName(type.name);
           setTypeId(type.id);
           setMapState(false);
+          props.activeStyles(e);
         }}
         style={{ cursor: 'pointer' }}
       >

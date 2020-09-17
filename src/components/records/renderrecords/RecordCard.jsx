@@ -55,16 +55,16 @@ const RecordCard = props => {
       `;
 
   return (
-    <div key={record.id}>
+    <div key={record.id} className="recordsIcons">
       <i
         key={record.name + record.id}
-        style={{ cursor: 'pointer' }}
+        style={{ cursor: 'pointer', fontSize: '1.1rem' }}
         className="far fa-edit"
         onClick={() => {
           showEMButton();
         }}
       ></i>
-
+      &nbsp; &nbsp;
       <Popover
         key={record.id}
         content={
@@ -81,7 +81,7 @@ const RecordCard = props => {
       >
         <i
           key={record.name}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', fontSize: '1.1rem' }}
           className="far fa-trash-alt"
         ></i>
       </Popover>
