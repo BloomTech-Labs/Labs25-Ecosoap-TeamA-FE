@@ -57,7 +57,7 @@ function RecordFieldsCard(props) {
       </Popover>
       &nbsp;&nbsp;
       <Popover
-        key={props.field.id}
+        key={Math.random()}
         content={
           <a
             onClick={() => {

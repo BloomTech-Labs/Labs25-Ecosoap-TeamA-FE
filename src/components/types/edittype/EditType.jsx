@@ -7,20 +7,52 @@ import { client } from '../../../index.js';
 // STYLING IMPORTS
 import { Form, Input, Button, Space } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import TypeFieldsCard from "../../fields/TypeFieldsCard.js"
+import TypeFieldsCard from '../../fields/TypeFieldsCard.js';
 
 const EditTypeForm = props => {
-  const { handleOk, type, setTypes, types } = props;
+  const {
+    handleOk,
+    type,
+    setTypes,
+    types,
+    tableState,
+    setTableState,
+    recordsState,
+    setRecordsState,
+  } = props;
   async function onFinish(values) {
+    console.log(type.fields);
+    let fixedFields = type.fields.map(field => {
+      delete field.__typename;
+      return field;
+    });
     let fieldsValues = values.fields
       ? inspect(values.fields)
           .split("'")
           .join('"')
       : '[]';
+    // let allFields = values.fields.length ? [...fixedFields, ...values.fields] : [...fixedFields];
+    let typeFields = values.fields
+      ? type.fields || values.fields
+        ? inspect([...fixedFields, ...values.fields])
+            .split("'")
+            .join('"')
+        : '[]'
+      : type.fields || values.fields
+      ? inspect([...fixedFields])
+          .split("'")
+          .join('"')
+      : '[]';
+    // let testFields = recordsState.map(record => {
+
+    // })
+    console.log('All fields', typeFields);
+    console.log('records', recordsState);
+    // console.log(fields);
     // console.log(fieldsValues);
     let UPD_TYPE_MUTATION = gql`
         mutation {
-            updateType(input: {id: "${type.id}" name: "${values.name}", icon: "${values.icon}", fields: ${fieldsValues}}){
+            updateType(input: {id: "${type.id}" name: "${values.name}", icon: "${values.icon}", fields: ${typeFields}}){
             type{
                 id,
                 name,
@@ -45,6 +77,35 @@ const EditTypeForm = props => {
               : type
           )
         );
+        //     recordsState.map(record => {
+        //       let UPD_RECORD_MUT = gql`
+        //   mutation {
+        //     updateRecord(
+        //       input: {
+        //         id: "${record.id}"
+        //         name: "${record.name}"
+        //         coordinates: { latitude: ${record.coordinates.latitude}, longitude: ${record.coordinates.longitude} }
+        //         fields: ${record.fields ? inspect(record.fields).split("'").join('"') : '[]'}
+        //       }
+        //     ) {
+        //       record {
+        //         id
+        //         name
+        //         coordinates {
+        //           latitude
+        //           longitude
+        //         }
+        //         fields {
+        //           id
+        //           name
+        //           value
+        //         }
+        //       }
+        //     }
+        //   }
+        // `;
+        // })
+        setTableState(!tableState);
       })
       .catch(err => {
         console.log('CREATE_ERROR', err);
@@ -82,9 +143,10 @@ const EditTypeForm = props => {
               <Input style={{ width: 350 }} placeholder="Icon Url" />
             </Form.Item>
           </Form.Item>
-          {type.fields && type.fields.map(field => { 
-            return (<TypeFieldsCard key={field.id} field={field}/>)
-          }) }
+          {type.fields &&
+            type.fields.map(field => {
+              return <TypeFieldsCard key={Math.random()} field={field} />;
+            })}
           <Form.List name="fields">
             {(fields, { add, remove }) => {
               return (

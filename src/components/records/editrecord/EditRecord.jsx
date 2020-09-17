@@ -168,11 +168,7 @@ const EditRecordForm = props => {
           </Form.Item>
           {record.fields &&
             record.fields.map(field => {
-              return (
-                <>
-                  <RecordFieldsCard field={field} key={field.id} />
-                </>
-              );
+              return <RecordFieldsCard field={field} key={Math.random()} />;
             })}
           <Form.List name="fields">
             {(fields, { add, remove }) => {

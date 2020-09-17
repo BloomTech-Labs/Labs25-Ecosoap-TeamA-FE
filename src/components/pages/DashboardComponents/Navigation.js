@@ -13,6 +13,10 @@ const Navigation = props => {
         setTypeId={props.setTypeId}
         types={props.types}
         setTypes={props.setTypes}
+        tableState={props.tableState}
+        setTableState={props.setTableState}
+        recordsState={props.recordsState}
+        setRecordsState={props.setRecordsState}
       />
       <MobileNav
         setMapState={props.setMapState}

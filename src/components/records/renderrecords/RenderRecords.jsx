@@ -10,12 +10,18 @@ import RecordCard from './RecordCard.jsx';
 import { Button, Table, Space } from 'antd';
 
 function RenderRecords(props) {
-  const { typeId, tableState, setTableState } = props;
+  const {
+    typeId,
+    tableState,
+    setTableState,
+    recordsState,
+    setRecordsState,
+  } = props;
   let [dataSource, setDataSource] = useState([]);
   let [columns, setColumns] = useState([]);
   let [typeName, setTypeName] = useState('');
 
-  let [recordsState, setRecordsState] = useState(null);
+  // let [recordsState, setRecordsState] = useState(null);
   // create modal state for visibility
   const [crmstate, setCRMState] = useState({ visible: false, loading: false });
   function showCRMButton() {

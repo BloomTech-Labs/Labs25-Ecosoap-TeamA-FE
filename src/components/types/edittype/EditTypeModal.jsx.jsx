@@ -1,17 +1,16 @@
 // DEPENDENCY IMPORTS
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from 'react';
 // GRAPHQL IMPORTS
-import gql from "graphql-tag";
-import { client } from "../../../index.js";
+import gql from 'graphql-tag';
+import { client } from '../../../index.js';
 // COMPONENT IMPORTS
-import EditTypeForm from "./EditType.jsx";
+import EditTypeForm from './EditType.jsx';
 // STYLING IMPORTS
-import { Modal } from "antd";
+import { Modal } from 'antd';
 
 function EditModal(props) {
-  const [type, setType] = useState("");
-  useEffect(() => { 
-
+  const [type, setType] = useState('');
+  useEffect(() => {
     let GET_TYPE = gql`
     {
       typeById(input: {typeId: "${props.typeId}"}){
@@ -25,8 +24,8 @@ function EditModal(props) {
       }
     }
     `;
-    client.query({ query: GET_TYPE }).then(res => setType(res.data.typeById))
-  },[])
+    client.query({ query: GET_TYPE }).then(res => setType(res.data.typeById));
+  }, []);
   const handleOk = () => {
     props.setState({ ...props.state, loading: !props.state.loading });
     setTimeout(() => {
@@ -40,13 +39,12 @@ function EditModal(props) {
   const handleCancel = () => {
     props.setState({ ...props.state, visible: false });
   };
-  
 
   return (
     <div className="modal">
       <Modal
         width="400px"
-        style={{ display: "flex", flexDirection: "column" }}
+        style={{ display: 'flex', flexDirection: 'column' }}
         visible={props.state.visible}
         title="Edit Type"
         onOk={handleOk}
@@ -60,6 +58,10 @@ function EditModal(props) {
           type={type}
           setTypes={props.setTypes}
           types={props.types}
+          tableState={props.tableState}
+          setTableState={props.setTableState}
+          recordsState={props.recordsState}
+          setRecordsState={props.setRecordsState}
         />
       </Modal>
     </div>
