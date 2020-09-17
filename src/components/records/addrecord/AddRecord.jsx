@@ -85,7 +85,7 @@ const AddRecordForm = props => {
     });
     handleOk();
   }
-  console.log('in add record', props);
+
   return (
     <Form
       size="medium"

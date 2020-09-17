@@ -48,6 +48,8 @@ const DesktopNav = props => {
     loading: false,
   });
   const [typeName, setTypeName] = useState('');
+
+  // const [activeButton, setActiveButton] = useState('')
   // GET ALL TYPES - THIS WILL ALLOW US TO MAP THROUGH THEM ALL TO CREATE DYNAMIC BUTTONS
   function getTypes() {
     client
@@ -63,6 +65,13 @@ const DesktopNav = props => {
   useEffect(() => {
     getTypes();
   }, [types.length]);
+
+  function activeStyles(e) {
+    var current = document.getElementById('active');
+    current.id = '';
+    e.currentTarget.id = 'active';
+  }
+
   return (
     <nav className="desktopNav">
       <div className="desktopLogo">
@@ -70,8 +79,13 @@ const DesktopNav = props => {
       </div>
       <div className="dbButtons">
         <Button
-          onClick={() => props.setMapState(true)}
+          onClick={e => {
+            props.setMapState(true);
+            activeStyles(e);
+          }}
           style={{ cursor: 'pointer' }}
+          className="navBtn"
+          id="active"
         >
           Map
         </Button>
@@ -89,6 +103,7 @@ const DesktopNav = props => {
                 setTypeId={setTypeId}
                 setTypeName={setTypeName}
                 setMapState={props.setMapState}
+                activeStyles={activeStyles}
               />
             );
           })}
