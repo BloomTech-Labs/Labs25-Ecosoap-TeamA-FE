@@ -32,7 +32,7 @@ const TypeButton = props => {
     <div>
       <p
         className="popoverp"
-        onClick={async () => {
+        onClick={async e => {
           await setTypeId(type.id);
           await setTypeName(type.name);
           await setMapState(false);
