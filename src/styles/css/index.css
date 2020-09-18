@@ -196,19 +196,16 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  justify-content: center;
+  overflow: auto;
   left:1%;
   top: 80%;
   height: 180px;
-  width: 180px;
+  width: 200px;
   z-index: 100;
+  padding: 1% 0 0 1%;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.radioFilters{
-  margin-left: 5%;
 }
 
 .locationSearchBar {

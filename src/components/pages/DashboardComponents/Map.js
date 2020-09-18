@@ -1,4 +1,4 @@
-// https://www.npmjs.com/package/@react-google-maps/api - @react-google-maps/api Package
+// https://www.npmjs.com/package/@react-google-maps/api - @react-google-maps/api package
 // https://react-google-maps-api-docs.netlify.app/ - @react-google-maps/api Offcial docs
 // https://github.com/kareemaly/react-items-carousel - react-items-carousel docs
 
@@ -53,7 +53,7 @@ const options = {
 const libraries = ["places"];
 
 const Map = () => {
-  //GraphQL Query
+  // GraphQL Query
   const data = gql`
     {
       records {
@@ -86,17 +86,17 @@ const Map = () => {
     }
   `;
 
-  // States
+  // --------------------------------States start --------------------------------------------
   const [markers, setMarkers] = useState([]); // Markers
   const [ecoTypes, setEcoTypes] = useState([]); // Types
   const [selectedMarker, setSelectedMarker] = useState(null); // Selected Marker for Info Window
   const [selectedType, setSelectedType] = useState(""); // Radio Filter - Display based on type
   const [selectedAll, setSelectedAll] = useState(true); // Radio Filter - Display all types
-  const [imgOpen, setImgOpen] = useState(false);
-  const [selectedPhoto, setSelectedPhoto] = useState("");
-  const [activeItemIndex, setActiveItemIndex] = useState(0);
+  const [imgOpen, setImgOpen] = useState(false); // Image overlay condition
+  const [selectedPhoto, setSelectedPhoto] = useState(""); // Image overlay storage
+  const [activeItemIndex, setActiveItemIndex] = useState(0); // Image modal
+ // --------------------------------States end ----------------------------------------------
   const chevronWidth = 40;
-
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API_KEY,
     libraries,
@@ -109,13 +109,13 @@ const Map = () => {
       .then(res => {
         setMarkers(res.data.records);
       })
-      .catch(err => console.log("ERROR", err));
+      .catch(err => console.log("GraphQL data query error", err));
     client
       .query({ query: types })
       .then(res => {
         setEcoTypes(res.data.types);
       })
-      .catch(err => console.log("ERROR", err));
+      .catch(err => console.log("GraphQL <types> query error", err));
   }, []);
 
   // Load Map
@@ -155,7 +155,6 @@ const Map = () => {
       <div className="typeFilterContainer">
         <div>
           <input 
-            className="radioFilters"
             type="radio"
             id="all"
             name="type"
@@ -168,7 +167,6 @@ const Map = () => {
           return (
             <div key={idx}>
               <input
-                className="radioFilters"
                 type="radio"
                 id={types.id}
                 name="type"
@@ -191,6 +189,7 @@ const Map = () => {
         options={options}
         onLoad={onMapLoad}
       >
+        {/*----------- Types filtering display starts --------------*/}
         {!selectedAll &&
           markers
             .filter(marker => marker.type.name === selectedType)
@@ -227,7 +226,9 @@ const Map = () => {
               }}
             />
           ))}
-        ;  
+        {/*----------- Types filtering display ends --------------*/}  
+
+        {/*---------------- Info Window starts -------------------*/}  
         {selectedMarker && (
             <InfoWindow
               position={{
@@ -284,9 +285,12 @@ const Map = () => {
                   </div>
                 </div>
               )}
+            {/*---------------- Info Window starts -------------------*/}  
             </InfoWindow>
         )}
       </GoogleMap>
+
+      {/*--- Image overlay ---*/}
       {imgOpen && (
         <div className="dialog" style={{ position: "absolute" }}>
           <img className="image" onClick={()=>setImgOpen(!imgOpen)} src={selectedPhoto} alt="media" />
@@ -323,7 +327,7 @@ function Locate({ panTo }) {
   );
 }
 
-// <Search Address Bar> Functionality
+// <Search Address> Functionality
 function Search({ panTo }) {
   const {
     ready,

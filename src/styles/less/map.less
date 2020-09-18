@@ -1,127 +1,3 @@
-.dashboard {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-}
-@media (max-width: 1024px) {
-  .dashboard {
-    flex-direction: column;
-  }
-}
-.dashboard .dashboardComponents {
-  width: 80%;
-  height: 100%;
-  position: absolute;
-  right: 0;
-}
-@media (max-width: 1024px) {
-  .dashboard .dashboardComponents {
-    position: relative;
-    width: 100%;
-    padding-top: 20px;
-  }
-}
-.mainHub {
-  width: 100%;
-  height: 20vh;
-  padding: 0 5%;
-  margin-top: 3%;
-}
-@media (max-width: 1024px) {
-  .mainHub {
-    margin-top: 4%;
-  }
-}
-@media (max-width: 410px) {
-  .mainHub {
-    margin-top: 8%;
-  }
-}
-.mainHub .search-add {
-  display: flex;
-  justify-content: space-between;
-}
-@media (max-width: 1024px) {
-  .mainHub .search-add button {
-    margin-left: 10%;
-  }
-}
-.mainHub .mainTable {
-  display: flex;
-  justify-content: flex-start;
-  padding-bottom: 2%;
-  border-bottom: 1px solid black;
-}
-.mainHub .mainTable h4 {
-  margin-top: 5%;
-  margin-right: 15%;
-}
-.mainNavigation {
-  height: 100vh;
-  width: 20vw;
-  position: fixed;
-  left: 0;
-  top: 0;
-}
-@media (max-width: 1024px) {
-  .mainNavigation {
-    position: relative;
-    height: 13vh;
-    width: 100%;
-  }
-}
-.desktopNav {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  box-shadow: 1px 1px lightgrey;
-}
-@media (max-width: 1024px) {
-  .desktopNav {
-    display: none;
-  }
-}
-.desktopNav .desktopLogo {
-  margin: 20% auto;
-}
-.desktopNav .dbButtons {
-  display: flex;
-  flex-direction: column;
-  margin: 0 auto;
-  width: 90%;
-  overflow: auto;
-  height: 80vh;
-}
-.desktopNav .dbButtons .ant-btn {
-  margin: 5% 3%;
-  height: 60px;
-  padding: 15px 15px;
-  white-space: normal;
-}
-.desktopNav .adminSignOut {
-  margin: 8% auto;
-}
-.mobileNav {
-  display: none;
-}
-@media (max-width: 1024px) {
-  .mobileNav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2% 1%;
-    box-shadow: 0 2px lightgrey;
-  }
-  .mobileNav .mobileLogo img {
-    height: 100px;
-    width: auto;
-  }
-  .mobileNav .mobileMenu .ant-menu {
-    font-size: 25px;
-  }
-}
-
 .mapContainer {
   position: relative;
   width: 100%;
@@ -132,19 +8,16 @@
   display: flex;
   flex-direction: column;
   position: absolute;
-  justify-content: center;
+  overflow: auto;
   left:1%;
   top: 80%;
   height: 180px;
-  width: 180px;
+  width: 200px;
   z-index: 100;
+  padding: 1% 0 0 1%;
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.radioFilters{
-  margin-left: 5%;
 }
 
 .locationSearchBar {
@@ -163,6 +36,7 @@
   font-size: 1rem;
   width: 100%;
   text-align: center;
+  outline: none;
 }
 .locateMeIcon {
   position: absolute;
