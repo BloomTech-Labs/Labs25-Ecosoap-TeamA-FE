@@ -219,6 +219,7 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   z-index: 10;
 }
+
 .locationSearchBar input {
   padding: 0.2rem;
   font-size: 1rem;
@@ -226,6 +227,7 @@
   text-align: center;
   outline: none;
 }
+
 .locateMeIcon {
   position: absolute;
   right: 0.3%;
@@ -235,6 +237,7 @@
   z-index: 10;
   outline: none;
 }
+
 .locateMeIcon img {
   width: 40px;
   cursor: pointer;
@@ -302,8 +305,6 @@ i.fas {
     bottom: 20%;
   }
 }
-
-
 
 .recordsParent {
   max-height: 100vh;
