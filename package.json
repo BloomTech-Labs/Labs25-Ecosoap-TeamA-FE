@@ -29,7 +29,7 @@
     "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
     "react-google-maps": "*",
-    "react-player": "^2.6.1",
+    "react-items-carousel": "^2.8.0",
     "react-plotly.js": "^2.4.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
