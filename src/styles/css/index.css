@@ -257,6 +257,7 @@
   position: relative;
   box-shadow: 0 8px 6px -6px black;
   left: 30%;
+  transform: translateX(-50%);
   top: 20%;
 }
 
@@ -271,6 +272,38 @@
 i.fas {
   color: rgb(63,182,79);
 }
+
+@media (max-width:1024px) {
+  .dialog {
+    width: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .image {
+    width: 100%;
+  }
+}
+
+@media (max-width:700px) {
+  .locationSearchBar {
+    top: 10%;
+    width: 90%;
+  }
+  .dialog {
+    width: 90%;
+  }
+}
+
+@media (max-height:1000px) {
+  .typeFilterContainer {
+    top: 65%
+  }
+  .locateMeIcon {
+    bottom: 20%;
+  }
+}
+
+
 
 .recordsParent {
   max-height: 100vh;
