@@ -22,25 +22,51 @@
   box-shadow: 1px 1px lightgrey;
 
   @media @ipad {
-    display: none;
+    flex-direction: row;
+    height: 13vh;
   }
   .desktopLogo {
     margin: 20% auto;
+
+    @media @ipad {
+      margin: 2% 0 0 0;
+      img {
+        height: 90%;
+        width: auto;
+      }
+    }
   }
 
   .dbButtons {
     display: flex;
     flex-direction: column;
+    align-items: center;
     margin: 0 auto;
     width: 90%;
     overflow: auto;
     height: 80vh;
+
+    @media @ipad {
+      flex-direction: row;
+      white-space: nowrap;
+      height: 90%;
+      width: 80%;
+      margin: auto;
+      overflow-y: hidden;
+      overflow-x: auto;
+    }
 
     .ant-btn {
       margin: 5% 3%;
       height: 60px;
       padding: 15px 15px;
       white-space: normal;
+      width: 100%;
+
+      @media @ipad {
+        display: inline-block;
+        white-space: nowrap;
+      }
     }
 
     #active {
@@ -60,19 +86,23 @@
       color: rgb(248, 62, 62);
       border-color: rgb(248, 62, 62);
     }
+
+    @media @ipad {
+      margin: auto 2%;
+    }
   }
 }
 
 // Mobile Styling
-
 .mobileNav {
   display: none;
 
   @media @ipad {
+    border: 1px solid red;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2% 1%;
+    padding: 2% 3%;
     box-shadow: 0 2px lightgrey;
 
     .mobileLogo img {
@@ -80,8 +110,18 @@
       width: auto;
     }
     .mobileMenu {
-      .ant-menu {
-        font-size: 25px;
+      border: 1px solid red;
+      height: 1.5rem;
+      width: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-flow: column nowrap;
+      cursor: pointer;
+      div {
+        width: 2rem;
+        height: 0.25rem;
+        border-radius: 10px;
+        transform: rotate();
       }
     }
   }

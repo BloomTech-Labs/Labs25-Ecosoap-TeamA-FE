@@ -131,25 +131,54 @@
 }
 @media (max-width: 1024px) {
   .desktopNav {
-    display: none;
+    flex-direction: row;
+    height: 13vh;
   }
 }
 .desktopNav .desktopLogo {
   margin: 20% auto;
 }
+@media (max-width: 1024px) {
+  .desktopNav .desktopLogo {
+    margin: 2% 0 0 0;
+  }
+  .desktopNav .desktopLogo img {
+    height: 90%;
+    width: auto;
+  }
+}
 .desktopNav .dbButtons {
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin: 0 auto;
   width: 90%;
   overflow: auto;
   height: 80vh;
+}
+@media (max-width: 1024px) {
+  .desktopNav .dbButtons {
+    flex-direction: row;
+    white-space: nowrap;
+    height: 90%;
+    width: 80%;
+    margin: auto;
+    overflow-y: hidden;
+    overflow-x: auto;
+  }
 }
 .desktopNav .dbButtons .ant-btn {
   margin: 5% 3%;
   height: 60px;
   padding: 15px 15px;
   white-space: normal;
+  width: 100%;
+}
+@media (max-width: 1024px) {
+  .desktopNav .dbButtons .ant-btn {
+    display: inline-block;
+    white-space: nowrap;
+  }
 }
 .desktopNav .dbButtons #active {
   color: #3db64f;
@@ -166,23 +195,41 @@
   color: #f83e3e;
   border-color: #f83e3e;
 }
+@media (max-width: 1024px) {
+  .desktopNav .adminSignOut {
+    margin: auto 2%;
+  }
+}
 .mobileNav {
   display: none;
 }
 @media (max-width: 1024px) {
   .mobileNav {
+    border: 1px solid red;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2% 1%;
+    padding: 2% 3%;
     box-shadow: 0 2px lightgrey;
   }
   .mobileNav .mobileLogo img {
     height: 100px;
     width: auto;
   }
-  .mobileNav .mobileMenu .ant-menu {
-    font-size: 25px;
+  .mobileNav .mobileMenu {
+    border: 1px solid red;
+    height: 1.5rem;
+    width: 2rem;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column nowrap;
+    cursor: pointer;
+  }
+  .mobileNav .mobileMenu div {
+    width: 2rem;
+    height: 0.25rem;
+    border-radius: 10px;
+    transform: rotate();
   }
 }
 .mapContainer {
@@ -235,6 +282,11 @@
 }
 .ant-table-container {
   height: 78vh;
+}
+@media (max-width: 1024px) {
+  .ant-table-container {
+    height: 80vh;
+  }
 }
 .fa-trash-alt:hover {
   color: red;
