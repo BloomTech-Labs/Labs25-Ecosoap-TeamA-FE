@@ -266,7 +266,7 @@ const Map = () => {
                   <ItemsCarousel requestToChangeActive={setActiveItemIndex}
                     activeItemIndex={activeItemIndex}
                     numberOfCards={3}
-                    gutter={20}
+                    gutter={8}
                     leftChevron={<i class="fas fa-arrow-circle-left fa-2x"></i>}
                     rightChevron={<i class="fas fa-arrow-circle-right fa-2x"></i>}
                     outsideChevron
