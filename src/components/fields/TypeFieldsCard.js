@@ -1,8 +1,28 @@
 import React, { useState } from 'react';
 import { Popover, Form, Input, Button } from 'antd';
+import gql from 'graphql-tag';
+
 function TypeFieldsCard(props) {
+  console.log('TypeFieldsCard Props', props);
   function onFinish(values) {
     console.log('Form Values', values);
+    console.log('Old Field Name', props.field.name);
+
+    // let UPD_TYPE_MUTATION = gql`
+    //     mutation {
+    //         updateType(input: {id: "${props.type.id}" name: "${values.name}", icon: "${values.icon}", fields: ${typeFields}}){
+    //         type{
+    //             id,
+    //             name,
+    //             icon,
+    //             fields{
+    //             name,
+    //             value
+    //             }
+    //         }
+    //         }
+    //     }
+    // `;
   }
   function delField(id) {
     console.log('You really gonna delete me', id);

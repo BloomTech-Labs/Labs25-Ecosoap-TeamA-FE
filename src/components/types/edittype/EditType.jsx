@@ -145,7 +145,15 @@ const EditTypeForm = props => {
           </Form.Item>
           {type.fields &&
             type.fields.map(field => {
-              return <TypeFieldsCard key={Math.random()} field={field} />;
+              return (
+                <TypeFieldsCard
+                  key={Math.random()}
+                  field={field}
+                  type={type}
+                  recordsState={recordsState}
+                  setRecordsState={setRecordsState}
+                />
+              );
             })}
           <Form.List name="fields">
             {(fields, { add, remove }) => {
