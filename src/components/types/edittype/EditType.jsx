@@ -22,7 +22,7 @@ const EditTypeForm = props => {
   } = props;
   async function onFinish(values) {
     // console.log(type.fields);
-    console.log('VALUES.FIELDS: ', values.fields);
+    // console.log('VALUES.FIELDS: ', values.fields);
     let fixedFields = type.fields.map(field => {
       delete field.__typename;
       return field;
@@ -47,8 +47,8 @@ const EditTypeForm = props => {
     // let testFields = recordsState.map(record => {
 
     // })
-    console.log('All fields', typeFields);
-    console.log('records', recordsState);
+    // console.log('All fields', typeFields);
+    // console.log('records', recordsState);
     // console.log(fields);
     // console.log(fieldsValues);
     let UPD_TYPE_MUTATION = gql`
@@ -69,7 +69,7 @@ const EditTypeForm = props => {
 
     await client
       .mutate({ mutation: UPD_TYPE_MUTATION })
-      .then(res => {
+      .then(async res => {
         // console.log('Update response', res);
         setTypes(
           types.map(type =>
@@ -79,8 +79,13 @@ const EditTypeForm = props => {
           )
         );
         console.log('RECORD STATE: ', recordsState);
+
+        let batchArray = [];
+
+        let counter = 0;
+
         values.fields &&
-          recordsState.data.recordsByType.map(async record => {
+          (await recordsState.data.recordsByType.map(async record => {
             // console.log('Beginning Record Mutation');
             let fixedRecordFields = await record.fields.map(field => {
               // console.log('Field:', field);
@@ -88,6 +93,41 @@ const EditTypeForm = props => {
               delete field.__typename;
               return field;
             });
+
+            let BATCH_QUERY = `mutation${counter}: updateRecord(
+              input: {
+                id: "${record.id}"
+                name: "${record.name}"
+                coordinates: { latitude: ${
+                  record.coordinates.latitude
+                }, longitude: ${record.coordinates.longitude} }
+                fields: ${
+                  record.fields
+                    ? inspect([...fixedRecordFields, ...values.fields])
+                        .split("'")
+                        .join('"')
+                    : '[]'
+                }
+              }
+            ) {
+              record {
+                id
+                name
+                coordinates {
+                  latitude
+                  longitude
+                }
+                fields {
+                  id
+                  name
+                  value
+                }
+              }
+            }`;
+            batchArray.push(BATCH_QUERY);
+            // console.log('COUNTER', counter);
+            counter += 1;
+
             let UPD_RECORD_MUT = gql`
           mutation {
             updateRecord(
@@ -122,61 +162,40 @@ const EditTypeForm = props => {
             }
           }
         `;
-            console.log('RECORD MUTATION CREATED ' + record.name);
-            console.log('I AM HAPPENING' + record.name);
-            await client
-              .mutate({ mutation: UPD_RECORD_MUT })
-              // .then(res => {
-              // console.log('UPDATE RECORD RESPONSE: ', res);
-              //   let response = res.data;
-              // })
-              .catch(err => {
-                console.log('ERROR: ', err);
-              });
 
-            setTimeout(() => {
-              console.log('WAITING 1 SECOND');
-            }, 10000);
-
-            // let RECORDS_QUERY = gql`
-            //   {
-            //     recordsByType(input: { typeId: "${type.id}" }) {
-            //       id
-            //       name
-            //       type {
-            //         id
-            //         name
-            //   fields {
-            //     id
-            //     name
-            //     value
-            //           }
-            //       }
-            //       coordinates {
-            //         latitude
-            //         longitude
-            //       }
-            //       fields {
-            //         id
-            //         name
-            //         value
-            //       }
-            //     }
-            //   }
-            // `;
-            // console.log('RECORDS QUERY', RECORDS_QUERY);
+            // console.log('RECORD MUTATION CREATED ' + record.name);
+            // console.log('I AM HAPPENING' + record.name);
             // await client
-            //   .query({ query: RECORDS_QUERY })
-            //   .then(res => {
-            //     // console.log(res);
-            //     // setRecordsState(res);
-            //     // setTableState(!tableState);
-            //   })
+            //   .mutate({ mutation: UPD_RECORD_MUT })
+            //   // .then(res => {
+            //   // console.log('UPDATE RECORD RESPONSE: ', res);
+            //   //   let response = res.data;
+            //   // })
             //   .catch(err => {
-            //     console.log('ERROR', err);
+            //     console.log('ERROR: ', err);
             //   });
+          }));
+
+        let gqlString = `mutation {${batchArray}}`;
+        // console.log(gqlString);
+
+        let batchMutation = gql`
+          ${gqlString}
+        `;
+        // console.log('BATCH MUTATION', batchMutation);
+
+        await client
+          .mutate({
+            mutation: batchMutation,
+          })
+          .then(res => {
+            console.log('UPDATE RECORD RESPONSE: ', res);
+          })
+          .catch(err => {
+            console.log('ERROR: ', err);
           });
         setTableState(!tableState);
+        // console.log('batchArray', batchArray);
       })
       .catch(err => {
         console.log('CREATE_ERROR', err);
