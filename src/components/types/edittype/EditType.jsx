@@ -128,40 +128,40 @@ const EditTypeForm = props => {
             // console.log('COUNTER', counter);
             counter += 1;
 
-            let UPD_RECORD_MUT = gql`
-          mutation {
-            updateRecord(
-              input: {
-                id: "${record.id}"
-                name: "${record.name}"
-                coordinates: { latitude: ${
-                  record.coordinates.latitude
-                }, longitude: ${record.coordinates.longitude} }
-                fields: ${
-                  record.fields
-                    ? inspect([...fixedRecordFields, ...values.fields])
-                        .split("'")
-                        .join('"')
-                    : '[]'
-                }
-              }
-            ) {
-              record {
-                id
-                name
-                coordinates {
-                  latitude
-                  longitude
-                }
-                fields {
-                  id
-                  name
-                  value
-                }
-              }
-            }
-          }
-        `;
+            //     let UPD_RECORD_MUT = gql`
+            //   mutation {
+            //     updateRecord(
+            //       input: {
+            //         id: "${record.id}"
+            //         name: "${record.name}"
+            //         coordinates: { latitude: ${
+            //           record.coordinates.latitude
+            //         }, longitude: ${record.coordinates.longitude} }
+            //         fields: ${
+            //           record.fields
+            //             ? inspect([...fixedRecordFields, ...values.fields])
+            //                 .split("'")
+            //                 .join('"')
+            //             : '[]'
+            //         }
+            //       }
+            //     ) {
+            //       record {
+            //         id
+            //         name
+            //         coordinates {
+            //           latitude
+            //           longitude
+            //         }
+            //         fields {
+            //           id
+            //           name
+            //           value
+            //         }
+            //       }
+            //     }
+            //   }
+            // `;
 
             // console.log('RECORD MUTATION CREATED ' + record.name);
             // console.log('I AM HAPPENING' + record.name);
