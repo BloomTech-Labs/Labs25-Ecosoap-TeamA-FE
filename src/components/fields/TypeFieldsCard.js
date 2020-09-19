@@ -3,7 +3,7 @@ import { Popover, Form, Input, Button } from 'antd';
 import gql from 'graphql-tag';
 
 function TypeFieldsCard(props) {
-  console.log('TypeFieldsCard Props', props);
+  // console.log('TypeFieldsCard Props', props);
   function onFinish(values) {
     console.log('Form Values', values);
     console.log('Old Field Name', props.field.name);

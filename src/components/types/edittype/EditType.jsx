@@ -21,7 +21,8 @@ const EditTypeForm = props => {
     setRecordsState,
   } = props;
   async function onFinish(values) {
-    console.log(type.fields);
+    // console.log(type.fields);
+    console.log('VALUES.FIELDS: ', values.fields);
     let fixedFields = type.fields.map(field => {
       delete field.__typename;
       return field;
@@ -69,7 +70,7 @@ const EditTypeForm = props => {
     await client
       .mutate({ mutation: UPD_TYPE_MUTATION })
       .then(res => {
-        console.log('Update response', res);
+        // console.log('Update response', res);
         setTypes(
           types.map(type =>
             type.id === res.data.updateType.type.id
@@ -77,34 +78,104 @@ const EditTypeForm = props => {
               : type
           )
         );
-        //     recordsState.map(record => {
-        //       let UPD_RECORD_MUT = gql`
-        //   mutation {
-        //     updateRecord(
-        //       input: {
-        //         id: "${record.id}"
-        //         name: "${record.name}"
-        //         coordinates: { latitude: ${record.coordinates.latitude}, longitude: ${record.coordinates.longitude} }
-        //         fields: ${record.fields ? inspect(record.fields).split("'").join('"') : '[]'}
-        //       }
-        //     ) {
-        //       record {
-        //         id
-        //         name
-        //         coordinates {
-        //           latitude
-        //           longitude
-        //         }
-        //         fields {
-        //           id
-        //           name
-        //           value
-        //         }
-        //       }
-        //     }
-        //   }
-        // `;
-        // })
+        console.log('RECORD STATE: ', recordsState);
+        values.fields &&
+          recordsState.data.recordsByType.map(async record => {
+            // console.log('Beginning Record Mutation');
+            let fixedRecordFields = await record.fields.map(field => {
+              // console.log('Field:', field);
+              delete field.id;
+              delete field.__typename;
+              return field;
+            });
+            let UPD_RECORD_MUT = gql`
+          mutation {
+            updateRecord(
+              input: {
+                id: "${record.id}"
+                name: "${record.name}"
+                coordinates: { latitude: ${
+                  record.coordinates.latitude
+                }, longitude: ${record.coordinates.longitude} }
+                fields: ${
+                  record.fields
+                    ? inspect([...fixedRecordFields, ...values.fields])
+                        .split("'")
+                        .join('"')
+                    : '[]'
+                }
+              }
+            ) {
+              record {
+                id
+                name
+                coordinates {
+                  latitude
+                  longitude
+                }
+                fields {
+                  id
+                  name
+                  value
+                }
+              }
+            }
+          }
+        `;
+            console.log('RECORD MUTATION CREATED ' + record.name);
+            console.log('I AM HAPPENING' + record.name);
+            await client
+              .mutate({ mutation: UPD_RECORD_MUT })
+              // .then(res => {
+              // console.log('UPDATE RECORD RESPONSE: ', res);
+              //   let response = res.data;
+              // })
+              .catch(err => {
+                console.log('ERROR: ', err);
+              });
+
+            setTimeout(() => {
+              console.log('WAITING 1 SECOND');
+            }, 10000);
+
+            // let RECORDS_QUERY = gql`
+            //   {
+            //     recordsByType(input: { typeId: "${type.id}" }) {
+            //       id
+            //       name
+            //       type {
+            //         id
+            //         name
+            //   fields {
+            //     id
+            //     name
+            //     value
+            //           }
+            //       }
+            //       coordinates {
+            //         latitude
+            //         longitude
+            //       }
+            //       fields {
+            //         id
+            //         name
+            //         value
+            //       }
+            //     }
+            //   }
+            // `;
+            // console.log('RECORDS QUERY', RECORDS_QUERY);
+            // await client
+            //   .query({ query: RECORDS_QUERY })
+            //   .then(res => {
+            //     // console.log(res);
+            //     // setRecordsState(res);
+            //     // setTableState(!tableState);
+            //   })
+            //   .catch(err => {
+            //     console.log('ERROR', err);
+            //   });
+          });
         setTableState(!tableState);
       })
       .catch(err => {
