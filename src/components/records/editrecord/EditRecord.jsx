@@ -36,6 +36,31 @@ const EditRecordForm = props => {
           .split("'")
           .join('"')
       : '[]';
+
+    console.log('RECORD FIELDS', record);
+
+    let fixedFields = record.fields.map(field => {
+      delete field.__typename;
+      delete field.id;
+      return field;
+    });
+
+    console.log('FIXED FIELDS', fixedFields);
+
+    let recordFields = values.fields
+      ? record.fields || values.fields
+        ? inspect([...fixedFields, ...values.fields])
+            .split("'")
+            .join('"')
+        : '[]'
+      : record.fields || values.fields
+      ? inspect([...fixedFields])
+          .split("'")
+          .join('"')
+      : '[]';
+
+    console.log('NEW AND IMPROVED RECORD FIELDS', recordFields);
+
     let UPD_RECORD_MUT = gql`
       mutation {
         updateRecord(
@@ -43,7 +68,7 @@ const EditRecordForm = props => {
             id: "${record.id}"
             name: "${values.name}"
             coordinates: { latitude: ${address.data.results[0].locations[0].latLng.lat}, longitude: ${address.data.results[0].locations[0].latLng.lng} }
-            fields: ${fieldValues} 
+            fields: ${recordFields} 
           }
         ) {
           record {
@@ -168,9 +193,17 @@ const EditRecordForm = props => {
           </Form.Item>
           {record.fields &&
             record.fields.map(field => {
-              return <RecordFieldsCard field={field} key={Math.random()} />;
+              return (
+                <RecordFieldsCard
+                  field={field}
+                  key={Math.random()}
+                  record={record}
+                  tableState={tableState}
+                  setTableState={setTableState}
+                />
+              );
             })}
-          <Form.List name="fields">
+          {/* <Form.List name="fields">
             {(fields, { add, remove }) => {
               return (
                 <div>
@@ -217,7 +250,7 @@ const EditRecordForm = props => {
                 </div>
               );
             }}
-          </Form.List>
+          </Form.List> */}
           <Button
             width="100%"
             size="large"
