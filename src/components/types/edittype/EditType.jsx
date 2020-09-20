@@ -13,8 +13,9 @@ const EditTypeForm = props => {
   const {
     handleOk,
     type,
-    setTypes,
+    setType,
     types,
+    setTypes,
     tableState,
     setTableState,
     recordsState,
@@ -84,7 +85,7 @@ const EditTypeForm = props => {
 
         let counter = 0;
 
-        values.fields &&
+        recordsState &&
           (await recordsState.data.recordsByType.map(async record => {
             // console.log('Beginning Record Mutation');
             let fixedRecordFields = await record.fields.map(field => {
@@ -94,6 +95,18 @@ const EditTypeForm = props => {
               return field;
             });
 
+            let recordFields = values.fields
+              ? fixedRecordFields
+                ? inspect([...fixedRecordFields, ...values.fields])
+                    .split("'")
+                    .join('"')
+                : '[]'
+              : fixedRecordFields || values.fields
+              ? inspect([...fixedRecordFields])
+                  .split("'")
+                  .join('"')
+              : '[]';
+
             let BATCH_QUERY = `mutation${counter}: updateRecord(
               input: {
                 id: "${record.id}"
@@ -102,11 +115,12 @@ const EditTypeForm = props => {
                   record.coordinates.latitude
                 }, longitude: ${record.coordinates.longitude} }
                 fields: ${
-                  record.fields
-                    ? inspect([...fixedRecordFields, ...values.fields])
-                        .split("'")
-                        .join('"')
-                    : '[]'
+                  // record.fields
+                  //   ? inspect([...fixedRecordFields, ...values.fields])
+                  //       .split("'")
+                  //       .join('"')
+                  //   : '[]'
+                  recordFields
                 }
               }
             ) {
@@ -240,8 +254,12 @@ const EditTypeForm = props => {
                   key={Math.random()}
                   field={field}
                   type={type}
+                  setType={setType}
+                  setTypes={setTypes}
                   recordsState={recordsState}
                   setRecordsState={setRecordsState}
+                  tableState={tableState}
+                  setTableState={setTableState}
                 />
               );
             })}

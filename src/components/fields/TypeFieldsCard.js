@@ -1,28 +1,90 @@
 import React, { useState } from 'react';
 import { Popover, Form, Input, Button } from 'antd';
+import { client } from '../../index';
 import gql from 'graphql-tag';
+import { inspect } from 'util';
+import { FETCH_TYPES } from '../../graphql/queries';
 
 function TypeFieldsCard(props) {
   // console.log('TypeFieldsCard Props', props);
-  function onFinish(values) {
+  async function onFinish(values) {
     console.log('Form Values', values);
     console.log('Old Field Name', props.field.name);
 
-    // let UPD_TYPE_MUTATION = gql`
-    //     mutation {
-    //         updateType(input: {id: "${props.type.id}" name: "${values.name}", icon: "${values.icon}", fields: ${typeFields}}){
-    //         type{
-    //             id,
-    //             name,
-    //             icon,
-    //             fields{
-    //             name,
-    //             value
-    //             }
-    //         }
-    //         }
-    //     }
-    // `;
+    let updatedFields = inspect(
+      props.type.fields.map(field => {
+        delete field.__typename;
+        delete field.id;
+        return field.name === props.field.name
+          ? { name: values.name, value: values.value }
+          : field;
+      })
+    )
+      .split("'")
+      .join('"');
+
+    console.log('NEW UPDATED TYPE FIELDS', updatedFields);
+
+    let UPD_TYPE_MUTATION = gql`
+        mutation {
+            updateType(input: {id: "${props.type.id}" name: "${props.type.name}", icon: "${props.type.icon}", fields: ${updatedFields}}){
+            type{
+                id,
+                name,
+                icon,
+                fields{
+                name,
+                value
+                }
+            }
+            }
+        }
+    `;
+
+    await client
+      .mutate({ mutation: UPD_TYPE_MUTATION })
+      .then(res => {
+        console.log('UPDATE TYPE FIELD RESPONSE', res);
+      })
+      .catch(err => {
+        console.log('ERROR', err);
+      });
+
+    await client
+      .query({ query: FETCH_TYPES })
+      .then(res => {
+        console.log('FETCH TYPES RES', res);
+        props.setTypes(res.data.types);
+      })
+      .catch(err => {
+        console.log('ERROR', err);
+      });
+
+    let GET_TYPE = gql`
+      {
+        typeById(input: {typeId: "${props.type.id}"}){
+          id
+          name
+          icon
+          fields {
+            name
+            value
+          }
+        }
+      }
+      `;
+
+    await client
+      .query({ query: GET_TYPE })
+      .then(res => {
+        console.log('TYPE', res);
+        props.setType(res.data.typeById);
+      })
+      .catch(err => {
+        console.log('ERROR', err);
+      });
+
+    props.setTableState(!props.tableState);
   }
   function delField(id) {
     console.log('You really gonna delete me', id);
