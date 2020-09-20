@@ -72,7 +72,7 @@ const TypeButton = props => {
         key={type.id}
         className="navBtn"
         onClick={e => {
-          console.log(e);
+          // console.log(e);
           setTypeName(type.name);
           setTypeId(type.id);
           setMapState(false);
