@@ -65,11 +65,9 @@ You can find the deployed project at [EcoSoapBank Team A](https://a.ecosoap.dev)
 
 # 4️⃣ Installation Instructions
 
-🚫explain how to install the required dependencies to get this project up and running with yarn and NPM
+When installing this repository, run npm install before attempting to run.
 
 ## Other Scripts
-
-🚫replace these examples with your own
 
     * build - creates a build of the application
     * start - starts the production server after a build is created
