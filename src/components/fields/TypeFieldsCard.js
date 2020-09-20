@@ -8,8 +8,8 @@ import { FETCH_TYPES } from '../../graphql/queries';
 function TypeFieldsCard(props) {
   // console.log('TypeFieldsCard Props', props);
   async function onFinish(values) {
-    console.log('Form Values', values);
-    console.log('Old Field Name', props.field.name);
+    // console.log('Form Values', values);
+    // console.log('Old Field Name', props.field.name);
 
     let updatedFields = inspect(
       props.type.fields.map(field => {
@@ -23,7 +23,7 @@ function TypeFieldsCard(props) {
       .split("'")
       .join('"');
 
-    console.log('NEW UPDATED TYPE FIELDS', updatedFields);
+    // console.log('NEW UPDATED TYPE FIELDS', updatedFields);
 
     let UPD_TYPE_MUTATION = gql`
         mutation {
@@ -43,8 +43,75 @@ function TypeFieldsCard(props) {
 
     await client
       .mutate({ mutation: UPD_TYPE_MUTATION })
-      .then(res => {
+      .then(async res => {
         console.log('UPDATE TYPE FIELD RESPONSE', res);
+
+        let batchArray = [];
+        let counter = 0;
+
+        await props.recordsState.data.recordsByType.map(async record => {
+          let fixedRecordFields = await record.fields.map(field => {
+            delete field.id;
+            delete field.__typename;
+            return field;
+          });
+
+          let replacedFields =
+            props.field &&
+            fixedRecordFields.map(field => {
+              return field.name === props.field.name
+                ? {
+                    name: values.name,
+                    value: field.value,
+                  }
+                : field;
+            });
+
+          let recordFields = inspect(replacedFields)
+            .split("'")
+            .join('"');
+
+          let BATCH_QUERY = `mutation${counter}: updateRecord(
+            input: {
+              id: "${record.id}"
+              name: "${record.name}"
+              coordinates: { latitude: ${record.coordinates.latitude}, longitude: ${record.coordinates.longitude} }
+              fields: ${recordFields}
+            }
+          ) {
+            record {
+              id
+              name
+              coordinates {
+                latitude
+                longitude
+              }
+              fields {
+                id
+                name
+                value
+              }
+            }
+          }`;
+
+          batchArray.push(BATCH_QUERY);
+          counter += 1;
+        });
+
+        let gqlString = `mutation {${batchArray}}`;
+        // console.log(gqlString);
+        let batchMutation = gql`
+          ${gqlString}
+        `;
+
+        await client
+          .mutate({ mutation: batchMutation })
+          .then(res => {
+            console.log('UPDATE RECORD RESPONSE: ', res);
+          })
+          .catch(err => {
+            console.log('ERROR', err);
+          });
       })
       .catch(err => {
         console.log('ERROR', err);

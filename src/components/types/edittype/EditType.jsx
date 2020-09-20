@@ -28,11 +28,11 @@ const EditTypeForm = props => {
       delete field.__typename;
       return field;
     });
-    let fieldsValues = values.fields
-      ? inspect(values.fields)
-          .split("'")
-          .join('"')
-      : '[]';
+    // let fieldsValues = values.fields
+    //   ? inspect(values.fields)
+    //       .split("'")
+    //       .join('"')
+    //   : '[]';
     // let allFields = values.fields.length ? [...fixedFields, ...values.fields] : [...fixedFields];
     let typeFields = values.fields
       ? type.fields || values.fields
