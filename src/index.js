@@ -19,6 +19,13 @@ import { ApolloClient } from 'apollo-client';
 import { createHttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloProvider } from 'react-apollo';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
+
+import rootReducer from './utils/reduxstore/reducers';
+
 const httpLink = createHttpLink({
   uri: 'http://35.208.9.187:9091/web-api-1',
 });
@@ -31,12 +38,17 @@ export const client = new ApolloClient({
     },
   },
 });
+
+const store = createStore(rootReducer, applyMiddleware(thunk, logger));
+
 ReactDOM.render(
-  <Router>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
-  </Router>,
+  <Provider store={store}>
+    <Router>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );
 
