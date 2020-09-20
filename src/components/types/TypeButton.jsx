@@ -11,6 +11,7 @@ const TypeButton = props => {
     setTypeId,
     setTypeName,
     setMapState,
+    activeStyles,
   } = props;
 
   // EDIT MODAL => STATE AND SHOW BUTTON FUNCTION
@@ -32,7 +33,8 @@ const TypeButton = props => {
     <div>
       <p
         className="popoverp"
-        onClick={async () => {
+        onClick={async e => {
+          // console.log(e);
           await setTypeId(type.id);
           await setTypeName(type.name);
           await setMapState(false);
@@ -45,7 +47,8 @@ const TypeButton = props => {
       <p
         className="popoverp"
         style={{ color: 'red', cursor: 'pointer' }}
-        onClick={async () => {
+        onClick={async e => {
+          // console.log(e);
           await setTypeId(type.id);
           await setTypeName(type.name);
           await setMapState(false);
@@ -69,6 +72,7 @@ const TypeButton = props => {
         key={type.id}
         className="navBtn"
         onClick={e => {
+          // console.log(e);
           setTypeName(type.name);
           setTypeId(type.id);
           setMapState(false);

@@ -12,6 +12,14 @@ function RenderHomePage(props) {
   const [types, setTypes] = useState([]);
   // TABLE STATE - USED TO UPDATE TABLE
   const [tableState, setTableState] = useState(true);
+  // RECORDS STATE
+  const [recordsState, setRecordsState] = useState(null);
+  // SET ACTIVE BUTTON
+  function activeStyles(e) {
+    var current = document.getElementById('active');
+    current.id = '';
+    e.currentTarget.id = 'active';
+  }
 
   return (
     <div className="dashboard">
@@ -22,6 +30,11 @@ function RenderHomePage(props) {
         setTypeId={setTypeId}
         types={types}
         setTypes={setTypes}
+        tableState={tableState}
+        setTableState={setTableState}
+        recordsState={recordsState}
+        setRecordsState={setRecordsState}
+        activeStyles={activeStyles}
       />
       <div className="dashboardComponents">
         {mapState && <Map mapState={mapState} />}
@@ -33,6 +46,10 @@ function RenderHomePage(props) {
             types={types}
             tableState={tableState}
             setTableState={setTableState}
+            recordsState={recordsState}
+            setRecordsState={setRecordsState}
+            activeStyles={activeStyles}
+            setMapState={setMapState}
           />
         )}
       </div>

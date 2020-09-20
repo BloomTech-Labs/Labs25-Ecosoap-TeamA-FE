@@ -23,7 +23,17 @@ import logo from '../../../assets/ecosoapbanklogopng.png';
 
 // DESKTOP NAV COMPONENT
 const DesktopNav = props => {
-  const { typeId, setTypeId, types, setTypes } = props;
+  const {
+    typeId,
+    setTypeId,
+    types,
+    setTypes,
+    tableState,
+    setTableState,
+    recordsState,
+    setRecordsState,
+    activeStyles,
+  } = props;
   // OKTA AUTHORIZATION HOOK
   const { authService } = useOktaAuth();
   // ADD TYPE MODAL STATE AND FUNCTIONALITY
@@ -65,12 +75,6 @@ const DesktopNav = props => {
   useEffect(() => {
     getTypes();
   }, [types.length]);
-
-  function activeStyles(e) {
-    var current = document.getElementById('active');
-    current.id = '';
-    e.currentTarget.id = 'active';
-  }
 
   return (
     <nav className="desktopNav">
@@ -141,6 +145,10 @@ const DesktopNav = props => {
           state={emstate}
           typeId={typeId}
           setState={setEMState}
+          tableState={tableState}
+          setTableState={setTableState}
+          recordsState={recordsState}
+          setRecordsState={setRecordsState}
         />
       )}
       {dmstate.visible && (

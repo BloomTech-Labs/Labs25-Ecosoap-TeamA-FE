@@ -60,7 +60,7 @@ You can find the deployed project at [EcoSoapBank Team A](https://a.ecosoap.dev)
 - [@ant-design/icons](https://ant.design/docs)
 - [graphql](https://graphql.org/learn/)
 - [okta/okta-react](https://www.npmjs.com/package/@okta/okta-react)
-- [google-map-react](https://github.com/google-map-react/google-map-react)
+- [react-google-maps](https://react-google-maps-api-docs.netlify.app)
 
 
 # 4️⃣ Installation Instructions
