@@ -34,7 +34,7 @@ const TypeButton = props => {
       <p
         className="popoverp"
         onClick={async e => {
-          console.log(e);
+          // console.log(e);
           await setTypeId(type.id);
           await setTypeName(type.name);
           await setMapState(false);
@@ -48,7 +48,7 @@ const TypeButton = props => {
         className="popoverp"
         style={{ color: 'red', cursor: 'pointer' }}
         onClick={async e => {
-          console.log(e);
+          // console.log(e);
           await setTypeId(type.id);
           await setTypeName(type.name);
           await setMapState(false);
