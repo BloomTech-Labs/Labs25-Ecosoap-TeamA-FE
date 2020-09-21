@@ -32,6 +32,7 @@ const DesktopNav = props => {
     setTableState,
     recordsState,
     setRecordsState,
+    activeStyles,
   } = props;
   // OKTA AUTHORIZATION HOOK
   const { authService } = useOktaAuth();
@@ -74,12 +75,6 @@ const DesktopNav = props => {
   useEffect(() => {
     getTypes();
   }, [types.length]);
-
-  function activeStyles(e) {
-    var current = document.getElementById('active');
-    current.id = '';
-    e.currentTarget.id = 'active';
-  }
 
   return (
     <nav className="desktopNav">
