@@ -16,6 +16,7 @@ const Navigation = props => {
         setTableState={props.setTableState}
         recordsState={props.recordsState}
         setRecordsState={props.setRecordsState}
+        activeStyles={props.activeStyles}
       />
     </div>
   );

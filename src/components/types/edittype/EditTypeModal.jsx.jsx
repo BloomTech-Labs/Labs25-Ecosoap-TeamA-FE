@@ -56,6 +56,7 @@ function EditModal(props) {
           loading={props.state.loading}
           visible={props.state.visible}
           type={type}
+          setType={setType}
           setTypes={props.setTypes}
           types={props.types}
           tableState={props.tableState}
