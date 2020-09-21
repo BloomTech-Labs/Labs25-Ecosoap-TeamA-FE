@@ -17,7 +17,6 @@ const EditRecordForm = props => {
     tableState,
     setTableState,
   } = props;
-  // console.log('edit record form props', address.street);
 
   const geocodekey =
     process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
@@ -153,7 +152,7 @@ const EditRecordForm = props => {
                 name={['address', 'street']}
                 noStyle
                 initialValue={`${address.street}`}
-                rules={[{ required: true, message: 'Street is Required' }]}
+                rules={[{ required: false, message: 'Street is Recommended' }]}
               >
                 <Input style={{ width: 350 }} placeholder="Street" />
               </Form.Item>
@@ -161,7 +160,7 @@ const EditRecordForm = props => {
                 name={['address', 'city']}
                 noStyle
                 initialValue={address.city}
-                rules={[{ required: true, message: 'City is Required' }]}
+                rules={[{ required: false, message: 'City is Recommended' }]}
               >
                 <Input style={{ width: 350 }} placeholder="City" />
               </Form.Item>
@@ -169,7 +168,7 @@ const EditRecordForm = props => {
                 name={['address', 'state']}
                 noStyle
                 initialValue={address.state}
-                rules={[{ required: true, message: 'State/Province Required' }]}
+                rules={[{ required: false, message: 'State/Province Recommended' }]}
               >
                 <Input style={{ width: 350 }} placeholder="State/Province" />
               </Form.Item>
@@ -177,7 +176,7 @@ const EditRecordForm = props => {
                 name={['address', 'postal']}
                 noStyle
                 initialValue={address.post}
-                rules={[{ required: false, message: 'Postal Code Required' }]}
+                rules={[{ required: false, message: 'Postal Code Recommended' }]}
               >
                 <Input style={{ width: 350 }} placeholder="Postal Code" />
               </Form.Item>
@@ -185,7 +184,7 @@ const EditRecordForm = props => {
                 name={['address', 'country']}
                 noStyle
                 initialValue={address.country}
-                rules={[{ required: false, message: 'Country Required' }]}
+                rules={[{ required: false, message: 'Country Recommended' }]}
               >
                 <Input style={{ width: 350 }} placeholder="Country" />
               </Form.Item>

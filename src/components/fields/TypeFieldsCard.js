@@ -6,11 +6,7 @@ import { inspect } from 'util';
 import { FETCH_TYPES } from '../../graphql/queries';
 
 function TypeFieldsCard(props) {
-  // console.log('TypeFieldsCard Props', props);
   async function onFinish(values) {
-    // console.log('Form Values', values);
-    // console.log('Old Field Name', props.field.name);
-
     let updatedFields = inspect(
       props.type.fields.map(field => {
         delete field.__typename;
@@ -22,8 +18,6 @@ function TypeFieldsCard(props) {
     )
       .split("'")
       .join('"');
-
-    // console.log('NEW UPDATED TYPE FIELDS', updatedFields);
 
     let UPD_TYPE_MUTATION = gql`
         mutation {
@@ -99,7 +93,6 @@ function TypeFieldsCard(props) {
         });
 
         let gqlString = `mutation {${batchArray}}`;
-        // console.log(gqlString);
         let batchMutation = gql`
           ${gqlString}
         `;
@@ -154,8 +147,6 @@ function TypeFieldsCard(props) {
     props.setTableState(!props.tableState);
   }
   async function delField(id) {
-    // console.log('You really gonna delete me', id);
-
     let fixedFields = props.type.fields.map(field => {
       delete field.__typename;
       delete field.id;
@@ -171,8 +162,6 @@ function TypeFieldsCard(props) {
     )
       .split("'")
       .join('"');
-
-    // console.log('UPDATED FIELDS', updatedFields);
 
     let DELETE_TYPE_FIELD_MUTATION = gql`
         mutation {
