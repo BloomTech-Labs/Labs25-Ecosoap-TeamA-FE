@@ -252,7 +252,7 @@
   flex-direction: column;
   position: absolute;
   overflow: auto;
-  left:1%;
+  left: 1%;
   bottom: 5vh;
   height: 175px;
   width: 200px;
@@ -322,8 +322,7 @@
 i.fas {
   color: #3fb64f;
 }
-
-@media (max-width:2000px) {
+@media (max-width: 2000px) {
   .dialog {
     width: 60%;
     left: 50%;
