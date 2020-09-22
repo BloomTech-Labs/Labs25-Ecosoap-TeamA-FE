@@ -150,7 +150,6 @@ function RecordFieldsCard(props) {
           ></i>
         </Popover>
       </div>
-      <br />
       <div className="line2">
         <span>Value: {props.field.value}</span>
         <Popover

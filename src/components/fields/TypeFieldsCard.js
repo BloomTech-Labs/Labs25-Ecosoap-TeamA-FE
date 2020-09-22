@@ -344,7 +344,6 @@ function TypeFieldsCard(props) {
           ></i>
         </Popover>
       </div>
-      <br />
       <div className="line2">
         <span>Value: {props.field.value ? props.field.value : 'None'}</span>
         <Popover
