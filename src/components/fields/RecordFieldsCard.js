@@ -61,22 +61,22 @@ function RecordFieldsCard(props) {
   }
   function delField(id) {
     console.log('You really gonna delete me', id);
-
     let fixedFields = props.record.fields.map(field => {
       delete field.__typename;
       delete field.id;
       return field;
     });
     console.log(fixedFields);
-
-    let updatedFields = fixedFields.map(field => {
-      return field.name === props.field.name
-        ? { ...field, value: 'None' }
-        : field;
-    });
-
+    let updatedFields = inspect(
+      fixedFields.map(field => {
+        return field.name === props.field.name
+          ? { ...field, value: 'None' }
+          : field;
+      })
+    )
+      .split("'")
+      .join('"');
     console.log('UPDATED FIELDS', updatedFields);
-
     let DELETE_Field_MUT = gql`
       mutation {
         updateRecord(
@@ -103,6 +103,8 @@ function RecordFieldsCard(props) {
         }
       }
     `;
+
+    console.log(DELETE_Field_MUT);
     client
       .mutate({ mutation: DELETE_Field_MUT })
       .then(res => {
@@ -161,7 +163,6 @@ function RecordFieldsCard(props) {
           ></i>
         </Popover>
       </div>
-      <br />
       <div className="line2">
         <span>Value: {props.field.value}</span>
         <Popover
