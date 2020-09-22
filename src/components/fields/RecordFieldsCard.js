@@ -69,8 +69,10 @@ function RecordFieldsCard(props) {
     });
     console.log(fixedFields);
 
-    let updatedFields = fixedFields.filter(field => {
-      return field.name !== props.field.name;
+    let updatedFields = fixedFields.map(field => {
+      return field.name === props.field.name
+        ? { ...field, value: 'None' }
+        : field;
     });
 
     console.log('UPDATED FIELDS', updatedFields);
@@ -101,6 +103,15 @@ function RecordFieldsCard(props) {
         }
       }
     `;
+    client
+      .mutate({ mutation: DELETE_Field_MUT })
+      .then(res => {
+        console.log('UPDATE', res);
+        props.setTableState(!props.tableState);
+      })
+      .catch(err => {
+        console.log('ERROR', err);
+      });
   }
   return (
     <div className="fieldsCard">
