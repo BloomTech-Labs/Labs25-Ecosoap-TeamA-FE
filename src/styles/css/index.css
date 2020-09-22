@@ -323,7 +323,7 @@ i.fas {
   color: rgb(63,182,79);
 }
 
-@media (max-width:1024px) {
+@media (max-width:2000px) {
   .dialog {
     width: 60%;
     left: 50%;
@@ -346,7 +346,7 @@ i.fas {
 
 @media (max-height:1000px) {
   .typeFilterContainer {
-    top: 65%
+    top: 80%
   }
   .locateMeIcon {
     bottom: 20%;
