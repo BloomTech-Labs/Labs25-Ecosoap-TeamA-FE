@@ -61,20 +61,22 @@ function RecordFieldsCard(props) {
   }
   function delField(id) {
     console.log('You really gonna delete me', id);
-
     let fixedFields = props.record.fields.map(field => {
       delete field.__typename;
       delete field.id;
       return field;
     });
     console.log(fixedFields);
-
-    let updatedFields = fixedFields.filter(field => {
-      return field.name !== props.field.name;
-    });
-
+    let updatedFields = inspect(
+      fixedFields.map(field => {
+        return field.name === props.field.name
+          ? { ...field, value: 'None' }
+          : field;
+      })
+    )
+      .split("'")
+      .join('"');
     console.log('UPDATED FIELDS', updatedFields);
-
     let DELETE_Field_MUT = gql`
       mutation {
         updateRecord(
@@ -101,6 +103,17 @@ function RecordFieldsCard(props) {
         }
       }
     `;
+
+    console.log(DELETE_Field_MUT);
+    client
+      .mutate({ mutation: DELETE_Field_MUT })
+      .then(res => {
+        console.log('UPDATE', res);
+        props.setTableState(!props.tableState);
+      })
+      .catch(err => {
+        console.log('ERROR', err);
+      });
   }
   return (
     <div className="fieldsCard">
