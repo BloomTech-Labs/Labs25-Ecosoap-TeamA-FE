@@ -3,14 +3,13 @@
   width: 100%;
   height: 100%;
 }
-
 .typeFilterContainer {
   display: flex;
   flex-direction: column;
   position: absolute;
   overflow: auto;
   left:1%;
-  top: 80%;
+  bottom: 5vh;
   height: 175px;
   width: 200px;
   z-index: 100;
@@ -19,7 +18,6 @@
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 .locationSearchBar {
   border: 1px solid green;
   position: absolute;
@@ -31,7 +29,6 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   z-index: 10;
 }
-
 .locationSearchBar input {
   padding: 0.2rem;
   font-size: 1rem;
@@ -39,34 +36,30 @@
   text-align: center;
   outline: none;
 }
-
 .locateMeIcon {
   position: absolute;
   right: 0.3%;
-  bottom: 12%;
+  bottom: 15vh;
   background: none;
   border: none;
   z-index: 10;
   outline: none;
 }
-
 .locateMeIcon img {
   width: 40px;
   cursor: pointer;
 }
-
 .infoWindow {
   width: 400px;
 }
-
 .mediaImages {
   cursor: pointer;
   width: 100px;
   height: 150px;
   object-fit: cover;
   border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
-
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 .dialog {
   cursor: pointer;
   position: relative;
@@ -75,7 +68,6 @@
   transform: translateX(-50%);
   top: 20%;
 }
-
 .image {
   cursor: pointer;
   position: absolute;
@@ -83,12 +75,11 @@
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 i.fas {
-  color: rgb(63,182,79);
+  color: #3fb64f;
 }
 
-@media (max-width:1024px) {
+@media (max-width:2000px) {
   .dialog {
     width: 60%;
     left: 50%;
@@ -98,22 +89,12 @@ i.fas {
     width: 100%;
   }
 }
-
-@media (max-width:700px) {
+@media (max-width: 700px) {
   .locationSearchBar {
     top: 10%;
     width: 90%;
   }
   .dialog {
     width: 90%;
-  }
-}
-
-@media (max-height:1000px) {
-  .typeFilterContainer {
-    top: 65%
-  }
-  .locateMeIcon {
-    bottom: 20%;
   }
 }

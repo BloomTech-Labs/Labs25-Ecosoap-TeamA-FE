@@ -252,8 +252,8 @@
   flex-direction: column;
   position: absolute;
   overflow: auto;
-  left: 1%;
-  top: 80%;
+  left:1%;
+  bottom: 5vh;
   height: 175px;
   width: 200px;
   z-index: 100;
@@ -283,7 +283,7 @@
 .locateMeIcon {
   position: absolute;
   right: 0.3%;
-  bottom: 12%;
+  bottom: 15vh;
   background: none;
   border: none;
   z-index: 10;
@@ -322,7 +322,8 @@
 i.fas {
   color: #3fb64f;
 }
-@media (max-width: 1024px) {
+
+@media (max-width:2000px) {
   .dialog {
     width: 60%;
     left: 50%;
@@ -339,14 +340,6 @@ i.fas {
   }
   .dialog {
     width: 90%;
-  }
-}
-@media (max-height: 1000px) {
-  .typeFilterContainer {
-    top: 65%;
-  }
-  .locateMeIcon {
-    bottom: 20%;
   }
 }
 .recordsParent {
