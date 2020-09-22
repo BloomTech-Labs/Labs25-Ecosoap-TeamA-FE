@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Space } from 'antd';
+import { Form, Input, Button, Space, List, Divider } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import gql from 'graphql-tag';
@@ -193,7 +193,7 @@ const EditRecordForm = props => {
             renderItem={item => (
               <List.Item>
                 <RecordFieldsCard
-                  field={field}
+                  field={item}
                   key={Math.random()}
                   record={record}
                   tableState={tableState}
