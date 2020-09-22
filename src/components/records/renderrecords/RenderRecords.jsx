@@ -137,7 +137,7 @@ function RenderRecords(props) {
             dataSource={dataSource}
             columns={columns}
             bordered={false}
-            pagination={{ position: ['bottomCenter'], pageSize: 12 }}
+            pagination={{ position: ['bottomCenter'], pageSize: 8 }}
           />
         )}
       </div>
