@@ -286,8 +286,13 @@ function TypeFieldsCard(props) {
   }
   return (
     <div className="fieldsCard">
-      <span>Name: {props.field.name}</span>&nbsp;&nbsp;
-      <span>Value: {'No Default Value' || props.field.value}</span>
+      <p>
+        Name: <br /> {props.field.name}
+      </p>
+      <br />
+      <p>
+        Value: <br /> {props.field.value ? props.field.value : 'None'}
+      </p>
       <Popover
         key={props.field.id}
         content={

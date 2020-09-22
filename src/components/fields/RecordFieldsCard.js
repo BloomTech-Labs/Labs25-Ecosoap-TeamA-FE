@@ -104,8 +104,14 @@ function RecordFieldsCard(props) {
   }
   return (
     <div className="fieldsCard">
-      <span>Name: {props.field.name}</span> &nbsp;&nbsp;
-      <span>Value: {props.field.value}</span>
+      <p>
+        Name: <br />
+        {props.field.name}
+      </p>
+      <p>
+        Value: <br /> {props.field.value}
+      </p>
+      <br />
       <Popover
         key={props.field.id}
         content={

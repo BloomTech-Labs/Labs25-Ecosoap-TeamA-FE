@@ -193,7 +193,6 @@ const EditTypeForm = props => {
               </List.Item>
             )}
           />
-
           {type.fields &&
             type.fields.map(field => {
               return (
