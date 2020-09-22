@@ -6,11 +6,7 @@ import { inspect } from 'util';
 import { FETCH_TYPES } from '../../graphql/queries';
 
 function TypeFieldsCard(props) {
-  // console.log('TypeFieldsCard Props', props);
   async function onFinish(values) {
-    // console.log('Form Values', values);
-    // console.log('Old Field Name', props.field.name);
-
     let updatedFields = inspect(
       props.type.fields.map(field => {
         delete field.__typename;
@@ -22,8 +18,6 @@ function TypeFieldsCard(props) {
     )
       .split("'")
       .join('"');
-
-    // console.log('NEW UPDATED TYPE FIELDS', updatedFields);
 
     let UPD_TYPE_MUTATION = gql`
         mutation {
@@ -99,7 +93,6 @@ function TypeFieldsCard(props) {
         });
 
         let gqlString = `mutation {${batchArray}}`;
-        // console.log(gqlString);
         let batchMutation = gql`
           ${gqlString}
         `;
@@ -154,8 +147,6 @@ function TypeFieldsCard(props) {
     props.setTableState(!props.tableState);
   }
   async function delField(id) {
-    // console.log('You really gonna delete me', id);
-
     let fixedFields = props.type.fields.map(field => {
       delete field.__typename;
       delete field.id;
@@ -171,8 +162,6 @@ function TypeFieldsCard(props) {
     )
       .split("'")
       .join('"');
-
-    // console.log('UPDATED FIELDS', updatedFields);
 
     let DELETE_TYPE_FIELD_MUTATION = gql`
         mutation {
@@ -297,85 +286,89 @@ function TypeFieldsCard(props) {
   }
   return (
     <div className="fieldsCard">
-      <span>Name: {props.field.name}</span>&nbsp;&nbsp;
-      <span>Value: {'No Default Value' || props.field.value}</span>
-      <Popover
-        key={props.field.id}
-        content={
-          <>
-            <Form
-              size="medium"
-              name="editfield"
-              layout="vertical"
-              onFinish={onFinish}
-            >
-              <Form.Item label="Name" className="label">
-                <Form.Item
-                  name="name"
-                  noStyle
-                  initialValue={props.field.name}
-                  rules={[
-                    { required: true, messsage: 'Name for field required' },
-                  ]}
-                >
-                  <Input style={{ width: 350 }} placeholder="Name" />
-                </Form.Item>
-              </Form.Item>
-              <Form.Item label="Value" className="label">
-                <Form.Item
-                  name="value"
-                  noStyle
-                  initialValue={props.field.value}
-                  rules={[
-                    { required: true, messsage: 'Value for field required' },
-                  ]}
-                >
-                  <Input style={{ width: 350 }} placeholder="Value" />
-                </Form.Item>
-              </Form.Item>
-              <Button
-                width="100%"
-                size="large"
-                type="primary"
-                block
-                htmlType="submit"
+      <div className="line1">
+        <span>Name: {props.field.name}</span>{' '}
+        <Popover
+          key={props.field.id}
+          content={
+            <>
+              <Form
+                size="medium"
+                name="editfield"
+                layout="vertical"
+                onFinish={onFinish}
               >
-                Save
-              </Button>
-            </Form>
-          </>
-        }
-        title="Edit Field"
-        trigger="click"
-      >
-        <i
-          key={props.field.name}
-          style={{ cursor: 'pointer' }}
-          className="far fa-edit"
-        ></i>
-      </Popover>
-      &nbsp;&nbsp;
-      <Popover
-        key={props.field.id}
-        content={
-          <a
-            onClick={() => {
-              delField(props.field.id);
-            }}
-          >
-            {' '}
-            yes{' '}
-          </a>
-        }
-        title="Are you sure?"
-        trigger="click"
-      >
-        <i
-          key={props.field.name + props.field.id}
-          style={{ cursor: 'pointer' }}
-          className="far fa-trash-alt"
-        ></i>
-      </Popover>
+                <Form.Item label="Name" className="label">
+                  <Form.Item
+                    name="name"
+                    noStyle
+                    initialValue={props.field.name}
+                    rules={[
+                      { required: true, messsage: 'Name for field required' },
+                    ]}
+                  >
+                    <Input style={{ width: 350 }} placeholder="Name" />
+                  </Form.Item>
+                </Form.Item>
+                <Form.Item label="Value" className="label">
+                  <Form.Item
+                    name="value"
+                    noStyle
+                    initialValue={props.field.value}
+                    rules={[
+                      { required: true, messsage: 'Value for field required' },
+                    ]}
+                  >
+                    <Input style={{ width: 350 }} placeholder="Value" />
+                  </Form.Item>
+                </Form.Item>
+                <Button
+                  width="100%"
+                  size="large"
+                  type="primary"
+                  block
+                  htmlType="submit"
+                >
+                  Save
+                </Button>
+              </Form>
+            </>
+          }
+          title="Edit Field"
+          trigger="click"
+        >
+          <i
+            key={props.field.name}
+            style={{ cursor: 'pointer' }}
+            className="far fa-edit"
+          ></i>
+        </Popover>
+      </div>
+      <br />
+      <div className="line2">
+        <span>Value: {props.field.value ? props.field.value : 'None'}</span>
+        <Popover
+          key={props.field.id}
+          content={
+            <a
+              onClick={() => {
+                delField(props.field.id);
+              }}
+            >
+              {' '}
+              yes{' '}
+            </a>
+          }
+          title="Are you sure?"
+          trigger="click"
+        >
+          <i
+            key={props.field.name + props.field.id}
+            style={{ cursor: 'pointer' }}
+            className="far fa-trash-alt"
+          ></i>
+        </Popover>
+      </div>
     </div>
   );
 }

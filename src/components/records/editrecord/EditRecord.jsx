@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Space } from 'antd';
+import { Form, Input, Button, Space, List, Divider } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import axios from 'axios';
 import gql from 'graphql-tag';
@@ -17,7 +17,6 @@ const EditRecordForm = props => {
     tableState,
     setTableState,
   } = props;
-  // console.log('edit record form props', address.street);
 
   const geocodekey =
     process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
@@ -30,14 +29,6 @@ const EditRecordForm = props => {
     let address = await axios.get(
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
-
-    let fieldValues = values.fields
-      ? inspect(values.fields)
-          .split("'")
-          .join('"')
-      : '[]';
-
-    console.log('RECORD FIELDS', record);
 
     let fixedFields = record.fields.map(field => {
       delete field.__typename;
@@ -153,7 +144,7 @@ const EditRecordForm = props => {
                 name={['address', 'street']}
                 noStyle
                 initialValue={`${address.street}`}
-                rules={[{ required: true, message: 'Street is Required' }]}
+                rules={[{ required: false, message: 'Street is Recommended' }]}
               >
                 <Input style={{ width: 350 }} placeholder="Street" />
               </Form.Item>
@@ -161,7 +152,7 @@ const EditRecordForm = props => {
                 name={['address', 'city']}
                 noStyle
                 initialValue={address.city}
-                rules={[{ required: true, message: 'City is Required' }]}
+                rules={[{ required: false, message: 'City is Recommended' }]}
               >
                 <Input style={{ width: 350 }} placeholder="City" />
               </Form.Item>
@@ -169,7 +160,9 @@ const EditRecordForm = props => {
                 name={['address', 'state']}
                 noStyle
                 initialValue={address.state}
-                rules={[{ required: true, message: 'State/Province Required' }]}
+                rules={[
+                  { required: false, message: 'State/Province Recommended' },
+                ]}
               >
                 <Input style={{ width: 350 }} placeholder="State/Province" />
               </Form.Item>
@@ -177,7 +170,9 @@ const EditRecordForm = props => {
                 name={['address', 'postal']}
                 noStyle
                 initialValue={address.post}
-                rules={[{ required: false, message: 'Postal Code Required' }]}
+                rules={[
+                  { required: false, message: 'Postal Code Recommended' },
+                ]}
               >
                 <Input style={{ width: 350 }} placeholder="Postal Code" />
               </Form.Item>
@@ -185,24 +180,28 @@ const EditRecordForm = props => {
                 name={['address', 'country']}
                 noStyle
                 initialValue={address.country}
-                rules={[{ required: false, message: 'Country Required' }]}
+                rules={[{ required: false, message: 'Country Recommended' }]}
               >
                 <Input style={{ width: 350 }} placeholder="Country" />
               </Form.Item>
             </Input.Group>
           </Form.Item>
-          {record.fields &&
-            record.fields.map(field => {
-              return (
+          <Divider orientation="left">Fields</Divider>
+          <List
+            bordered
+            dataSource={record.fields}
+            renderItem={item => (
+              <List.Item>
                 <RecordFieldsCard
-                  field={field}
+                  field={item}
                   key={Math.random()}
                   record={record}
                   tableState={tableState}
                   setTableState={setTableState}
                 />
-              );
-            })}
+              </List.Item>
+            )}
+          />
           {/* <Form.List name="fields">
             {(fields, { add, remove }) => {
               return (
