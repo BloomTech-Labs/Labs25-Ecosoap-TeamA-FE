@@ -15,15 +15,15 @@
 
   .recordsTable {
     width: 95%;
-
     margin: 0 auto;
   }
 }
 
 .ant-table-container {
-  height: 78vh;
+  height: 75vh;
+  overflow-y: overlay;
 
-  @media @ipad {
+  @media @iphone {
     height: 80vh;
   }
 }
@@ -38,4 +38,9 @@
 
 .table-layout {
   border: 5px solid red;
+}
+
+.line1, .line2{
+  display:flex;
+  justify-content: space-between;
 }

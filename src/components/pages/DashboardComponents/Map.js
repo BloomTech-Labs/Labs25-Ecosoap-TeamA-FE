@@ -5,7 +5,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import gql from "graphql-tag";
-import { client } from "../../../index.js";
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import { createHttpLink } from 'apollo-link-http';
 import {
   GoogleMap,
   Marker,
@@ -24,6 +26,22 @@ import "@reach/combobox/styles.css";
 import mapStyles from "../../../styles/map-styles";
 import pin from "../../../styles/pin.png" 
 import ItemsCarousel from 'react-items-carousel';
+
+// ApolloClient -----------------------------------------
+const httpLink = createHttpLink({
+  uri: process.env.REACT_APP_GRAPHQL_API
+});
+
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache(),
+  defaultOptions: {
+    query: {
+      fetchPolicy: 'no-cache',
+    },
+  },
+});
+//------------------------------------------------------
 
 // Geocode API Key
 const geocodekey = process.env.REACT_APP_GEO_CODE_KEY;
@@ -268,8 +286,8 @@ const Map = () => {
                     activeItemIndex={activeItemIndex}
                     numberOfCards={3}
                     gutter={8}
-                    leftChevron={<i class="fas fa-arrow-circle-left fa-2x"></i>}
-                    rightChevron={<i class="fas fa-arrow-circle-right fa-2x"></i>}
+                    leftChevron={<i className="fas fa-arrow-circle-left fa-2x"></i>}
+                    rightChevron={<i className="fas fa-arrow-circle-right fa-2x"></i>}
                     outsideChevron
                     chevronWidth={chevronWidth}>   
                   {Object.values(selectedMarker.media).length >= 1 &&
@@ -285,7 +303,7 @@ const Map = () => {
                   </div>
                 </div>
               )}
-            {/*---------------- Info Window starts -------------------*/}  
+            {/*---------------- Info Window ends -------------------*/}  
             </InfoWindow>
         )}
       </GoogleMap>
