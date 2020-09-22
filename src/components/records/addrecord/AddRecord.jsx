@@ -16,6 +16,7 @@ const AddRecordForm = props => {
     tableState,
     setTableState,
     setRecordsState,
+    types
   } = props;
   const geocodekey =
     process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
@@ -85,7 +86,7 @@ const AddRecordForm = props => {
     });
     handleOk();
   }
-
+let typeFields = types.filter(type => type.id === typeId)[0].fields
   return (
     <Form
       size="medium"
@@ -143,6 +144,13 @@ const AddRecordForm = props => {
           </Form.Item>
         </Input.Group>
       </Form.Item>
+      {typeFields.map(field => { 
+        return (
+          <>
+            
+          </>
+        )
+      })}
       <Form.List name="fields">
         {(fields, { add, remove }) => {
           return (
