@@ -7,6 +7,16 @@
   font-weight: 600;
   border-color: #3db64f;
 }
+.ant-btn-primary {
+  color: #fff;
+  background-color: #3db64f;
+  border-color: #3db64f;
+}
+.ant-btn-primary:hover {
+  color: #fff;
+  border-color: #50df65;
+  background-color: #50df65;
+}
 .ant-pagination-item:hover {
   border-color: #3db64f;
 }
@@ -26,10 +36,10 @@
   color: #3db64f;
 }
 .ant-pagination-item-active:focus {
-  border-color: #50df65;
+  border-color: #3db64f;
 }
 .ant-pagination-item-active:focus a {
-  color: #50df65;
+  color: #3db64f;
 }
 .ant-pagination-next:hover .ant-pagination-item-link {
   border-color: #3db64f;
@@ -353,13 +363,12 @@ i.fas {
   margin: 3% auto 2% auto;
 }
 .recordsParent .recordsTable {
-  border: 2px solid purple;
   width: 95%;
   margin: 0 auto;
 }
 .ant-table-container {
-  border: 2px solid red;
   height: 75vh;
+  overflow-y: overlay;
 }
 @media (max-width: 414px) {
   .ant-table-container {
@@ -374,4 +383,9 @@ i.fas {
 }
 .table-layout {
   border: 5px solid red;
+}
+.line1,
+.line2 {
+  display: flex;
+  justify-content: space-between;
 }
