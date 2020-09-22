@@ -7,6 +7,16 @@
   font-weight: 600;
   border-color: #3db64f;
 }
+.ant-btn-primary {
+  color: #fff;
+  background-color: #3db64f;
+  border-color: #3db64f;
+}
+.ant-btn-primary:hover {
+  color: #fff;
+  border-color: #50df65;
+  background-color: #50df65;
+}
 .ant-pagination-item:hover {
   border-color: #3db64f;
 }
@@ -26,10 +36,10 @@
   color: #3db64f;
 }
 .ant-pagination-item-active:focus {
-  border-color: #50df65;
+  border-color: #3db64f;
 }
 .ant-pagination-item-active:focus a {
-  color: #50df65;
+  color: #3db64f;
 }
 .ant-pagination-next:hover .ant-pagination-item-link {
   border-color: #3db64f;
@@ -84,7 +94,7 @@
     margin-top: 4%;
   }
 }
-@media (max-width: 410px) {
+@media (max-width: 414px) {
   .mainHub {
     margin-top: 8%;
   }
@@ -232,13 +242,11 @@
     transform: rotate();
   }
 }
-
 .mapContainer {
   position: relative;
   width: 100%;
   height: 100%;
 }
-
 .typeFilterContainer {
   display: flex;
   flex-direction: column;
@@ -254,7 +262,6 @@
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 .locationSearchBar {
   border: 1px solid green;
   position: absolute;
@@ -266,7 +273,6 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   z-index: 10;
 }
-
 .locationSearchBar input {
   padding: 0.2rem;
   font-size: 1rem;
@@ -274,7 +280,6 @@
   text-align: center;
   outline: none;
 }
-
 .locateMeIcon {
   position: absolute;
   right: 0.3%;
@@ -284,24 +289,21 @@
   z-index: 10;
   outline: none;
 }
-
 .locateMeIcon img {
   width: 40px;
   cursor: pointer;
 }
-
 .infoWindow {
   width: 400px;
 }
-
 .mediaImages {
   cursor: pointer;
   width: 100px;
   height: 150px;
   object-fit: cover;
   border-radius: 5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);}
-
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
 .dialog {
   cursor: pointer;
   position: relative;
@@ -310,7 +312,6 @@
   transform: translateX(-50%);
   top: 20%;
 }
-
 .image {
   cursor: pointer;
   position: absolute;
@@ -318,9 +319,8 @@
   border-radius: 5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.8), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-
 i.fas {
-  color: rgb(63,182,79);
+  color: #3fb64f;
 }
 
 @media (max-width:2000px) {
@@ -333,8 +333,7 @@ i.fas {
     width: 100%;
   }
 }
-
-@media (max-width:700px) {
+@media (max-width: 700px) {
   .locationSearchBar {
     top: 10%;
     width: 90%;
@@ -343,7 +342,6 @@ i.fas {
     width: 90%;
   }
 }
-
 .recordsParent {
   max-height: 100vh;
   height: 100vh;
@@ -362,9 +360,10 @@ i.fas {
   margin: 0 auto;
 }
 .ant-table-container {
-  height: 78vh;
+  height: 75vh;
+  overflow-y: overlay;
 }
-@media (max-width: 1024px) {
+@media (max-width: 414px) {
   .ant-table-container {
     height: 80vh;
   }
@@ -377,4 +376,9 @@ i.fas {
 }
 .table-layout {
   border: 5px solid red;
+}
+.line1,
+.line2 {
+  display: flex;
+  justify-content: space-between;
 }
