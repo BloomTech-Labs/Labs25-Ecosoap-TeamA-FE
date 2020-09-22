@@ -144,41 +144,44 @@ let typeFields = types.filter(type => type.id === typeId)[0].fields
           </Form.Item>
         </Input.Group>
       </Form.Item>
-      {typeFields.map(field => { 
-        return (
-          <>
-            
-          </>
-        )
-      })}
       <Form.List name="fields">
-        {(fields, { add, remove }) => {
+        {typeFields.map(field => {
+          return (
+            <>
+              <Space key={field.key} align="start">
+                <Form.Item
+                  {...field}
+                  name={[field.name, 'name']}
+                  fieldKey={[field.fieldKey, 'name']}
+                  initialValue={field.name}
+                  rules={[{ required: true, message: 'Field Name missing' }]}
+                >
+                  <Input placeholder="Name" />
+                </Form.Item>
+                <Form.Item
+                  {...field}
+                  name={[field.name, 'value']}
+                  fieldKey={[field.fieldKey, 'value']}
+                  rules={[{ required: true, message: 'Field Value missing' }]}
+                >
+                  <Input placeholder="Value" />
+                </Form.Item>
+                <MinusCircleOutlined
+                  onClick={() => {
+                    remove(field.name);
+                  }}
+                />
+              </Space>
+            </>
+          );
+        })}
+      </Form.List>
+      {/* <Form.List name="fields"> */}
+      {/* {(fields, { add, remove }) => {
           return (
             <div>
               {fields.map(field => (
-                <Space key={field.key} align="start">
-                  <Form.Item
-                    {...field}
-                    name={[field.name, 'name']}
-                    fieldKey={[field.fieldKey, 'name']}
-                    rules={[{ required: true, message: 'Field Name missing' }]}
-                  >
-                    <Input placeholder="Name" />
-                  </Form.Item>
-                  <Form.Item
-                    {...field}
-                    name={[field.name, 'value']}
-                    fieldKey={[field.fieldKey, 'value']}
-                    rules={[{ required: true, message: 'Field Value missing' }]}
-                  >
-                    <Input placeholder="Value" />
-                  </Form.Item>
-                  <MinusCircleOutlined
-                    onClick={() => {
-                      remove(field.name);
-                    }}
-                  />
-                </Space>
+                
               ))}
               <Button
                 className="dashedbtn"
@@ -193,8 +196,8 @@ let typeFields = types.filter(type => type.id === typeId)[0].fields
               </Button>
             </div>
           );
-        }}
-      </Form.List>
+        }} */}
+      {/* </Form.List> */}
       <Button width="100%" size="large" type="primary" block htmlType="submit">
         Save
       </Button>
