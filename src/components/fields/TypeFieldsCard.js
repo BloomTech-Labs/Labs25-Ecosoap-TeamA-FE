@@ -187,22 +187,23 @@ function TypeFieldsCard(props) {
         let batchArray = [];
         let counter = 0;
 
-        await props.recordsState.data.recordsByType.map(async record => {
-          let fixedRecordFields = await record.fields.map(field => {
-            delete field.id;
-            delete field.__typename;
-            return field;
-          });
+        if (props.recordsState.data.recordsByType.length > 0) {
+          await props.recordsState.data.recordsByType.map(async record => {
+            let fixedRecordFields = await record.fields.map(field => {
+              delete field.id;
+              delete field.__typename;
+              return field;
+            });
 
-          let replacedFields = inspect(
-            fixedRecordFields.filter(field => {
-              return field.name !== props.field.name;
-            })
-          )
-            .split("'")
-            .join('"');
+            let replacedFields = inspect(
+              fixedRecordFields.filter(field => {
+                return field.name !== props.field.name;
+              })
+            )
+              .split("'")
+              .join('"');
 
-          let BATCH_QUERY = `mutation${counter}: updateRecord(
+            let BATCH_QUERY = `mutation${counter}: updateRecord(
             input: {
               id: "${record.id}"
               name: "${record.name}"
@@ -225,24 +226,25 @@ function TypeFieldsCard(props) {
             }
           }`;
 
-          batchArray.push(BATCH_QUERY);
-          counter += 1;
-        });
-
-        let gqlString = `mutation {${batchArray}}`;
-
-        let batchMutation = gql`
-          ${gqlString}
-        `;
-
-        await client
-          .mutate({ mutation: batchMutation })
-          .then(res => {
-            console.log('DELETED RECORD FIELD RESPONSE: ', res);
-          })
-          .catch(err => {
-            console.log('ERROR', err);
+            batchArray.push(BATCH_QUERY);
+            counter += 1;
           });
+
+          let gqlString = `mutation {${batchArray}}`;
+
+          let batchMutation = gql`
+            ${gqlString}
+          `;
+
+          await client
+            .mutate({ mutation: batchMutation })
+            .then(res => {
+              console.log('DELETED RECORD FIELD RESPONSE: ', res);
+            })
+            .catch(err => {
+              console.log('ERROR', err);
+            });
+        }
       })
       .catch(err => {
         console.log('ERROR', err);
