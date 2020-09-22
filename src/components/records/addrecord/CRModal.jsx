@@ -6,6 +6,7 @@ import AddRecordForm from './AddRecord.jsx';
 import { Modal } from 'antd';
 
 function CRModal(props) {
+  // handle ok, this updates the state and closes the modal
   const handleOk = () => {
     props.setState({ ...props.state, loading: !props.state.loading });
     setTimeout(() => {
@@ -16,6 +17,7 @@ function CRModal(props) {
       });
     }, 500);
   };
+  // the handle cancel function closes the modal
   const handleCancel = () => {
     props.setState({ ...props.state, visible: false });
   };

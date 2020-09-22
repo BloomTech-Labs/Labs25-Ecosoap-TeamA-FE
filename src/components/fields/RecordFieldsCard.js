@@ -75,102 +75,106 @@ function RecordFieldsCard(props) {
 
     console.log('UPDATED FIELDS', updatedFields);
 
-    // let DELETE_Field_MUT = gql`
-    //   mutation {
-    //     updateRecord(
-    //       input: {
-    //         id: "${props.record.id}"
-    //         name: "${props.record.name}"
-    //         coordinates: { latitude: ${props.record.coordinates.latitude}, longitude: ${props.record.coordinates.longitude} }
-    //         fields: ${updatedFields}
-    //       }
-    //     ) {
-    //       record {
-    //         id
-    //         name
-    //         coordinates {
-    //           latitude
-    //           longitude
-    //         }
-    //         fields {
-    //           id
-    //           name
-    //           value
-    //         }
-    //       }
-    //     }
-    //   }
-    // `;
+    let DELETE_Field_MUT = gql`
+      mutation {
+        updateRecord(
+          input: {
+            id: "${props.record.id}"
+            name: "${props.record.name}"
+            coordinates: { latitude: ${props.record.coordinates.latitude}, longitude: ${props.record.coordinates.longitude} }
+            fields: ${updatedFields}
+          }
+        ) {
+          record {
+            id
+            name
+            coordinates {
+              latitude
+              longitude
+            }
+            fields {
+              id
+              name
+              value
+            }
+          }
+        }
+      }
+    `;
   }
   return (
     <div className="fieldsCard">
-      <span>Name: {props.field.name}</span> &nbsp;&nbsp;
-      <span>Value: {props.field.value}</span>
-      <Popover
-        key={props.field.id}
-        content={
-          <>
-            <Form
-              size="medium"
-              name="editfield"
-              layout="vertical"
-              onFinish={onFinish}
-            >
-              <Form.Item label="Value" className="label">
-                <Form.Item
-                  name="value"
-                  noStyle
-                  initialValue={props.field.value}
-                  rules={[
-                    { required: true, messsage: 'Value for field required' },
-                  ]}
-                >
-                  <Input style={{ width: 350 }} placeholder="Value" />
-                </Form.Item>
-              </Form.Item>
-              <Button
-                width="100%"
-                size="large"
-                type="primary"
-                block
-                htmlType="submit"
+      <div className="line1">
+        <span>Name: {props.field.name}</span>
+        <Popover
+          key={props.field.id}
+          content={
+            <>
+              <Form
+                size="medium"
+                name="editfield"
+                layout="vertical"
+                onFinish={onFinish}
               >
-                Save
-              </Button>
-            </Form>
-          </>
-        }
-        title="Edit Field"
-        trigger="click"
-      >
-        <i
-          key={props.field.name}
-          style={{ cursor: 'pointer' }}
-          className="far fa-edit"
-        ></i>
-      </Popover>
-      {/* &nbsp;&nbsp;
-      <Popover
-        key={Math.random()}
-        content={
-          <a
-            onClick={() => {
-              delField(props.field.id);
-            }}
-          >
-            {' '}
-            yes{' '}
-          </a>
-        }
-        title="Are you sure?"
-        trigger="click"
-      >
-        <i
-          key={props.field.name + props.field.id}
-          style={{ cursor: 'pointer' }}
-          className="far fa-trash-alt"
-        ></i>
-      </Popover> */}
+                <Form.Item label="Value" className="label">
+                  <Form.Item
+                    name="value"
+                    noStyle
+                    initialValue={props.field.value}
+                    rules={[
+                      { required: true, messsage: 'Value for field required' },
+                    ]}
+                  >
+                    <Input style={{ width: 350 }} placeholder="Value" />
+                  </Form.Item>
+                </Form.Item>
+                <Button
+                  width="100%"
+                  size="large"
+                  type="primary"
+                  block
+                  htmlType="submit"
+                >
+                  Save
+                </Button>
+              </Form>
+            </>
+          }
+          title="Edit Field"
+          trigger="click"
+        >
+          <i
+            key={props.field.name}
+            style={{ cursor: 'pointer' }}
+            className="far fa-edit"
+          ></i>
+        </Popover>
+      </div>
+      <br />
+      <div className="line2">
+        <span>Value: {props.field.value}</span>
+        <Popover
+          key={Math.random()}
+          content={
+            <a
+              onClick={() => {
+                delField(props.field.id);
+              }}
+            >
+              {' '}
+              yes{' '}
+            </a>
+          }
+          title="Are you sure?"
+          trigger="click"
+        >
+          <i
+            key={props.field.name + props.field.id}
+            style={{ cursor: 'pointer' }}
+            className="far fa-trash-alt"
+          ></i>
+        </Popover>
+      </div>
     </div>
   );
 }
