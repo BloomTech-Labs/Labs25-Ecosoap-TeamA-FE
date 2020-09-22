@@ -193,22 +193,6 @@ const EditTypeForm = props => {
               </List.Item>
             )}
           />
-          {type.fields &&
-            type.fields.map(field => {
-              return (
-                <TypeFieldsCard
-                  key={Math.random()}
-                  field={field}
-                  type={type}
-                  setType={setType}
-                  setTypes={setTypes}
-                  recordsState={recordsState}
-                  setRecordsState={setRecordsState}
-                  tableState={tableState}
-                  setTableState={setTableState}
-                />
-              );
-            })}
           <Form.List name="fields">
             {(fields, { add, remove }) => {
               return (

@@ -30,14 +30,6 @@ const EditRecordForm = props => {
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
 
-    let fieldValues = values.fields
-      ? inspect(values.fields)
-          .split("'")
-          .join('"')
-      : '[]';
-
-    console.log('RECORD FIELDS', record);
-
     let fixedFields = record.fields.map(field => {
       delete field.__typename;
       delete field.id;
@@ -168,7 +160,9 @@ const EditRecordForm = props => {
                 name={['address', 'state']}
                 noStyle
                 initialValue={address.state}
-                rules={[{ required: false, message: 'State/Province Recommended' }]}
+                rules={[
+                  { required: false, message: 'State/Province Recommended' },
+                ]}
               >
                 <Input style={{ width: 350 }} placeholder="State/Province" />
               </Form.Item>
@@ -176,7 +170,9 @@ const EditRecordForm = props => {
                 name={['address', 'postal']}
                 noStyle
                 initialValue={address.post}
-                rules={[{ required: false, message: 'Postal Code Recommended' }]}
+                rules={[
+                  { required: false, message: 'Postal Code Recommended' },
+                ]}
               >
                 <Input style={{ width: 350 }} placeholder="Postal Code" />
               </Form.Item>
@@ -190,9 +186,12 @@ const EditRecordForm = props => {
               </Form.Item>
             </Input.Group>
           </Form.Item>
-          {record.fields &&
-            record.fields.map(field => {
-              return (
+          <Divider orientation="left">Fields</Divider>
+          <List
+            bordered
+            dataSource={record.fields}
+            renderItem={item => (
+              <List.Item>
                 <RecordFieldsCard
                   field={field}
                   key={Math.random()}
@@ -200,8 +199,9 @@ const EditRecordForm = props => {
                   tableState={tableState}
                   setTableState={setTableState}
                 />
-              );
-            })}
+              </List.Item>
+            )}
+          />
           {/* <Form.List name="fields">
             {(fields, { add, remove }) => {
               return (
