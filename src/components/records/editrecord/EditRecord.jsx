@@ -16,6 +16,7 @@ const EditRecordForm = props => {
     address,
     tableState,
     setTableState,
+    types,
   } = props;
 
   const geocodekey =
@@ -202,6 +203,7 @@ const EditRecordForm = props => {
               </List.Item>
             )}
           />
+
           {/* <Form.List name="fields">
             {(fields, { add, remove }) => {
               return (

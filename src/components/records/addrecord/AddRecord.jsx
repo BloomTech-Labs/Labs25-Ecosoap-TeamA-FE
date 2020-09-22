@@ -1,13 +1,14 @@
 // DEPENDENCY IMPORTS
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { inspect } from 'util';
 // GRAPHQL IMPORTS
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
 // STYLING IMPORTS
-import { Form, Input, Button, Space } from 'antd';
+import { Form, Input, Button, Space, Divider, List } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import AddRecordFieldsCard from './AddRecordFieldsCard';
 
 const AddRecordForm = props => {
   const {
@@ -16,10 +17,27 @@ const AddRecordForm = props => {
     tableState,
     setTableState,
     setRecordsState,
+    types,
   } = props;
+  const [fields, setFields] = useState([]);
+  const typeFields = types.filter(type => type.id === typeId)[0].fields;
+  console.log('TYPEFIELDS', typeFields);
   const geocodekey =
     process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
   async function onFinish(values) {
+    console.log('FIELDS in ADD', values);
+    let keys = Object.keys(values);
+    let valuesagain = Object.values(typeFields);
+
+    let fieldsSomething = valuesagain.map(field => {
+      console.log('FIELD FROM MAP', field);
+      console.log('VALUES FIELD IN MAP', values[field]);
+      return values.hasOwnProperty(`${field.name}`)
+        ? { name: field.name, value: values[`${field.name}`] }
+        : field;
+    });
+    console.log('FIELDSSOMETHING', fieldsSomething);
+    // console.log('keys', keys);
     let city = values.address.city || '';
     let country = values.address.country || '';
     let state = values.address.state || '';
@@ -28,8 +46,8 @@ const AddRecordForm = props => {
     let address = await axios.get(
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
-    let fieldValues = values.fields
-      ? inspect(values.fields)
+    let fieldValues = fieldsSomething
+      ? inspect(fieldsSomething)
           .split("'")
           .join('"')
       : '[]';
@@ -143,7 +161,25 @@ const AddRecordForm = props => {
           </Form.Item>
         </Input.Group>
       </Form.Item>
-      <Form.List name="fields">
+      <Divider orientation="left">Fields</Divider>
+      <List
+        bordered
+        dataSource={typeFields}
+        renderItem={item => (
+          <List.Item>
+            <AddRecordFieldsCard
+              field={item}
+              key={Math.random()}
+              tableState={tableState}
+              setTableState={setTableState}
+              typeFields={typeFields}
+              setFields={setFields}
+              fields={fields}
+            />
+          </List.Item>
+        )}
+      />
+      {/* <Form.List name="fields">
         {(fields, { add, remove }) => {
           return (
             <div>
@@ -186,7 +222,7 @@ const AddRecordForm = props => {
             </div>
           );
         }}
-      </Form.List>
+      </Form.List>*/}
       <Button width="100%" size="large" type="primary" block htmlType="submit">
         Save
       </Button>

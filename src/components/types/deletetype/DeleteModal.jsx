@@ -36,6 +36,9 @@ function DeleteModal(props) {
       props.setTypes(res.data.types);
       props.setTypeId(res.data.types[0].id);
     });
+    let current = document.getElementById('active');
+    current.id = '';
+    document.getElementsByClassName('navBtn')[1].id = 'active';
     handleOk();
   }
   const handleCancel = () => {

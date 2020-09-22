@@ -53,6 +53,11 @@ const AddTypeForm = props => {
         setTypeId(res.data.types[res.data.types.length - 1].id);
       })
       .catch(err => console.log(err));
+
+    let current = document.getElementById('active');
+    current.id = '';
+    let buttons = document.getElementsByClassName('navBtn');
+    buttons[buttons.length - 1].id = 'active';
     handleOk();
   }
   return (

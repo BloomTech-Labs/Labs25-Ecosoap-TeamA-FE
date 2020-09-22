@@ -11,6 +11,7 @@ import { Button, Table, Space } from 'antd';
 
 function RenderRecords(props) {
   const {
+    types,
     typeId,
     tableState,
     setTableState,
@@ -108,6 +109,7 @@ function RenderRecords(props) {
                   setRecordsState={setRecordsState}
                   tableState={tableState}
                   setTableState={setTableState}
+                  types={types}
                 />
               </Space>
             ),
