@@ -8,7 +8,14 @@ import { Popover } from 'antd';
 
 const RecordCard = props => {
   // const {record, emstate, typeId, setEMState, setRecordsState} = props;
-  const { record, typeId, setRecordsState, tableState, setTableState } = props;
+  const {
+    record,
+    typeId,
+    setRecordsState,
+    tableState,
+    setTableState,
+    types,
+  } = props;
 
   // eit modal state for visibility
   const [emstate, setEMState] = useState({ visible: false, loading: false });
@@ -95,6 +102,7 @@ const RecordCard = props => {
             setRecordsState={setRecordsState}
             tableState={tableState}
             setTableState={setTableState}
+            types={types}
           />
         </>
       )}
