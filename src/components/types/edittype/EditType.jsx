@@ -140,6 +140,8 @@ const EditTypeForm = props => {
       .catch(err => {
         console.log('CREATE_ERROR', err);
       });
+    var target = document.getElementsByClassName(`${type.id}`)[0];
+    target.id = 'active';
     handleOk();
   }
   return (
