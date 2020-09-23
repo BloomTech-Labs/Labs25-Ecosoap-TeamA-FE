@@ -4,9 +4,8 @@ frontend:
     preBuild:
       commands:
         - rm -rf node_modules
-        - npm install
         - nvm use $VERSION_NODE_12
-        - npm ci
+        - npm i
     build:
       commands:
         - nvm use $VERSION_NODE_12
