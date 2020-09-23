@@ -6,8 +6,7 @@ import { inspect } from 'util';
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
 // STYLING IMPORTS
-import { Form, Input, Button, Space, Divider, List } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Divider, List } from 'antd';
 import AddRecordFieldsCard from './AddRecordFieldsCard';
 
 const AddRecordForm = props => {
@@ -21,23 +20,16 @@ const AddRecordForm = props => {
   } = props;
   const [fields, setFields] = useState([]);
   const typeFields = types.filter(type => type.id === typeId)[0].fields;
-  console.log('TYPEFIELDS', typeFields);
   const geocodekey =
     process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
   async function onFinish(values) {
-    console.log('FIELDS in ADD', values);
-    let keys = Object.keys(values);
     let valuesagain = Object.values(typeFields);
 
     let fieldsSomething = valuesagain.map(field => {
-      console.log('FIELD FROM MAP', field);
-      console.log('VALUES FIELD IN MAP', values[field]);
       return values.hasOwnProperty(`${field.name}`)
         ? { name: field.name, value: values[`${field.name}`] }
         : field;
     });
-    console.log('FIELDSSOMETHING', fieldsSomething);
-    // console.log('keys', keys);
     let city = values.address.city || '';
     let country = values.address.country || '';
     let state = values.address.state || '';
@@ -51,7 +43,6 @@ const AddRecordForm = props => {
           .split("'")
           .join('"')
       : '[]';
-    // console.log(fieldValues);
     let NEW_RECORD_MUT = gql`
       mutation {
         createRecord(
@@ -93,10 +84,7 @@ const AddRecordForm = props => {
       }
     }
   `;
-    await client
-      .mutate({ mutation: NEW_RECORD_MUT })
-      .then(console.log)
-      .catch(console.log);
+    await client.mutate({ mutation: NEW_RECORD_MUT }).catch(console.log);
     client.query({ query: RECORDS_QUERY }).then(res => {
       setRecordsState(res);
       setTableState(!tableState);
@@ -179,50 +167,6 @@ const AddRecordForm = props => {
           </List.Item>
         )}
       />
-      {/* <Form.List name="fields">
-        {(fields, { add, remove }) => {
-          return (
-            <div>
-              {fields.map(field => (
-                <Space key={field.key} align="start">
-                  <Form.Item
-                    {...field}
-                    name={[field.name, 'name']}
-                    fieldKey={[field.fieldKey, 'name']}
-                    rules={[{ required: true, message: 'Field Name missing' }]}
-                  >
-                    <Input placeholder="Name" />
-                  </Form.Item>
-                  <Form.Item
-                    {...field}
-                    name={[field.name, 'value']}
-                    fieldKey={[field.fieldKey, 'value']}
-                    rules={[{ required: true, message: 'Field Value missing' }]}
-                  >
-                    <Input placeholder="Value" />
-                  </Form.Item>
-                  <MinusCircleOutlined
-                    onClick={() => {
-                      remove(field.name);
-                    }}
-                  />
-                </Space>
-              ))}
-              <Button
-                className="dashedbtn"
-                width="350"
-                type="dashed"
-                block
-                onClick={() => {
-                  add();
-                }}
-              >
-                <PlusOutlined /> Add Fields
-              </Button>
-            </div>
-          );
-        }}
-      </Form.List>*/}
       <Button width="100%" size="large" type="primary" block htmlType="submit">
         Save
       </Button>

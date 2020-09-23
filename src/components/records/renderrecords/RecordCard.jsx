@@ -7,7 +7,6 @@ import EditModal from '../editrecord/EditRecordModal.jsx';
 import { Popover } from 'antd';
 
 const RecordCard = props => {
-  // const {record, emstate, typeId, setEMState, setRecordsState} = props;
   const {
     record,
     typeId,
@@ -33,11 +32,16 @@ const RecordCard = props => {
           }
         }
       `;
-    await client.mutate({ mutation: DEL_REC }).then(console.log);
-    client.query({ query: RECORDS_QUERY }).then(res => {
-      setRecordsState(res);
-      setTableState(!tableState);
-    });
+    await client.mutate({ mutation: DEL_REC }).catch(console.log);
+    client
+      .query({ query: RECORDS_QUERY })
+      .then(res => {
+        setRecordsState(res);
+        setTableState(!tableState);
+      })
+      .catch(err => {
+        console.log('ERROR', err);
+      });
   }
   // query to get all records by typeid
   let RECORDS_QUERY = gql`
