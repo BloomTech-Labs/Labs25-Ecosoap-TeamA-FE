@@ -1,17 +1,8 @@
-import React, { useState } from 'react';
-
-import { Form, Input, Button, Space, List, Divider } from 'antd';
-import { SingleFieldSubscriptionsRule } from 'graphql';
+import React from 'react';
+import { Form, Input } from 'antd';
 
 const AddRecordFieldsCard = props => {
-  const { typeFields, setFields, field, fields } = props;
-  //   const [disabled, setDisabled] = useState(false);
-  //   const onFinish = async values => {
-  //     let fieldsObj = { name: field.name, value: values.value };
-  //     console.log(fieldsObj);
-  //     setDisabled(!disabled);
-  //     await setFields([...fields, fieldsObj]);
-  //   };
+  const { field } = props;
   return (
     <div>
       <Form.Item label={field.name} style={{ width: '100%' }} className="label">

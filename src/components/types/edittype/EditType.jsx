@@ -65,7 +65,6 @@ const EditTypeForm = props => {
               : type
           )
         );
-        console.log('RECORD STATE: ', recordsState);
 
         let batchArray = [];
 
@@ -127,9 +126,6 @@ const EditTypeForm = props => {
           await client
             .mutate({
               mutation: batchMutation,
-            })
-            .then(res => {
-              console.log('UPDATE RECORD RESPONSE: ', res);
             })
             .catch(err => {
               console.log('ERROR: ', err);
@@ -208,6 +204,22 @@ const EditTypeForm = props => {
                         fieldKey={[field.fieldKey, 'name']}
                         rules={[
                           { required: true, message: 'Field Name missing' },
+                          ({ getFieldValue }) => ({
+                            validator(rule, value, callback) {
+                              let fieldValTypes = types.filter(
+                                typ => typ.id === type.id
+                              )[0].fields;
+
+                              fieldValTypes.map(field => {
+                                if (field.name === value) {
+                                  callback(
+                                    'There is already a field with that name!'
+                                  );
+                                }
+                                callback();
+                              });
+                            },
+                          }),
                         ]}
                       >
                         <Input placeholder="Name" />

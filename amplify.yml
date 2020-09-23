@@ -3,18 +3,17 @@ frontend:
   phases:
     preBuild:
       commands:
-        - rm -rf node_modules
         - nvm use $VERSION_NODE_12
+        - npm ci
     build:
       commands:
         - nvm use $VERSION_NODE_12
-        - npm i
         - node -v
         - npm run-script build
   artifacts:
     baseDirectory: build
     files:
       - '**/*'
-#   cache:
-#     paths:
-#       - node_modules/**/*
+  cache:
+    paths:
+      - node_modules/**/*

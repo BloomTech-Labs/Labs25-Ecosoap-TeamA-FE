@@ -36,7 +36,6 @@ const TypeButton = props => {
       <p
         className="popoverp"
         onClick={async e => {
-          // console.log(e);
           var current = document.getElementById('active');
           current.id = '';
           var target = document.getElementsByClassName(`${type.id}`)[0];
@@ -54,7 +53,6 @@ const TypeButton = props => {
         className="popoverp"
         style={{ color: 'red', cursor: 'pointer' }}
         onClick={async e => {
-          // console.log(e);
           var current = document.getElementById('active');
           current.id = '';
           var target = document.getElementsByClassName(`${type.id}`)[0];
@@ -82,11 +80,10 @@ const TypeButton = props => {
         key={type.id}
         className={buttonClass}
         onClick={e => {
-          // console.log(e);
           setTypeName(type.name);
           setTypeId(type.id);
           setMapState(false);
-          props.activeStyles(type.id);
+          activeStyles(type.id);
         }}
         style={{ cursor: 'pointer' }}
       >

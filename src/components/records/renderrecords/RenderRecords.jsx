@@ -22,7 +22,6 @@ function RenderRecords(props) {
   let [columns, setColumns] = useState([]);
   let [typeName, setTypeName] = useState('');
 
-  // let [recordsState, setRecordsState] = useState(null);
   // create modal state for visibility
   const [crmstate, setCRMState] = useState({ visible: false, loading: false });
   function showCRMButton() {
@@ -53,7 +52,6 @@ function RenderRecords(props) {
     client
       .query({ query: RECORDS_QUERY })
       .then(res => {
-        // console.log('RECORD RESPONSE', res);
         setRecordsState(res);
         // Setting DataSource for Table
 
