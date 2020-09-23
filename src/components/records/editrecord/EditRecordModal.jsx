@@ -99,6 +99,7 @@ function EditModal(props) {
           setRecordsState={props.setRecordsState}
           tableState={props.tableState}
           setTableState={props.setTableState}
+          types={props.types}
         />
       </Modal>
     </div>

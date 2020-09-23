@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Popover, Form, Input, Button } from 'antd';
 import gql from 'graphql-tag';
 import { client } from '../../index';
@@ -17,7 +17,6 @@ function RecordFieldsCard(props) {
     )
       .split("'")
       .join('"');
-
     let UPD_RECORD_MUT = gql`
       mutation {
         updateRecord(
@@ -95,7 +94,6 @@ function RecordFieldsCard(props) {
         }
       }
     `;
-
     client
       .mutate({ mutation: DELETE_Field_MUT })
       .then(res => {
@@ -128,7 +126,7 @@ function RecordFieldsCard(props) {
                       { required: true, messsage: 'Value for field required' },
                     ]}
                   >
-                    <Input style={{ width: 350 }} placeholder="Value" />
+                    <Input style={{ width: 300 }} placeholder="Value" />
                   </Form.Item>
                 </Form.Item>
                 <Button

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Popover, Form, Input, Button } from 'antd';
 import { client } from '../../index';
 import gql from 'graphql-tag';
@@ -18,7 +18,6 @@ function TypeFieldsCard(props) {
     )
       .split("'")
       .join('"');
-
     let UPD_TYPE_MUTATION = gql`
         mutation {
             updateType(input: {id: "${props.type.id}" name: "${props.type.name}", icon: "${props.type.icon}", fields: ${updatedFields}}){
@@ -41,29 +40,30 @@ function TypeFieldsCard(props) {
         let batchArray = [];
         let counter = 0;
 
-        await props.recordsState.data.recordsByType.map(async record => {
-          let fixedRecordFields = await record.fields.map(field => {
-            delete field.id;
-            delete field.__typename;
-            return field;
-          });
-
-          let replacedFields =
-            props.field &&
-            fixedRecordFields.map(field => {
-              return field.name === props.field.name
-                ? {
-                    name: values.name,
-                    value: field.value,
-                  }
-                : field;
+        if (props.recordsState.data.recordsByType.length > 0) {
+          await props.recordsState.data.recordsByType.map(async record => {
+            let fixedRecordFields = await record.fields.map(field => {
+              delete field.id;
+              delete field.__typename;
+              return field;
             });
 
-          let recordFields = inspect(replacedFields)
-            .split("'")
-            .join('"');
+            let replacedFields =
+              props.field &&
+              fixedRecordFields.map(field => {
+                return field.name === props.field.name
+                  ? {
+                      name: values.name,
+                      value: field.value,
+                    }
+                  : field;
+              });
 
-          let BATCH_QUERY = `mutation${counter}: updateRecord(
+            let recordFields = inspect(replacedFields)
+              .split("'")
+              .join('"');
+
+            let BATCH_QUERY = `mutation${counter}: updateRecord(
             input: {
               id: "${record.id}"
               name: "${record.name}"
@@ -86,18 +86,19 @@ function TypeFieldsCard(props) {
             }
           }`;
 
-          batchArray.push(BATCH_QUERY);
-          counter += 1;
-        });
+            batchArray.push(BATCH_QUERY);
+            counter += 1;
+          });
 
-        let gqlString = `mutation {${batchArray}}`;
-        let batchMutation = gql`
-          ${gqlString}
-        `;
+          let gqlString = `mutation {${batchArray}}`;
+          let batchMutation = gql`
+            ${gqlString}
+          `;
 
-        await client.mutate({ mutation: batchMutation }).catch(err => {
-          console.log('ERROR', err);
-        });
+          await client.mutate({ mutation: batchMutation }).catch(err => {
+            console.log('ERROR', err);
+          });
+        }
       })
       .catch(err => {
         console.log('ERROR', err);
@@ -174,22 +175,23 @@ function TypeFieldsCard(props) {
         let batchArray = [];
         let counter = 0;
 
-        await props.recordsState.data.recordsByType.map(async record => {
-          let fixedRecordFields = await record.fields.map(field => {
-            delete field.id;
-            delete field.__typename;
-            return field;
-          });
+        if (props.recordsState.data.recordsByType.length > 0) {
+          await props.recordsState.data.recordsByType.map(async record => {
+            let fixedRecordFields = await record.fields.map(field => {
+              delete field.id;
+              delete field.__typename;
+              return field;
+            });
 
-          let replacedFields = inspect(
-            fixedRecordFields.filter(field => {
-              return field.name !== props.field.name;
-            })
-          )
-            .split("'")
-            .join('"');
+            let replacedFields = inspect(
+              fixedRecordFields.filter(field => {
+                return field.name !== props.field.name;
+              })
+            )
+              .split("'")
+              .join('"');
 
-          let BATCH_QUERY = `mutation${counter}: updateRecord(
+            let BATCH_QUERY = `mutation${counter}: updateRecord(
             input: {
               id: "${record.id}"
               name: "${record.name}"
@@ -212,19 +214,20 @@ function TypeFieldsCard(props) {
             }
           }`;
 
-          batchArray.push(BATCH_QUERY);
-          counter += 1;
-        });
+            batchArray.push(BATCH_QUERY);
+            counter += 1;
+          });
 
-        let gqlString = `mutation {${batchArray}}`;
+          let gqlString = `mutation {${batchArray}}`;
 
-        let batchMutation = gql`
-          ${gqlString}
-        `;
+          let batchMutation = gql`
+            ${gqlString}
+          `;
 
-        await client.mutate({ mutation: batchMutation }).catch(err => {
-          console.log('ERROR', err);
-        });
+          await client.mutate({ mutation: batchMutation }).catch(err => {
+            console.log('ERROR', err);
+          });
+        }
       })
       .catch(err => {
         console.log('ERROR', err);
@@ -285,9 +288,25 @@ function TypeFieldsCard(props) {
                     initialValue={props.field.name}
                     rules={[
                       { required: true, messsage: 'Name for field required' },
+                      ({ getFieldValue }) => ({
+                        validator(rule, value, callback) {
+                          let fieldValTypes = props.types.filter(
+                            typ => typ.id === props.type.id
+                          )[0].fields;
+
+                          fieldValTypes.map(field => {
+                            if (field.name === value) {
+                              callback(
+                                'There is already a field with that name!'
+                              );
+                            }
+                            callback();
+                          });
+                        },
+                      }),
                     ]}
                   >
-                    <Input style={{ width: 350 }} placeholder="Name" />
+                    <Input style={{ width: 300 }} placeholder="Name" />
                   </Form.Item>
                 </Form.Item>
                 <Form.Item label="Value" className="label">
@@ -299,7 +318,7 @@ function TypeFieldsCard(props) {
                       { required: true, messsage: 'Value for field required' },
                     ]}
                   >
-                    <Input style={{ width: 350 }} placeholder="Value" />
+                    <Input style={{ width: 300 }} placeholder="Value" />
                   </Form.Item>
                 </Form.Item>
                 <Button

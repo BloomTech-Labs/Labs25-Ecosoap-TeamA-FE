@@ -1,6 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Space, List, Divider } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, Input, Button, List, Divider } from 'antd';
 import axios from 'axios';
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
@@ -100,9 +99,7 @@ const EditRecordForm = props => {
       }
     }
   `;
-    await client
-      .mutate({ mutation: UPD_RECORD_MUT })
-      .catch(console.log);
+    await client.mutate({ mutation: UPD_RECORD_MUT }).catch(console.log);
     client.query({ query: RECORDS_QUERY }).then(res => {
       setRecordsState(res);
       setTableState(!tableState);

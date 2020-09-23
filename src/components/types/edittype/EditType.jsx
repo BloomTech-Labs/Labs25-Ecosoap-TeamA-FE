@@ -5,7 +5,7 @@ import { inspect } from 'util';
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
 // STYLING IMPORTS
-import { Form, Input, Button, Space, List, Divider } from 'antd'
+import { Form, Input, Button, Space, List, Divider } from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import TypeFieldsCard from '../../fields/TypeFieldsCard.js';
 
@@ -21,11 +21,13 @@ const EditTypeForm = props => {
     recordsState,
     setRecordsState,
   } = props;
+
   async function onFinish(values) {
     let fixedFields = type.fields.map(field => {
       delete field.__typename;
       return field;
     });
+
     let typeFields = values.fields
       ? type.fields || values.fields
         ? inspect([...fixedFields, ...values.fields])
@@ -68,36 +70,33 @@ const EditTypeForm = props => {
 
         let counter = 0;
 
-        recordsState &&
-          (await recordsState.data.recordsByType.map(async record => {
-            let fixedRecordFields = await record.fields.map(field => {
-              delete field.id;
-              delete field.__typename;
-              return field;
-            });
+        if (recordsState.data.recordsByType.length > 0) {
+          recordsState &&
+            (await recordsState.data.recordsByType.map(async record => {
+              let fixedRecordFields = await record.fields.map(field => {
+                delete field.id;
+                delete field.__typename;
+                return field;
+              });
 
-            let recordFields = values.fields
-              ? fixedRecordFields
-                ? inspect([...fixedRecordFields, ...values.fields])
+              let recordFields = values.fields
+                ? fixedRecordFields
+                  ? inspect([...fixedRecordFields, ...values.fields])
+                      .split("'")
+                      .join('"')
+                  : '[]'
+                : fixedRecordFields || values.fields
+                ? inspect([...fixedRecordFields])
                     .split("'")
                     .join('"')
-                : '[]'
-              : fixedRecordFields || values.fields
-              ? inspect([...fixedRecordFields])
-                  .split("'")
-                  .join('"')
-              : '[]';
+                : '[]';
 
-            let BATCH_QUERY = `mutation${counter}: updateRecord(
+              let BATCH_QUERY = `mutation${counter}: updateRecord(
               input: {
                 id: "${record.id}"
                 name: "${record.name}"
-                coordinates: { latitude: ${
-                  record.coordinates.latitude
-                }, longitude: ${record.coordinates.longitude} }
-                fields: ${
-                  recordFields
-                }
+                coordinates: { latitude: ${record.coordinates.latitude}, longitude: ${record.coordinates.longitude} }
+                fields: ${recordFields}
               }
             ) {
               record {
@@ -114,28 +113,31 @@ const EditTypeForm = props => {
                 }
               }
             }`;
-            batchArray.push(BATCH_QUERY);
-            counter += 1;
-          }));
+              batchArray.push(BATCH_QUERY);
+              counter += 1;
+            }));
 
-        let gqlString = `mutation {${batchArray}}`;
+          let gqlString = `mutation {${batchArray}}`;
 
-        let batchMutation = gql`
-          ${gqlString}
-        `;
+          let batchMutation = gql`
+            ${gqlString}
+          `;
 
-        await client
-          .mutate({
-            mutation: batchMutation,
-          })
-          .catch(err => {
-            console.log('ERROR: ', err);
-          });
+          await client
+            .mutate({
+              mutation: batchMutation,
+            })
+            .catch(err => {
+              console.log('ERROR: ', err);
+            });
+        }
         setTableState(!tableState);
       })
       .catch(err => {
         console.log('CREATE_ERROR', err);
       });
+    var target = document.getElementsByClassName(`${type.id}`)[0];
+    target.id = 'active';
     handleOk();
   }
   return (
@@ -179,6 +181,7 @@ const EditTypeForm = props => {
                   key={Math.random()}
                   field={item}
                   type={type}
+                  types={types}
                   setType={setType}
                   setTypes={setTypes}
                   recordsState={recordsState}
@@ -201,6 +204,22 @@ const EditTypeForm = props => {
                         fieldKey={[field.fieldKey, 'name']}
                         rules={[
                           { required: true, message: 'Field Name missing' },
+                          ({ getFieldValue }) => ({
+                            validator(rule, value, callback) {
+                              let fieldValTypes = types.filter(
+                                typ => typ.id === type.id
+                              )[0].fields;
+
+                              fieldValTypes.map(field => {
+                                if (field.name === value) {
+                                  callback(
+                                    'There is already a field with that name!'
+                                  );
+                                }
+                                callback();
+                              });
+                            },
+                          }),
                         ]}
                       >
                         <Input placeholder="Name" />

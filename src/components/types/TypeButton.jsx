@@ -14,6 +14,8 @@ const TypeButton = props => {
     activeStyles,
   } = props;
 
+  let buttonClass = `navBtn ${type.id}`;
+
   // EDIT MODAL => STATE AND SHOW BUTTON FUNCTION
   function showEMButton() {
     setEMState({
@@ -34,6 +36,10 @@ const TypeButton = props => {
       <p
         className="popoverp"
         onClick={async e => {
+          var current = document.getElementById('active');
+          current.id = '';
+          var target = document.getElementsByClassName(`${type.id}`)[0];
+          target.id = 'active';
           await setTypeId(type.id);
           await setTypeName(type.name);
           await setMapState(false);
@@ -47,7 +53,10 @@ const TypeButton = props => {
         className="popoverp"
         style={{ color: 'red', cursor: 'pointer' }}
         onClick={async e => {
-
+          var current = document.getElementById('active');
+          current.id = '';
+          var target = document.getElementsByClassName(`${type.id}`)[0];
+          target.id = 'active';
           await setTypeId(type.id);
           await setTypeName(type.name);
           await setMapState(false);
@@ -69,12 +78,12 @@ const TypeButton = props => {
     >
       <Button
         key={type.id}
-        className="navBtn"
+        className={buttonClass}
         onClick={e => {
           setTypeName(type.name);
           setTypeId(type.id);
           setMapState(false);
-          props.activeStyles(e);
+          activeStyles(type.id);
         }}
         style={{ cursor: 'pointer' }}
       >
