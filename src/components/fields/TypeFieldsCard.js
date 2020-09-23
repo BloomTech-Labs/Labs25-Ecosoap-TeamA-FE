@@ -339,7 +339,7 @@ function TypeFieldsCard(props) {
                       }),
                     ]}
                   >
-                    <Input style={{ width: 350 }} placeholder="Name" />
+                    <Input style={{ width: 300 }} placeholder="Name" />
                   </Form.Item>
                 </Form.Item>
                 <Form.Item label="Value" className="label">
@@ -351,7 +351,7 @@ function TypeFieldsCard(props) {
                       { required: true, messsage: 'Value for field required' },
                     ]}
                   >
-                    <Input style={{ width: 350 }} placeholder="Value" />
+                    <Input style={{ width: 300 }} placeholder="Value" />
                   </Form.Item>
                 </Form.Item>
                 <Button

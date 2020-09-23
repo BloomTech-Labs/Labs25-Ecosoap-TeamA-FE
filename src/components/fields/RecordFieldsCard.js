@@ -138,7 +138,7 @@ function RecordFieldsCard(props) {
                       { required: true, messsage: 'Value for field required' },
                     ]}
                   >
-                    <Input style={{ width: 350 }} placeholder="Value" />
+                    <Input style={{ width: 300 }} placeholder="Value" />
                   </Form.Item>
                 </Form.Item>
                 <Button
