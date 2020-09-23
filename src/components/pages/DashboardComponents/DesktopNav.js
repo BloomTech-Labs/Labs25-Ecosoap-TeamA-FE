@@ -85,10 +85,10 @@ const DesktopNav = props => {
         <Button
           onClick={e => {
             props.setMapState(true);
-            activeStyles(e);
+            activeStyles('mapBtn');
           }}
           style={{ cursor: 'pointer' }}
-          className="navBtn"
+          className="navBtn mapBtn"
           id="active"
         >
           Map

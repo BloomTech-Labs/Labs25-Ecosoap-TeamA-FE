@@ -14,6 +14,8 @@ const TypeButton = props => {
     activeStyles,
   } = props;
 
+  let buttonClass = `navBtn ${type.id}`;
+
   // EDIT MODAL => STATE AND SHOW BUTTON FUNCTION
   function showEMButton() {
     setEMState({
@@ -70,13 +72,13 @@ const TypeButton = props => {
     >
       <Button
         key={type.id}
-        className="navBtn"
+        className={buttonClass}
         onClick={e => {
           // console.log(e);
           setTypeName(type.name);
           setTypeId(type.id);
           setMapState(false);
-          props.activeStyles(e);
+          props.activeStyles(type.id);
         }}
         style={{ cursor: 'pointer' }}
       >
