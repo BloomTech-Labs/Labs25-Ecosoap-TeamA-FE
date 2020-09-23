@@ -110,7 +110,7 @@ const AddRecordForm = props => {
       name="addrecordform"
       layout="vertical"
       onFinish={onFinish}
-      labelCol={{ span: 8 }}
+      labelCol={{ span: 16 }}
       wrapperCol={{ span: 16 }}
     >
       <Form.Item label="Name" className="label">

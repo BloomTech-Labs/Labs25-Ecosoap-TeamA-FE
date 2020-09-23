@@ -14,14 +14,14 @@ const AddRecordFieldsCard = props => {
   //   };
   return (
     <div>
-      <Form.Item label={field.name} className="label">
+      <Form.Item label={field.name} style={{ width: '100%' }} className="label">
         <Form.Item
           name={field.name}
           noStyle
           initialValue={field.value}
           rules={[{ required: true, message: 'Value for type is required' }]}
         >
-          <Input style={{ width: 350 }} placeholder="None" />
+          <Input style={{ width: 300 }} placeholder="None" />
         </Form.Item>
       </Form.Item>
     </div>

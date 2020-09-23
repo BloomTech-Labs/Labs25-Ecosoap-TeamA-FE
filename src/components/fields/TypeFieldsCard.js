@@ -18,6 +18,18 @@ function TypeFieldsCard(props) {
     )
       .split("'")
       .join('"');
+    // let fieldValTypes = props.types.filter(typ => typ.id === props.type.id)[0]
+    //   .fields;
+    // console.log('FIELDVALTYPES', fieldValTypes);
+    // for (let i = 0; i < updatedFields.length; i++) {
+    //   for (let j = 0; j < fieldValTypes.length; j++) {
+    //     console.log('UPDATED', updatedFields.name);
+    //     console.log('FIELDVAL', fieldValTypes[j].name);
+    //     if (updatedFields === fieldValTypes[j].name) {
+    //       alert("NO MA'AM YOU MAY NOT");
+    //     }
+    //   }
+    // }
 
     let UPD_TYPE_MUTATION = gql`
         mutation {
@@ -309,9 +321,25 @@ function TypeFieldsCard(props) {
                     initialValue={props.field.name}
                     rules={[
                       { required: true, messsage: 'Name for field required' },
+                      ({ getFieldValue }) => ({
+                        validator(rule, value, callback) {
+                          let fieldValTypes = props.types.filter(
+                            typ => typ.id === props.type.id
+                          )[0].fields;
+
+                          fieldValTypes.map(field => {
+                            if (field.name === value) {
+                              callback(
+                                'There is already a field with that name!'
+                              );
+                            }
+                            callback();
+                          });
+                        },
+                      }),
                     ]}
                   >
-                    <Input style={{ width: 350 }} placeholder="Name" />
+                    <Input style={{ width: 300 }} placeholder="Name" />
                   </Form.Item>
                 </Form.Item>
                 <Form.Item label="Value" className="label">
@@ -323,7 +351,7 @@ function TypeFieldsCard(props) {
                       { required: true, messsage: 'Value for field required' },
                     ]}
                   >
-                    <Input style={{ width: 350 }} placeholder="Value" />
+                    <Input style={{ width: 300 }} placeholder="Value" />
                   </Form.Item>
                 </Form.Item>
                 <Button

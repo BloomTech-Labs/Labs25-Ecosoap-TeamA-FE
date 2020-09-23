@@ -21,11 +21,13 @@ const EditTypeForm = props => {
     recordsState,
     setRecordsState,
   } = props;
+
   async function onFinish(values) {
     let fixedFields = type.fields.map(field => {
       delete field.__typename;
       return field;
     });
+
     let typeFields = values.fields
       ? type.fields || values.fields
         ? inspect([...fixedFields, ...values.fields])
@@ -138,6 +140,8 @@ const EditTypeForm = props => {
       .catch(err => {
         console.log('CREATE_ERROR', err);
       });
+    var target = document.getElementsByClassName(`${type.id}`)[0];
+    target.id = 'active';
     handleOk();
   }
   return (
@@ -181,6 +185,7 @@ const EditTypeForm = props => {
                   key={Math.random()}
                   field={item}
                   type={type}
+                  types={types}
                   setType={setType}
                   setTypes={setTypes}
                   recordsState={recordsState}
