@@ -38,8 +38,6 @@ function TypeFieldsCard(props) {
     await client
       .mutate({ mutation: UPD_TYPE_MUTATION })
       .then(async res => {
-        console.log('UPDATE TYPE FIELD RESPONSE', res);
-
         let batchArray = [];
         let counter = 0;
 
@@ -97,14 +95,9 @@ function TypeFieldsCard(props) {
           ${gqlString}
         `;
 
-        await client
-          .mutate({ mutation: batchMutation })
-          .then(res => {
-            console.log('UPDATE RECORD RESPONSE: ', res);
-          })
-          .catch(err => {
-            console.log('ERROR', err);
-          });
+        await client.mutate({ mutation: batchMutation }).catch(err => {
+          console.log('ERROR', err);
+        });
       })
       .catch(err => {
         console.log('ERROR', err);
@@ -113,7 +106,6 @@ function TypeFieldsCard(props) {
     await client
       .query({ query: FETCH_TYPES })
       .then(res => {
-        console.log('FETCH TYPES RES', res);
         props.setTypes(res.data.types);
       })
       .catch(err => {
@@ -137,7 +129,6 @@ function TypeFieldsCard(props) {
     await client
       .query({ query: GET_TYPE })
       .then(res => {
-        console.log('TYPE', res);
         props.setType(res.data.typeById);
       })
       .catch(err => {
@@ -152,8 +143,6 @@ function TypeFieldsCard(props) {
       delete field.id;
       return field;
     });
-
-    console.log('OLD FIELDS', fixedFields);
 
     let updatedFields = inspect(
       fixedFields.filter(field => {
@@ -182,8 +171,6 @@ function TypeFieldsCard(props) {
     await client
       .mutate({ mutation: DELETE_TYPE_FIELD_MUTATION })
       .then(async res => {
-        console.log('DELETE TYPE FIELD RES', res);
-
         let batchArray = [];
         let counter = 0;
 
@@ -235,14 +222,9 @@ function TypeFieldsCard(props) {
           ${gqlString}
         `;
 
-        await client
-          .mutate({ mutation: batchMutation })
-          .then(res => {
-            console.log('DELETED RECORD FIELD RESPONSE: ', res);
-          })
-          .catch(err => {
-            console.log('ERROR', err);
-          });
+        await client.mutate({ mutation: batchMutation }).catch(err => {
+          console.log('ERROR', err);
+        });
       })
       .catch(err => {
         console.log('ERROR', err);
@@ -251,7 +233,6 @@ function TypeFieldsCard(props) {
     await client
       .query({ query: FETCH_TYPES })
       .then(res => {
-        console.log('FETCH TYPES RES', res);
         props.setTypes(res.data.types);
       })
       .catch(err => {
@@ -275,7 +256,6 @@ function TypeFieldsCard(props) {
     await client
       .query({ query: GET_TYPE })
       .then(res => {
-        console.log('TYPE', res);
         props.setType(res.data.typeById);
       })
       .catch(err => {

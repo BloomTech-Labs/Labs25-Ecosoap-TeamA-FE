@@ -26,7 +26,7 @@ const RecordCard = props => {
           }
         }
       `;
-    await client.mutate({ mutation: DEL_REC }).then(console.log);
+    await client.mutate({ mutation: DEL_REC });
     client.query({ query: RECORDS_QUERY }).then(res => {
       setRecordsState(res);
       setTableState(!tableState);

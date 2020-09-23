@@ -63,7 +63,6 @@ const EditTypeForm = props => {
               : type
           )
         );
-        console.log('RECORD STATE: ', recordsState);
 
         let batchArray = [];
 
@@ -128,9 +127,6 @@ const EditTypeForm = props => {
         await client
           .mutate({
             mutation: batchMutation,
-          })
-          .then(res => {
-            console.log('UPDATE RECORD RESPONSE: ', res);
           })
           .catch(err => {
             console.log('ERROR: ', err);

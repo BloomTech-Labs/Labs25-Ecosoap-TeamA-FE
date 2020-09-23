@@ -34,7 +34,6 @@ const AddRecordForm = props => {
           .split("'")
           .join('"')
       : '[]';
-    // console.log(fieldValues);
     let NEW_RECORD_MUT = gql`
       mutation {
         createRecord(
@@ -78,7 +77,6 @@ const AddRecordForm = props => {
   `;
     await client
       .mutate({ mutation: NEW_RECORD_MUT })
-      .then(console.log)
       .catch(console.log);
     client.query({ query: RECORDS_QUERY }).then(res => {
       setRecordsState(res);
@@ -166,38 +164,11 @@ let typeFields = types.filter(type => type.id === typeId)[0].fields
                 >
                   <Input placeholder="Value" />
                 </Form.Item>
-                <MinusCircleOutlined
-                  onClick={() => {
-                    remove(field.name);
-                  }}
-                />
               </Space>
             </>
           );
         })}
       </Form.List>
-      {/* <Form.List name="fields"> */}
-      {/* {(fields, { add, remove }) => {
-          return (
-            <div>
-              {fields.map(field => (
-                
-              ))}
-              <Button
-                className="dashedbtn"
-                width="350"
-                type="dashed"
-                block
-                onClick={() => {
-                  add();
-                }}
-              >
-                <PlusOutlined /> Add Fields
-              </Button>
-            </div>
-          );
-        }} */}
-      {/* </Form.List> */}
       <Button width="100%" size="large" type="primary" block htmlType="submit">
         Save
       </Button>

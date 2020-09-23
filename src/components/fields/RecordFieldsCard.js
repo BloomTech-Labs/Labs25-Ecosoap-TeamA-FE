@@ -6,7 +6,6 @@ import { inspect } from 'util';
 
 function RecordFieldsCard(props) {
   async function onFinish(values) {
-    // console.log('OLD RECORD FIELDS', props.record.fields);
     let updatedFields = inspect(
       props.record.fields.map(field => {
         delete field.__typename;
@@ -18,9 +17,6 @@ function RecordFieldsCard(props) {
     )
       .split("'")
       .join('"');
-    // console.log('NEW RECORD FIELDS', updatedFields);
-
-    // console.log('Form Values', updatedFields);
 
     let UPD_RECORD_MUT = gql`
       mutation {
@@ -52,7 +48,6 @@ function RecordFieldsCard(props) {
     await client
       .mutate({ mutation: UPD_RECORD_MUT })
       .then(res => {
-        console.log('UPDATE', res);
         props.setTableState(!props.tableState);
       })
       .catch(err => {
@@ -60,13 +55,11 @@ function RecordFieldsCard(props) {
       });
   }
   function delField(id) {
-    console.log('You really gonna delete me', id);
     let fixedFields = props.record.fields.map(field => {
       delete field.__typename;
       delete field.id;
       return field;
     });
-    console.log(fixedFields);
     let updatedFields = inspect(
       fixedFields.map(field => {
         return field.name === props.field.name
@@ -76,7 +69,6 @@ function RecordFieldsCard(props) {
     )
       .split("'")
       .join('"');
-    console.log('UPDATED FIELDS', updatedFields);
     let DELETE_Field_MUT = gql`
       mutation {
         updateRecord(
@@ -104,11 +96,9 @@ function RecordFieldsCard(props) {
       }
     `;
 
-    console.log(DELETE_Field_MUT);
     client
       .mutate({ mutation: DELETE_Field_MUT })
       .then(res => {
-        console.log('UPDATE', res);
         props.setTableState(!props.tableState);
       })
       .catch(err => {
