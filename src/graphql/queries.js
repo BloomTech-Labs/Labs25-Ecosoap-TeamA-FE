@@ -14,3 +14,13 @@ export const FETCH_TYPES = gql`
     }
   }
 `;
+
+export const FETCH_USERS = gql`
+  {
+    users {
+      id
+      email
+      password
+    }
+  }
+`;

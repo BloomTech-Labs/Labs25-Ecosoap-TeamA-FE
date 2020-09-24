@@ -7,7 +7,7 @@ import axios from 'axios';
 
 function EditModal(props) {
   const geocodekey =
-    process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
+    process.env.REACT_APP_GEO_CODE_KEY;
   const [address, setAddress] = useState({
     street: '',
     city: '',

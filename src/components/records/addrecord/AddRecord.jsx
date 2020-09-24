@@ -91,7 +91,6 @@ const AddRecordForm = props => {
     });
     handleOk();
   }
-
   return (
     <Form
       size="medium"
