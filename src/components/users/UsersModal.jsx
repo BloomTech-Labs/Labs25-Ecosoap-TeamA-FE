@@ -65,7 +65,7 @@ function UsersModal(props) {
   return (
     <div className="usersModal">
       <Modal
-        width="75%"
+        width="50%"
         style={{ display: 'flex', flexDirection: 'column' }}
         visible={state.visible}
         title="Registered Admin Users"
