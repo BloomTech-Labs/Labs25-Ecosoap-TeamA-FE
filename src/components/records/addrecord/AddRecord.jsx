@@ -91,7 +91,6 @@ const AddRecordForm = props => {
     });
     handleOk();
   }
-let typeFields = types.filter(type => type.id === typeId)[0].fields
   return (
     <Form
       size="medium"
