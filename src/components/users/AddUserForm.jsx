@@ -5,7 +5,7 @@ import { client } from '../../index.js';
 import { FETCH_USERS } from '../../graphql/queries';
 
 function AddUserForm(props) {
-  const { state, setState, setUsers } = props;
+  const { state, setState, users, setUsers } = props;
 
   const handleOk = () => {
     setState({ ...state, loading: !state.loading });
@@ -49,7 +49,19 @@ function AddUserForm(props) {
         <Form.Item label="Email">
           <Form.Item
             name="email"
-            rules={[{ required: true, message: 'Email Required' }]}
+            rules={[
+              { required: true, message: 'Email Required' },
+              ({ getFieldValue }) => ({
+                validator(rule, value, callback) {
+                  users.map(user => {
+                    if (user.email === value) {
+                      callback('Email already in use!');
+                    }
+                    callback();
+                  });
+                },
+              }),
+            ]}
           >
             <Input style={{ width: 350 }} placeholder="Email" />
           </Form.Item>

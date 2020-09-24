@@ -180,6 +180,7 @@ function UsersModal(props) {
           <AddUserForm
             state={addUState}
             setState={setAddUState}
+            users={users}
             setUsers={setUsers}
           />
         )}
