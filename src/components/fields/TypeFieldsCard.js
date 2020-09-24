@@ -1,18 +1,30 @@
+// DEPENDENCY IMPORTS
 import React from 'react';
-import { Popover, Form, Input, Button } from 'antd';
-import { client } from '../../index';
 import gql from 'graphql-tag';
 import { inspect } from 'util';
+// GRAPHQL IMPORTS
+import { client } from '../../index';
 import { FETCH_TYPES } from '../../graphql/queries';
+// STYLING IMPORTS
+import { Popover, Form, Input, Button } from 'antd';
 
 function TypeFieldsCard(props) {
+  // STANDARD NAMING CONVENTION FOR ANT-DESIGN ONSUBMIT
+  // IN THIS CASE, THIS ON FINISH IS THE EDIT FUNCTIONALITY FOR FIELDS
+  // ASSOCIATED WITH TYPES
   async function onFinish(values) {
+    // YOU HAVE TO INSPECT THE FIELDS SO THAT YOU CAN SEND THE MUTATION TO
+    // GRAPHQL WITHOUT ERROR, WITHOUT INSPECT IT RECEIVES "[object Object]"
+    // BECAUSE GRAPHQL REQUIRES A STRING, AND DOES NOT ACCEPT JSON DATA
     let updatedFields = inspect(
       props.type.fields.map(field => {
         delete field.__typename;
         delete field.id;
         return field.name === props.field.name
-          ? { name: values.name, value: values.value }
+          ? {
+              name: values.name,
+              value: values.value,
+            }
           : field;
       })
     )
@@ -62,7 +74,8 @@ function TypeFieldsCard(props) {
             let recordFields = inspect(replacedFields)
               .split("'")
               .join('"');
-
+            // UPDATES ALL FIELD NAMES ON ALL RECORDS ASSOCIATED WITH A TYPE WHEN THE NAME OF THE
+            // FIELD IS UPDATED DURING EDIT TYPES
             let BATCH_QUERY = `mutation${counter}: updateRecord(
             input: {
               id: "${record.id}"
@@ -89,7 +102,8 @@ function TypeFieldsCard(props) {
             batchArray.push(BATCH_QUERY);
             counter += 1;
           });
-
+          // THIS BATCHMUTATION UPDATES ALL OF THE FIELD NAMES WITH ONE NETWORK REQUEST
+          // INSTEAD OF MAKING X*N REQUESTS
           let gqlString = `mutation {${batchArray}}`;
           let batchMutation = gql`
             ${gqlString}

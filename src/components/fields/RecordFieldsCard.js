@@ -1,14 +1,24 @@
+// DEPENDENCY IMPORTS
 import React from 'react';
-import { Popover, Form, Input, Button } from 'antd';
 import gql from 'graphql-tag';
-import { client } from '../../index';
 import { inspect } from 'util';
+// GRAPHQL IMPORTS
+import { client } from '../../index';
+// STYLING IMPORTS
+import { Popover, Form, Input, Button } from 'antd';
 
 function RecordFieldsCard(props) {
+  // ONFINISH IS WHAT EXECUTES WHEN YOU SUBMIT THE FORM
+  // THIS IS AN ANT-DESIGN STANDARD NAMING
   async function onFinish(values) {
+    // YOU HAVE TO INSPECT THE FIELDS SO THAT YOU CAN SEND THE MUTATION TO
+    // GRAPHQL WITHOUT ERROR, WITHOUT INSPECT IT RECEIVES "[object Object]"
+    // BECAUSE GRAPHQL REQUIRES A STRING, AND DOES NOT ACCEPT JSON DATA
     let updatedFields = inspect(
       props.record.fields.map(field => {
+        // DELETE _typename BECAUSE OF GRAPHQL ERROR ON SERVER SIDE
         delete field.__typename;
+        // DELETE ID BECAUSE WERE QUERYING FOR IT
         delete field.id;
         return field.name === props.field.name
           ? { name: props.field.name, value: values.value }
@@ -17,6 +27,7 @@ function RecordFieldsCard(props) {
     )
       .split("'")
       .join('"');
+    // UPDATE RECORD MUTATION
     let UPD_RECORD_MUT = gql`
       mutation {
         updateRecord(
@@ -43,7 +54,8 @@ function RecordFieldsCard(props) {
         }
       }
     `;
-
+    // AWAIT THE UPDATE MUTATION AND SET THE INFORMATION IN THE TABLE TO THE
+    // UPDATED RESPONSE
     await client
       .mutate({ mutation: UPD_RECORD_MUT })
       .then(res => {
@@ -53,6 +65,7 @@ function RecordFieldsCard(props) {
         console.log('ERROR', err);
       });
   }
+  // DELETE FIELD FUNCTION ONLY RESETS THE FIELD VALUE ON A RECORD TO "None"
   function delField(id) {
     let fixedFields = props.record.fields.map(field => {
       delete field.__typename;

@@ -43,21 +43,31 @@ const DesktopNav = props => {
     visible: false,
     loading: false,
   });
-  const [usrState, setUsrState] = useState({
-    visible: false,
-    loading: false,
-  });
   function showATModal() {
     setATState({
       ...atstate,
       visible: !atstate.visible,
     });
   }
+  // USER MODAL STATE AND FUNCTIONALITY
+  const [users, setUsers] = useState([]);
+  const [usrState, setUsrState] = useState({
+    visible: false,
+    loading: false,
+  });
   function showUsersModal() {
     setUsrState({
       ...usrState,
       visible: !usrState.visible,
     });
+  }
+  function getUsers() {
+    client
+      .query({ query: FETCH_USERS })
+      .then(res => {
+        setUsers(res.data.users);
+      })
+      .catch(console.log);
   }
   // EDIT MODAL => STATE AND SHOW BUTTON FUNCTION
   const [emstate, setEMState] = useState({
@@ -70,7 +80,6 @@ const DesktopNav = props => {
     loading: false,
   });
   const [typeName, setTypeName] = useState('');
-  const [users, setUsers] = useState([]);
   // const [activeButton, setActiveButton] = useState('')
   // GET ALL TYPES - THIS WILL ALLOW US TO MAP THROUGH THEM ALL TO CREATE DYNAMIC BUTTONS
   function getTypes() {
@@ -81,19 +90,12 @@ const DesktopNav = props => {
       })
       .catch(console.log);
   }
-  function getUsers() {
-    client
-      .query({ query: FETCH_USERS })
-      .then(res => {
-        setUsers(res.data.users);
-      })
-      .catch(console.log);
-  }
   // RUN THE GET TYPES FUNCTION EVERYTIME THE COMPONENT LOADS
   // ALSO RUNS WHEN YOU CLICK ON A NEW TYPE BUTTON
   useEffect(() => {
     getTypes();
   }, [types.length]);
+
   useEffect(() => {
     getUsers();
   }, [users.length]);
@@ -153,6 +155,7 @@ const DesktopNav = props => {
           justifyContent: 'space-evenly',
         }}
       >
+        {/* HOUSES THE USERS MODAL AND THE LOGOUT FUNCTIONALITY */}
         <div className="usersBtn">
           <Button onClick={() => showUsersModal()}>Users</Button>
         </div>
