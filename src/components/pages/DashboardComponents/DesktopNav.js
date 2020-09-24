@@ -147,17 +147,12 @@ const DesktopNav = props => {
           <PlusOutlined /> Add Type
         </Button>
       </div>
-      <div
-        className="homepagebuttons"
-        style={{
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'space-evenly',
-        }}
-      >
+      <div className="homepagebuttons">
         {/* HOUSES THE USERS MODAL AND THE LOGOUT FUNCTIONALITY */}
         <div className="usersBtn">
-          <Button onClick={() => showUsersModal()}>Users</Button>
+          <Button type="link" onClick={() => showUsersModal()}>
+            Users
+          </Button>
         </div>
         <div className="adminSignOut">
           <Button type="link" onClick={() => authService.logout()}>

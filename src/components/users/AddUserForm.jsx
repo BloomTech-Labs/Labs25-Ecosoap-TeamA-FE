@@ -37,7 +37,7 @@ function AddUserForm(props) {
   };
   return (
     <Modal
-      width="50%"
+      width="30%"
       style={{ display: 'flex', flexDirection: 'column' }}
       visible={state.visible}
       title="Add User"

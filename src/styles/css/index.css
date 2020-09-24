@@ -195,18 +195,29 @@
   font-weight: 600;
   border-color: #3db64f;
 }
-.desktopNav .adminSignOut {
+.desktopNav .homepagebuttons {
+  display: flex;
+  justify-content: space-evenly;
+}
+.desktopNav .homepagebuttons .usersBtn {
+  align-self: center;
+  margin: 0 auto;
+}
+.desktopNav .homepagebuttons .usersBtn button {
+  color: #3db64f;
+}
+.desktopNav .homepagebuttons .adminSignOut {
   margin: 8% auto;
 }
-.desktopNav .adminSignOut button {
+.desktopNav .homepagebuttons .adminSignOut button {
   color: red;
 }
-.desktopNav .adminSignOut button:hover {
+.desktopNav .homepagebuttons .adminSignOut button:hover {
   color: #f83e3e;
   border-color: #f83e3e;
 }
 @media (max-width: 1024px) {
-  .desktopNav .adminSignOut {
+  .desktopNav .homepagebuttons .adminSignOut {
     margin: auto 2%;
   }
 }
