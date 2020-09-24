@@ -15,10 +15,11 @@ function RenderHomePage(props) {
   // RECORDS STATE
   const [recordsState, setRecordsState] = useState(null);
   // SET ACTIVE BUTTON
-  function activeStyles(e) {
+  function activeStyles(id) {
     var current = document.getElementById('active');
     current.id = '';
-    e.currentTarget.id = 'active';
+    var target = document.getElementsByClassName(`${id}`)[0];
+    target.id = 'active';
   }
 
   return (

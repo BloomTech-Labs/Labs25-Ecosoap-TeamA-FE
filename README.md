@@ -2,6 +2,11 @@
 
 You can find the deployed project at [EcoSoapBank Team A](https://a.ecosoap.dev).
 
+## Video Demonstration
+
+[Click Here for Video Demonstration](https://drive.google.com/file/d/1qTBycgk2-gpOBpgCR-EuNUx8g9Ko_lG5/view?usp=sharing)
+
+
 ## Contributors
 
 
@@ -63,9 +68,18 @@ You can find the deployed project at [EcoSoapBank Team A](https://a.ecosoap.dev)
 - [react-google-maps](https://react-google-maps-api-docs.netlify.app)
 
 
-# 4️⃣ Installation Instructions
+# Installation Instructions
 
 When installing this repository, run npm install before attempting to run.
+
+# Known Issues
+1️⃣ When adding a new Type, you can currently add 2 fields with the same name. This should not be allowed to happen. Need field validation to be updated to not allow this.
+
+ ![Known Issue Field Types](/src/assets/FieldTypeKI.PNG)
+
+2️⃣ When adding a new User, you cannot add a user with the same email, but the valiation is not rendering on the form, though you can see the error in the console.
+
+ ![Known Issue Add User](/src/assets/adduserKI.PNG)
 
 ## Other Scripts
 
@@ -110,6 +124,4 @@ Remember that this project is licensed under the MIT license, and by submitting 
 
 These contribution guidelines have been adapted from [this good-Contributing.md-template](https://gist.github.com/PurpleBooth/b24679402957c63ec426).
 
-## Documentation
 
-See [Backend Documentation](🚫*link to your backend readme here*) for details on the backend of our project.

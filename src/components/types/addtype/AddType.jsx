@@ -39,7 +39,6 @@ const AddTypeForm = props => {
     await client
       .mutate({ mutation: CREATE_TYPE_MUTATION })
       .then(res => {
-        console.log('CREATE_RES', res);
         setTypes([...types, res.data.createType.type]);
       })
       .catch(err => {
@@ -48,11 +47,15 @@ const AddTypeForm = props => {
     client
       .query({ query: FETCH_TYPES })
       .then(res => {
-        // console.log('HEY NEW TYPE', res);
         setTypes([...res.data.types]);
         setTypeId(res.data.types[res.data.types.length - 1].id);
       })
       .catch(err => console.log(err));
+
+    let current = document.getElementById('active');
+    current.id = '';
+    let buttons = document.getElementsByClassName('navBtn');
+    buttons[buttons.length - 1].id = 'active';
     handleOk();
   }
   return (

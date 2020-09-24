@@ -1,13 +1,13 @@
 // DEPENDENCY IMPORTS
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { inspect } from 'util';
 // GRAPHQL IMPORTS
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
 // STYLING IMPORTS
-import { Form, Input, Button, Space } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Divider, List } from 'antd';
+import AddRecordFieldsCard from './AddRecordFieldsCard';
 
 const AddRecordForm = props => {
   const {
@@ -16,10 +16,20 @@ const AddRecordForm = props => {
     tableState,
     setTableState,
     setRecordsState,
+    types,
   } = props;
+  const [fields, setFields] = useState([]);
+  const typeFields = types.filter(type => type.id === typeId)[0].fields;
   const geocodekey =
     process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
   async function onFinish(values) {
+    let valuesagain = Object.values(typeFields);
+
+    let fieldsSomething = valuesagain.map(field => {
+      return values.hasOwnProperty(`${field.name}`)
+        ? { name: field.name, value: values[`${field.name}`] }
+        : field;
+    });
     let city = values.address.city || '';
     let country = values.address.country || '';
     let state = values.address.state || '';
@@ -28,12 +38,11 @@ const AddRecordForm = props => {
     let address = await axios.get(
       `https://www.mapquestapi.com/geocoding/v1/address?key=${geocodekey}&inFormat=kvp&outFormat=json&location=${street}%2C+${city}%2C+${state}+${postal}+${country}&thumbMaps=false`
     );
-    let fieldValues = values.fields
-      ? inspect(values.fields)
+    let fieldValues = fieldsSomething
+      ? inspect(fieldsSomething)
           .split("'")
           .join('"')
       : '[]';
-    // console.log(fieldValues);
     let NEW_RECORD_MUT = gql`
       mutation {
         createRecord(
@@ -75,24 +84,20 @@ const AddRecordForm = props => {
       }
     }
   `;
-    await client
-      .mutate({ mutation: NEW_RECORD_MUT })
-      .then(console.log)
-      .catch(console.log);
+    await client.mutate({ mutation: NEW_RECORD_MUT }).catch(console.log);
     client.query({ query: RECORDS_QUERY }).then(res => {
       setRecordsState(res);
       setTableState(!tableState);
     });
     handleOk();
   }
-
   return (
     <Form
       size="medium"
       name="addrecordform"
       layout="vertical"
       onFinish={onFinish}
-      labelCol={{ span: 8 }}
+      labelCol={{ span: 16 }}
       wrapperCol={{ span: 16 }}
     >
       <Form.Item label="Name" className="label">
@@ -143,50 +148,24 @@ const AddRecordForm = props => {
           </Form.Item>
         </Input.Group>
       </Form.Item>
-      <Form.List name="fields">
-        {(fields, { add, remove }) => {
-          return (
-            <div>
-              {fields.map(field => (
-                <Space key={field.key} align="start">
-                  <Form.Item
-                    {...field}
-                    name={[field.name, 'name']}
-                    fieldKey={[field.fieldKey, 'name']}
-                    rules={[{ required: true, message: 'Field Name missing' }]}
-                  >
-                    <Input placeholder="Name" />
-                  </Form.Item>
-                  <Form.Item
-                    {...field}
-                    name={[field.name, 'value']}
-                    fieldKey={[field.fieldKey, 'value']}
-                    rules={[{ required: true, message: 'Field Value missing' }]}
-                  >
-                    <Input placeholder="Value" />
-                  </Form.Item>
-                  <MinusCircleOutlined
-                    onClick={() => {
-                      remove(field.name);
-                    }}
-                  />
-                </Space>
-              ))}
-              <Button
-                className="dashedbtn"
-                width="350"
-                type="dashed"
-                block
-                onClick={() => {
-                  add();
-                }}
-              >
-                <PlusOutlined /> Add Fields
-              </Button>
-            </div>
-          );
-        }}
-      </Form.List>
+      <Divider orientation="left">Fields</Divider>
+      <List
+        bordered
+        dataSource={typeFields}
+        renderItem={item => (
+          <List.Item>
+            <AddRecordFieldsCard
+              field={item}
+              key={Math.random()}
+              tableState={tableState}
+              setTableState={setTableState}
+              typeFields={typeFields}
+              setFields={setFields}
+              fields={fields}
+            />
+          </List.Item>
+        )}
+      />
       <Button width="100%" size="large" type="primary" block htmlType="submit">
         Save
       </Button>

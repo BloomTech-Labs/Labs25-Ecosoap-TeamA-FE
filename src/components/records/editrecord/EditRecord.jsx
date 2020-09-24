@@ -1,6 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Space, List, Divider } from 'antd';
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Form, Input, Button, List, Divider } from 'antd';
 import axios from 'axios';
 import gql from 'graphql-tag';
 import { client } from '../../../index.js';
@@ -36,8 +35,6 @@ const EditRecordForm = props => {
       return field;
     });
 
-    console.log('FIXED FIELDS', fixedFields);
-
     let recordFields = values.fields
       ? record.fields || values.fields
         ? inspect([...fixedFields, ...values.fields])
@@ -49,8 +46,6 @@ const EditRecordForm = props => {
           .split("'")
           .join('"')
       : '[]';
-
-    console.log('NEW AND IMPROVED RECORD FIELDS', recordFields);
 
     let UPD_RECORD_MUT = gql`
       mutation {
@@ -104,10 +99,7 @@ const EditRecordForm = props => {
       }
     }
   `;
-    await client
-      .mutate({ mutation: UPD_RECORD_MUT })
-      .then(console.log)
-      .catch(console.log);
+    await client.mutate({ mutation: UPD_RECORD_MUT }).catch(console.log);
     client.query({ query: RECORDS_QUERY }).then(res => {
       setRecordsState(res);
       setTableState(!tableState);
@@ -202,54 +194,6 @@ const EditRecordForm = props => {
               </List.Item>
             )}
           />
-          {/* <Form.List name="fields">
-            {(fields, { add, remove }) => {
-              return (
-                <div>
-                  {fields.map(field => (
-                    <Space key={field.key} align="start">
-                      <Form.Item
-                        {...field}
-                        name={[field.name, 'name']}
-                        fieldKey={[field.fieldKey, 'name']}
-                        rules={[
-                          { required: true, message: 'Field Name missing' },
-                        ]}
-                      >
-                        <Input placeholder="Name" />
-                      </Form.Item>
-                      <Form.Item
-                        {...field}
-                        name={[field.name, 'value']}
-                        fieldKey={[field.fieldKey, 'value']}
-                        rules={[
-                          { required: true, message: 'Field Value missing' },
-                        ]}
-                      >
-                        <Input placeholder="Value" />
-                      </Form.Item>
-                      <MinusCircleOutlined
-                        onClick={() => {
-                          remove(field.name);
-                        }}
-                      />
-                    </Space>
-                  ))}
-                  <Button
-                    className="dashedbtn"
-                    width="350"
-                    type="dashed"
-                    block
-                    onClick={() => {
-                      add();
-                    }}
-                  >
-                    <PlusOutlined /> Add Fields
-                  </Button>
-                </div>
-              );
-            }}
-          </Form.List> */}
           <Button
             width="100%"
             size="large"

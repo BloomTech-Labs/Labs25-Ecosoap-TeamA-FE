@@ -6,9 +6,8 @@ import gql from 'graphql-tag';
 import axios from 'axios';
 
 function EditModal(props) {
-  // console.log(props);
   const geocodekey =
-    process.env.REACT_APP_GEO_CODE_KEY || '9TOkbmQ67wZSoNXOUgPZ0DsQg1hPFHsH';
+    process.env.REACT_APP_GEO_CODE_KEY;
   const [address, setAddress] = useState({
     street: '',
     city: '',
@@ -61,7 +60,6 @@ function EditModal(props) {
             `https://www.mapquestapi.com/geocoding/v1/reverse?key=${geocodekey}&location=${res.data.recordById.coordinates.latitude}%2C${res.data.recordById.coordinates.longitude}&outFormat=json&thumbMaps=false`
           )
           .then(res => {
-            // console.log(res.data.results[0].locations);
             setAddress({
               ...address,
               street: res.data.results[0].locations[0].street,
@@ -76,8 +74,6 @@ function EditModal(props) {
     }, 500);
   }
 
-  //
-  // ${res.data.recordById.coordinates.longitude}
   useEffect(() => {
     getTypeToPass();
   }, []);
@@ -103,6 +99,7 @@ function EditModal(props) {
           setRecordsState={props.setRecordsState}
           tableState={props.tableState}
           setTableState={props.setTableState}
+          types={props.types}
         />
       </Modal>
     </div>

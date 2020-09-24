@@ -11,13 +11,15 @@ import 'antd/dist/antd.css';
 
 //GRAPHQL IMPORTS
 import { client } from '../../../index.js';
-import { FETCH_TYPES } from '../../../graphql/queries.js';
+import { FETCH_TYPES, FETCH_USERS } from '../../../graphql/queries.js';
 
 //COMPONENT IMPORTS
 import ATModal from '../../types/addtype/ATModal.jsx';
 import EditTypeModal from '../../types/edittype/EditTypeModal.jsx';
 import DeleteModal from '../../types/deletetype/DeleteModal.jsx';
 import TypeButton from '../../types/TypeButton.jsx';
+import UsersModal from '../../users/UsersModal.jsx';
+
 // ASSET IMPORTS
 import logo from '../../../assets/ecosoapbanklogopng.png';
 
@@ -47,6 +49,26 @@ const DesktopNav = props => {
       visible: !atstate.visible,
     });
   }
+  // USER MODAL STATE AND FUNCTIONALITY
+  const [users, setUsers] = useState([]);
+  const [usrState, setUsrState] = useState({
+    visible: false,
+    loading: false,
+  });
+  function showUsersModal() {
+    setUsrState({
+      ...usrState,
+      visible: !usrState.visible,
+    });
+  }
+  function getUsers() {
+    client
+      .query({ query: FETCH_USERS })
+      .then(res => {
+        setUsers(res.data.users);
+      })
+      .catch(console.log);
+  }
   // EDIT MODAL => STATE AND SHOW BUTTON FUNCTION
   const [emstate, setEMState] = useState({
     visible: false,
@@ -58,7 +80,6 @@ const DesktopNav = props => {
     loading: false,
   });
   const [typeName, setTypeName] = useState('');
-
   // const [activeButton, setActiveButton] = useState('')
   // GET ALL TYPES - THIS WILL ALLOW US TO MAP THROUGH THEM ALL TO CREATE DYNAMIC BUTTONS
   function getTypes() {
@@ -69,12 +90,15 @@ const DesktopNav = props => {
       })
       .catch(console.log);
   }
-
   // RUN THE GET TYPES FUNCTION EVERYTIME THE COMPONENT LOADS
   // ALSO RUNS WHEN YOU CLICK ON A NEW TYPE BUTTON
   useEffect(() => {
     getTypes();
   }, [types.length]);
+
+  useEffect(() => {
+    getUsers();
+  }, [users.length]);
 
   return (
     <nav className="desktopNav">
@@ -85,10 +109,10 @@ const DesktopNav = props => {
         <Button
           onClick={e => {
             props.setMapState(true);
-            activeStyles(e);
+            activeStyles('mapBtn');
           }}
           style={{ cursor: 'pointer' }}
-          className="navBtn"
+          className="navBtn mapBtn"
           id="active"
         >
           Map
@@ -123,11 +147,25 @@ const DesktopNav = props => {
           <PlusOutlined /> Add Type
         </Button>
       </div>
-      <div className="adminSignOut">
-        <Button type="link" onClick={() => authService.logout()}>
-          Sign Out
-        </Button>
+      <div
+        className="homepagebuttons"
+        style={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-evenly',
+        }}
+      >
+        {/* HOUSES THE USERS MODAL AND THE LOGOUT FUNCTIONALITY */}
+        <div className="usersBtn">
+          <Button onClick={() => showUsersModal()}>Users</Button>
+        </div>
+        <div className="adminSignOut">
+          <Button type="link" onClick={() => authService.logout()}>
+            Sign Out
+          </Button>
+        </div>
       </div>
+
       {/* MODALS RENDERED WHEN THE VISIBLE STATE IS CHANGED TO TRUE */}
       {atstate.visible && (
         <ATModal
@@ -159,6 +197,14 @@ const DesktopNav = props => {
           setTypes={setTypes}
           state={dmstate}
           setState={setDMState}
+        />
+      )}
+      {usrState.visible && (
+        <UsersModal
+          state={usrState}
+          setState={setUsrState}
+          users={users}
+          setUsers={setUsers}
         />
       )}
     </nav>
