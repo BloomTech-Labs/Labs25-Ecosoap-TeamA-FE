@@ -48,7 +48,9 @@ You can find the deployed project at [EcoSoapBank Team A](https://a.ecosoap.dev)
 
 - `REACT_APP_CLIENT_ID` Okta client id
 - `REACT_APP_OKTA_ISSUER_URI` Okta api authorization server issuer uri
+- `REACT_APP_GOOGLE_MAP_API_KEY` Google Map Api key
 - `REACT_APP_GEO_CODE_KEY` Mapquest Geocode Api key
+- `REACT_APP_GRAPHQL_API` GraphQL Endpoint url
 
 
 ## Components
